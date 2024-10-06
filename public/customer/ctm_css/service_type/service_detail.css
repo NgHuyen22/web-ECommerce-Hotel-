@@ -1,0 +1,64 @@
+.service-form-menu{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.service_form{
+    width: 65%;
+    box-shadow: 0 4px 13px rgba(32, 68, 104, 0.3); 
+    padding: 1rem;
+}
+.service_booking_form{
+    margin-bottom: 1rem;
+}
+.service_menu{
+    width: 20%;
+}
+
+.service_booking_form input{
+ 
+    margin-bottom: 1rem;
+}
+
+.service_menu_item h5{
+   margin-bottom: 1.5rem;
+   color: #38628b;
+}
+
+.service_booking--button{
+    /* margin-left: 56rem; */
+    margin-top: 1rem;
+    /* background-color: #2375c7 !important; */
+    background-color: #3873b2 !important;
+    border-color: #3873b2;
+}
+
+.service_booking--button:hover{
+    border-color: #2465a5;
+    background-color: #1b5996 !important;
+}
+
+.service_incentives{
+    display: flex;
+    width: 60%;
+    justify-content: space-around;
+    margin-left: 4rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 13px rgba(32, 68, 104, 0.3); 
+}
+
+.incentives{
+    width: 10%;
+    color: #f79f48;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.offer_name{
+    width: 60%;
+    font-style: italic;
+    font-weight: bold;
+}   

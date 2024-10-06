@@ -1,0 +1,166 @@
+@import url('https://fonts.cdnfonts.com/css/play');
+.swal2-background-custom{
+  border: 2px solid black; 
+  border-radius: 1rem;   
+}
+.booking_form_list{
+  margin-left: 1rem;
+}
+.tab_list{
+    justify-content: space-evenly; 
+    font-family: 'Play', sans-serif !important;
+    margin-bottom: 2rem;
+  
+  }
+  
+.nav_item_button1{
+    color: white !important;
+    background-color: rgb(23, 153, 114) !important;
+  }
+.nav_item_button1:hover{
+    color: white !important;
+    background-color: rgb(21, 127, 95) !important;
+  }
+
+.nav_item_button1.active{
+    color: white !important;
+    background-color: rgb(21, 127, 95) !important   ;
+  }
+
+.nav_item_button{
+    color: white !important;
+    background-color: rgb(222, 70, 77) !important;
+  }
+.nav_item_button:hover{
+    color: white !important;
+    background-color: rgb(203, 56, 63)  !important;
+  }
+
+.nav_item_button.active{
+    color: white !important;
+    background-color: rgb(194, 58, 65) !important   ;
+  }
+
+  .approved_icon{
+    background-color: rgb(27, 135, 98);
+    border-color: rgb(27, 135, 98)  ;
+  }
+  .approved_icon:hover{
+    background-color: rgb(22, 101, 74);
+    border-color: rgb(20, 120, 85)  ;
+  }
+
+  .room_pagination{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+ }
+
+.room_pagination .page-item {
+    margin: 0 5px;            /* Khoảng cách giữa các item */
+}
+
+.page-link-css{
+    color: #2375c7;           /* Màu cho liên kết trang */
+    text-decoration: none;    /* Xóa gạch chân */
+    padding: 0.5rem 0.75rem;  /* Điều chỉnh padding */
+    border-radius: 5px;       /* Bo góc các nút */
+    border: 1px solid #dee2e6;/* Đường viền xung quanh các nút */
+}
+
+.room_pagination .page-item.active .page-link {
+    background-color: #2375c7;/* Màu nền của nút trang hiện tại */
+    color: white;             /* Màu chữ nút trang hiện tại */
+    border-color: #2375c7;    /* Màu viền nút trang hiện tại */
+}
+
+.room_pagination .page-item.disabled .page-link {
+    color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
+    pointer-events: none;
+}
+.update_room--table {
+  border-spacing: 0 15px; /* Tạo khoảng cách giữa các hàng */
+  border-collapse: separate; 
+
+  /* font-family: 'Play', sans-serif !important; */
+
+
+}
+.update_room--tbody tr{
+
+  box-shadow: 0 4px 10px rgba(32, 68, 104, 0.3) !important;
+}
+
+.search_button{
+  background-color:#2375c7 !important;
+}
+
+.wrapper_calender{
+  position: relative;
+  display: inline-block;
+}
+
+.wrapper_calender::after {
+  content: 'Xem lịch trống';  /* Nội dung tooltip */
+  position: absolute;
+  bottom: 2rem;  /* Đặt tooltip phía trên icon */
+  left: 2rem;
+  transform: translateX(-50%);
+  background-color: #1f407a;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.6rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  /* font-family: 'Play', sans-serif !important;  */
+}
+.wrapper_calender:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.wrapper_calender i{
+  transition: transform 0.3s ease; 
+}
+
+.wrapper_calender i:hover{
+  transform: scale(1.3);
+}
+
+.back_room{
+
+  margin-left: 2rem !important;
+  /* color: rgb(221, 72, 72); */
+  border: 2px solid rgb(221, 72, 72);
+  transition: transform 0.3s ease; 
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-bottom: 3rem;
+}
+
+.back_room:hover {
+  transform: scale(1.2);
+  border-color: rgb(21, 142, 104);
+  color: rgb(21, 142, 104);
+}
+
+.back-icon{
+  color: rgb(221, 72, 72); 
+  font-size: 1.3rem;
+
+}
+.back_room:hover .back-icon{
+  color: rgb(21, 142, 104);
+}
+.swal2-background-custom{
+  border: 2px solid black; 
+  border-radius: 1rem;   
+}

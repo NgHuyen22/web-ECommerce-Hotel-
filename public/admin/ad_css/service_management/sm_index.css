@@ -1,0 +1,172 @@
+@import url('https://fonts.cdnfonts.com/css/play');
+
+.booking_form_list{
+  margin-left: 1rem;
+}
+.tab_list{
+    justify-content: space-evenly; 
+    font-family: 'Play', sans-serif !important;
+    margin-bottom: 2rem;
+  
+  }
+  
+.nav_item_button1{
+    color: white !important;
+    background-color: rgb(23, 153, 114) !important;
+  }
+.nav_item_button1:hover{
+    color: white !important;
+    background-color: rgb(21, 127, 95) !important;
+  }
+
+.nav_item_button1.active{
+    color: white !important;
+    background-color: rgb(21, 127, 95) !important   ;
+  }
+
+.nav_item_button{
+    color: white !important;
+    background-color: rgb(222, 70, 77) !important;
+  }
+.nav_item_button:hover{
+    color: white !important;
+    background-color: rgb(203, 56, 63)  !important;
+  }
+
+.nav_item_button.active{
+    color: white !important;
+    background-color: rgb(194, 58, 65) !important   ;
+  }
+
+  .approved_icon{
+    background-color: rgb(27, 135, 98);
+    border-color: rgb(27, 135, 98)  ;
+  }
+  .approved_icon:hover{
+    background-color: rgb(22, 101, 74);
+    border-color: rgb(20, 120, 85)  ;
+  }
+
+  .room_pagination{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+ }
+
+.room_pagination .page-item {
+    margin: 0 5px;            /* Khoảng cách giữa các item */
+}
+
+.page-link-css{
+    color: #2375c7;           /* Màu cho liên kết trang */
+    text-decoration: none;    /* Xóa gạch chân */
+    padding: 0.5rem 0.75rem;  /* Điều chỉnh padding */
+    border-radius: 5px;       /* Bo góc các nút */
+    border: 1px solid #dee2e6;/* Đường viền xung quanh các nút */
+}
+
+.room_pagination .page-item.active .page-link {
+    background-color: #2375c7;/* Màu nền của nút trang hiện tại */
+    color: white;             /* Màu chữ nút trang hiện tại */
+    border-color: #2375c7;    /* Màu viền nút trang hiện tại */
+}
+
+.room_pagination .page-item.disabled .page-link {
+    color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
+    pointer-events: none;
+}
+.update_room--table {
+  border-spacing: 0 15px; /* Tạo khoảng cách giữa các hàng */
+  border-collapse: separate; 
+
+  /* font-family: 'Play', sans-serif !important; */
+
+
+}
+.update_room--tbody tr{
+
+  box-shadow: 0 4px 10px rgba(32, 68, 104, 0.3) !important;
+}
+
+.search_button{
+  background-color:#2375c7 !important;
+}
+
+
+.back_room{
+
+  margin-left: 2rem !important;
+  /* color: rgb(221, 72, 72); */
+  border: 2px solid rgb(221, 72, 72);
+  transition: transform 0.3s ease; 
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-bottom: 3rem;
+}
+
+.back_room:hover {
+  transform: scale(1.2);
+  border-color: rgb(21, 142, 104);
+  color: rgb(21, 142, 104);
+}
+
+.back-icon{
+  color: rgb(221, 72, 72); 
+  font-size: 1.3rem;
+
+}
+.back_room:hover .back-icon{
+  color: rgb(21, 142, 104);
+}
+
+.sm_tool_search{
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 1rem;
+  margin-top: 2rem;
+}
+
+.sm_services{
+  width: 13%;
+}
+.sm_services_item{
+  width: 100%;
+  border-radius: 5px;
+  background-color: #2375c7;
+}
+.sm_services_item:hover{
+
+  background-color: #1a5fa4;
+}
+
+.sm_form_search{
+  width: 23%;
+  margin-top: 0.8rem;
+}
+
+.sm_input_search{
+  width: 100% !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center ;
+}
+.sm_search{
+  width: 85% !important;
+}
+.search__icon{
+  width: 20%;
+  margin-left: 1rem;
+}
+.search_button:hover{
+  background-color: #1a5fa4 !important;
+}
+.swal2-background-custom{
+  border: 2px solid black; 
+  border-radius: 1rem;   
+}

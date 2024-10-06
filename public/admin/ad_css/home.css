@@ -1,0 +1,43 @@
+@import url('https://fonts.cdnfonts.com/css/play');
+.icon {
+    max-width: 30%;
+    /* width: 500px;
+    height: 500px; */
+    object-fit: cover;
+    
+}
+.login_user{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 0.4rem;
+}
+
+.user_img{
+    width: 2rem; /* Chiều rộng hình ảnh */
+    height: 2rem; /* Chiều cao hình ảnh */
+    object-fit: cover; 
+}
+
+.sidebar2 {
+    font-family: 'Play', sans-serif !important;
+
+} 
+/*
+    .sidebar-header{
+        color: black !important;
+    }
+    .sidebar-header :hover{
+        color: rgb(15, 38, 129) !important;
+    }
+
+.sidebar-link,
+a.sidebar-link {
+    background-color: #f0f8ff !important;
+    color: black !important;
+} 
+
+.content {
+    background-color: #f0f8ff;
+
+ }  */

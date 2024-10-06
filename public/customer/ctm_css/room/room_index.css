@@ -1,0 +1,50 @@
+.room_pagination{
+    /* margin-left: 34rem !important; */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 2rem;
+}
+
+
+
+.room_pagination .page-item {
+    margin: 0 5px;            /* Khoảng cách giữa các item */
+}
+
+.room_pagination .page-link {
+    color: #2375c7;           /* Màu cho liên kết trang */
+    text-decoration: none;    /* Xóa gạch chân */
+    padding: 0.5rem 0.75rem;  /* Điều chỉnh padding */
+    border-radius: 5px;       /* Bo góc các nút */
+    border: 1px solid #dee2e6;/* Đường viền xung quanh các nút */
+}
+
+.room_pagination .page-item.active .page-link {
+    background-color: #2375c7;/* Màu nền của nút trang hiện tại */
+    color: white;             /* Màu chữ nút trang hiện tại */
+    border-color: #2375c7;    /* Màu viền nút trang hiện tại */
+}
+
+.room_pagination .page-item.disabled .page-link {
+    color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
+    pointer-events: none;
+}
+.ctm_div_room{
+    margin-bottom: 1.5rem;
+}
+.ctm_div_room:hover{
+
+    box-shadow: 0 4px 8px rgba(32, 68, 104, 0.3);
+   
+}
+.ctm_div_room:hover .room-item img {
+    transform: scale(1.02);
+}
+
+.room-item img{
+    transition: transform 0.2s ease;
+}
+/* .room-item img:hover{
+    transform: scale(1.05);
+} */

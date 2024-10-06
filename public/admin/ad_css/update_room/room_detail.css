@@ -1,0 +1,224 @@
+@import url('https://fonts.cdnfonts.com/css/play');
+body{margin-top:20px;}
+
+/* Feature Box
+---------------------*/
+.feature-box-1 {
+  padding: 32px;
+  box-shadow: 0 0 30px rgba(31, 45, 61, 0.125);
+  margin: 15px 0;
+  position: relative;
+  z-index: 1;
+  border-radius: 10px;
+  overflow: hidden;
+  -moz-transition: ease all 0.35s;
+  -o-transition: ease all 0.35s;
+  -webkit-transition: ease all 0.35s;
+  transition: ease all 0.35s;
+  top: 0;
+}
+.feature-box-1 * {
+  -moz-transition: ease all 0.35s;
+  -o-transition: ease all 0.35s;
+  -webkit-transition: ease all 0.35s;
+  transition: ease all 0.35s;
+}
+.feature-box-1 .icon {
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
+  background: #fc5356;
+  color: #ffffff;
+  text-align: center;
+  border-radius: 50%;
+  margin-bottom: 22px;
+  font-size: 27px;
+}
+.feature-box-1 .icon i {
+  line-height: 70px;
+}
+.feature-box-1 h5 {
+  color: #20247b;
+  font-weight: 600;
+}
+.feature-box-1 p {
+  margin: 0;
+}
+.feature-box-1:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: auto;
+  right: 0;
+  border-radius: 10px;
+  width: 0;
+  background: #20247b;
+  z-index: -1;
+  -moz-transition: ease all 0.35s;
+  -o-transition: ease all 0.35s;
+  -webkit-transition: ease all 0.35s;
+  transition: ease all 0.35s;
+}
+.feature-box-1:hover {
+  top: -5px;
+}
+.feature-box-1:hover h5 {
+  color: #ffffff;
+}
+.feature-box-1:hover p {
+  color: rgba(255, 255, 255, 0.8);
+}
+.feature-box-1:hover:after {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  left: 0;
+  right: auto;
+}
+.section {
+    padding: 100px 0;
+    position: relative;
+}
+.section-title {
+    padding-bottom: 45px;
+    font-family: 'Play', sans-serif !important;
+}
+.section-title h2 {
+    font-weight: 700;
+    color: #20247b;
+    font-size: 45px;
+    margin: 0 0 15px;
+    border-left: 5px solid #fc5356;
+    padding-left: 15px;
+    
+}
+
+.room_pagination{
+   display: flex !important;
+   justify-content: center !important;
+   align-items: center !important;
+}
+
+/* .page-link-css{
+    background-color: #2375c7!important;
+    border-color: #2375c7 !important;
+} */
+ 
+.room_pagination .page-item {
+  margin: 0 5px;            /* Khoảng cách giữa các item */
+}
+
+.page-link-css{
+  color: #2375c7;           /* Màu cho liên kết trang */
+  text-decoration: none;    /* Xóa gạch chân */
+  padding: 0.5rem 0.75rem;  /* Điều chỉnh padding */
+  border-radius: 5px;       /* Bo góc các nút */
+  border: 1px solid #dee2e6;/* Đường viền xung quanh các nút */
+}
+
+.room_pagination .page-item.active .page-link {
+  background-color: #2375c7;/* Màu nền của nút trang hiện tại */
+  color: white;             /* Màu chữ nút trang hiện tại */
+  border-color: #2375c7;    /* Màu viền nút trang hiện tại */
+}
+
+.room_pagination .page-item.disabled .page-link {
+  color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
+  pointer-events: none;
+}
+
+.add_room--wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.add_room--wrapper::after {
+  content: 'Thêm phòng';  /* Nội dung tooltip */
+  position: absolute;
+  bottom: 2.3rem;  /* Đặt tooltip phía trên icon */
+  left: 3rem;
+  transform: translateX(-50%);
+  background-color: #ca1c50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  font-family: 'Play', sans-serif !important;
+}
+
+.add_room--wrapper:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.add_room--icon{
+  transition: transform 0.3s ease; 
+}
+
+.add_room--icon:hover{
+  transform: scale(1.3);
+}
+
+.discribe-icon-wrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.room_detail{
+  width: 30% ;
+}
+.delete_room{
+  /* margin-right: 2rem; */
+  width: 30% ;
+}
+
+.feature-box-1:after{
+  background-color: #ffffff !important;
+  color: #20247b !important;
+}
+
+.back_room{
+
+  margin-left: 2rem !important;
+  /* color: rgb(221, 72, 72); */
+  border: 2px solid rgb(221, 72, 72);
+  transition: transform 0.3s ease; 
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  margin-bottom: 3rem;
+}
+
+.back_room:hover {
+  transform: scale(1.2);
+  border-color: rgb(21, 142, 104);
+  color: rgb(21, 142, 104);
+}
+
+.back-icon{
+  color: rgb(221, 72, 72); 
+  font-size: 1.3rem;
+
+}
+.back_room:hover .back-icon{
+  color: rgb(21, 142, 104);
+
+}
+
+.swal2-background-custom{
+  border: 2px solid black; 
+  border-radius: 1rem;   
+}
+

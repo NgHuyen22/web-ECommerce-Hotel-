@@ -1,0 +1,10 @@
+.footer {
+    background-color: #f8f9fa; /* Màu nền của footer */
+    padding: 10px 0;
+    text-align: center;
+    position: fixed; /* Cố định footer ở vị trí */
+    bottom: 0; /* Đặt footer ở dưới cùng */
+    left: 0;
+    width: 100%; /* Chiều rộng footer bằng với chiều rộng của trang */
+    z-index: 100; /* Đảm bảo footer luôn hiển thị trên các phần tử khác */
+}

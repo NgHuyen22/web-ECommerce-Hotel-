@@ -1,0 +1,90 @@
+@import url('https://fonts.cdnfonts.com/css/play');
+
+.updated_form{
+    width: 65%;
+    margin-left: 3rem;
+    margin-top: 5rem;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 4px 20px rgba(32, 68, 104, 0.3);
+    color: #545252;
+}
+
+.label_input{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    font-family: 'Play', sans-serif !important;
+
+}
+
+.updated_form--label{
+    width: 30%;
+    margin-bottom: 1rem ;
+    font-family: 'Play', sans-serif !important;
+}
+.updated_form--input{
+    width: 60% !important;
+    margin-bottom: 1rem ;
+    color: rgb(125, 125, 125);
+    font-family: 'Play', sans-serif !important;
+}
+#id_lp--label{
+    margin-top: 1rem;
+}
+#id_lp{
+    margin-top: 1rem;
+}
+.updated_form--tools{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.updated_button{
+    margin-left: 1rem;
+    margin-bottom: 0.5rem;
+    background-color: #2375c7;
+    /* transition: transform 0.3s ease;  */
+    /* font-size: 1rem; */
+}
+.updated_button:hover{
+    background-color: #1a5fa4;
+
+}
+
+
+.back_room{
+
+    margin-left: 4rem !important;
+    /* color: rgb(221, 72, 72); */
+    border: 2px solid rgb(221, 72, 72);
+    transition: transform 0.3s ease; 
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-bottom: 3rem;
+    margin-top: 3rem;
+  }
+  
+  .back_room:hover {
+    transform: scale(1.2);
+    border-color: rgb(21, 142, 104);
+    color: rgb(21, 142, 104);
+  }
+  
+  .back-icon{
+    color: rgb(221, 72, 72); 
+    font-size: 1.3rem;
+  
+  }
+  .back_room:hover .back-icon{
+    color: rgb(21, 142, 104);
+  
+  }
+  
+

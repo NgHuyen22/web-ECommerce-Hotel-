@@ -1,0 +1,164 @@
+.div_parent {
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.div_child {
+    width: 60rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(32, 68, 104, 0.3); /* Thêm hiệu ứng box-shadow nhẹ */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Thêm chuyển động khi hover */
+    
+}
+
+.div_child:hover {
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ khi hover */
+    box-shadow: 0 8px 16px rgba(32, 68, 104, 0.4); /* Tăng cường box-shadow khi hover */
+}
+
+.div_child h4 {
+    margin-bottom: 1.5rem;
+}
+
+.span_child1, .span_child {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Giãn đều khoảng cách giữa các phần tử */
+    align-items: center;
+    margin-left: 1rem;
+    width: 100%;
+}
+
+.span_child p, .span_child1 p {
+    width: 45%; /* Đặt chiều rộng cố định cho các phần tử p để chúng đều nhau */
+    text-align: left;
+    margin: 0.5rem 0;
+}
+
+.span_child1 p span, .span_child p span {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.room_pagination {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    justify-content: center;  /* Căn giữa theo chiều ngang */
+    list-style: none;         /* Xóa bỏ dấu đầu dòng của danh sách */
+    padding: 0;             
+    margin-top: 20px;         /* Thêm khoảng cách phía trên */
+    margin-bottom: 30px;         /* Thêm khoảng cách phía trên */
+    /* width: 30%; */
+}
+
+.room_pagination .page-item {
+    margin: 0 5px;            /* Khoảng cách giữa các item */
+}
+
+.room_pagination .page-link {
+    color: #2375c7;           /* Màu cho liên kết trang */
+    text-decoration: none;    /* Xóa gạch chân */
+    padding: 0.5rem 0.75rem;  /* Điều chỉnh padding */
+    border-radius: 5px;       /* Bo góc các nút */
+    border: 1px solid #dee2e6;/* Đường viền xung quanh các nút */
+}
+
+.room_pagination .page-item.active .page-link {
+    background-color: #2375c7;/* Màu nền của nút trang hiện tại */
+    color: white;             /* Màu chữ nút trang hiện tại */
+    border-color: #2375c7;    /* Màu viền nút trang hiện tại */
+}
+
+.room_pagination .page-item.disabled .page-link {
+    color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
+    pointer-events: none;
+}
+
+.status{
+    /* background-color:#204468; */
+    color: #da3e2d;
+    border-radius: 50% ;
+    /* height: 4rem;
+    padding: 0.7rem;  */
+    /* display: inline-block;  */
+    line-height: 4rem;
+    vertical-align: middle;
+}
+
+.cancle-form{
+    margin-left: 0.9rem;
+}
+
+.sum_form{
+    width: 9rem;
+    margin-left: 24rem;
+}
+.sum_form p{
+    font-weight: bold;
+    
+}
+.sum_form p span{
+    color:#fa5340;
+    margin-left: 0.5rem;
+}
+
+
+.back_room{
+
+    margin-left: 2rem !important;
+    /* color: rgb(221, 72, 72); */
+    border: 2px solid rgb(221, 72, 72);
+    transition: transform 0.3s ease; 
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-bottom: 3rem;
+  }
+  
+  .back_room:hover {
+    transform: scale(1.2);
+    border-color: rgb(21, 142, 104);
+    color: rgb(21, 142, 104);
+  }
+  
+  .back-icon{
+    color: rgb(221, 72, 72); 
+    font-size: 1.3rem;
+  
+  }
+  .back_room:hover .back-icon{
+    color: rgb(21, 142, 104);
+  
+  }
+
+  .booking_form_list{
+    margin-top: 3rem !important;
+    margin-bottom: 3rem;
+  }
+
+.tab_list{
+    justify-content: space-evenly; 
+  }
+
+.nav_item_button{
+    color: #6c757d !important;
+  }
+.nav_item_button:hover{
+    color: #256094 !important;
+  }
+.nav_item_button:active{
+    color: #256094 !important;
+  }
+
+
