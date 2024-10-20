@@ -150,6 +150,7 @@ Route::group(['middleware' => 'auth'], function(){
             //xoa hd 
             Route::get('deleteBill/{id_hd}',[BillController::class,'deleteBill'])->name('admin.deleteBill');
         
+        
         });
     });
 
@@ -183,7 +184,8 @@ Route::group(['middleware' => 'auth'], function(){
                 Route::get('/',[C_HomeController::class,'index']) ->name('customer.index');
                 Route::get('about/',[C_HomeController::class,'about']) ->name('customer.about');
                 Route::get('/profile',[C_HomeController::class,'profile']) ->name('customer.view_profile');
-        //PHONG
+
+                //PHONG
                 //XEM PHONG
                 Route::get('/room',[C_HomeController::class,'room_index']) ->name('customer.room_index');
                 Route::get('/room-detail/{id_rt}',[C_HomeController::class,'room_detail']) ->name('customer.room_detail');
@@ -194,11 +196,13 @@ Route::group(['middleware' => 'auth'], function(){
                 Route::get('/booking_room/insert_profile',[C_RoomController::class,'insert_profile']) -> name('customer.insert_profile');
                 Route::post('/booking_room/insert_profile',[C_RoomController::class,'save_profile']) -> name('customer.save_profile');
         
-                    // XEM LICH SU DAT PHONG
+                  // XEM LICH SU DAT PHONG
                     // Route::get('/profile/see_form',[C_RoomController::class,'see_form']) -> name('customer.see_form');
                     Route::get('/profile/see_form',[C_RoomController::class,'see_history']) -> name('customer.see_form');
                     Route::get('/cancle_form/{id_don}',[C_RoomController::class,'cancle']) -> name('customer.cancle_form');
                     Route::get('/cancle_service_form/{id_ct}',[C_ServiceController::class,'cancle_service']) -> name('customer.cancle_service');
+                    //in hd
+                    Route::get('/in-hoa-don/{id_hd}', [BillController::class, 'print_bill'])->name('admin.print_bill');
                     
                     //DANG XUAT
                  Route::get('/logout',[C_HomeController::class,'logout']) ->name('customer.logout');

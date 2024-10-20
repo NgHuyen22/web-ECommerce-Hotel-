@@ -47,10 +47,16 @@ class Bill extends Model
                         
     }
 
+    // public function getBillDon($id_don){
+    //     return $result = DB::table("bill")
+    //                     ->where('don_dat_phong', $id_don)
+    //                     ->select('id_hd','tong_tien')
+    //                     ->first();
+    // }
     public function getBillDon($id_don){
         return $result = DB::table("bill")
                         ->where('don_dat_phong', $id_don)
-                        ->select('id_hd','tong_tien')
+                        ->select('*')
                         ->first();
     }
 

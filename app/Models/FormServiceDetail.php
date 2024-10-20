@@ -45,11 +45,9 @@ class FormServiceDetail extends Model
     //                         ->where("fsd.gn",1)
     //                         // ->where("fsd.tinh_trang_ct","Đã xác nhận")
     //                         ->select("fsd.*","sv.ten_dv","sv.don_gia_dv")
-    //                         ->get();
-        
+    //                         ->get(); 
     // }
     public function multiplication($id_ddp){
-       
         return $result = DB::table("form_service_details as fsd")
                             ->join("service as sv", "sv.id_dv", "=", "fsd.id_dv")
                             ->leftJoin('service_incentives as svi', 'svi.id_dv', '=', 'sv.id_dv')
@@ -58,8 +56,19 @@ class FormServiceDetail extends Model
                             ->where("fsd.gn", 1)
                             ->select("fsd.*", "sv.ten_dv", "sv.don_gia_dv", "spo.ten_ud", "spo.giam","spo.sl_ap_dung")
                             ->get(); 
-     
     }
+
+    public function getMultiplication($id_ddp){
+        return $result = DB::table("form_service_details as fsd")
+                            ->join("service as sv", "sv.id_dv", "=", "fsd.id_dv")
+                            ->leftJoin('service_incentives as svi', 'svi.id_dv', '=', 'sv.id_dv')
+                            ->leftJoin('special_offers as spo', 'spo.id_ud', '=', 'svi.id_ud') 
+                            ->where("fsd.id_ddp",$id_ddp) 
+                            // ->where("fsd.gn", 1)
+                            ->select("fsd.*", "sv.ten_dv", "sv.don_gia_dv", "spo.ten_ud", "spo.giam","spo.sl_ap_dung")
+                            ->get(); 
+    }
+
     public function getIDSV($id_dv){
         return $result = DB::table("form_service_details as fsd")
                             ->join("service as sv", "sv.id_dv", "=", "fsd.id_dv")

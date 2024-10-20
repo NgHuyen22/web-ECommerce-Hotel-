@@ -412,8 +412,8 @@ class C_RoomController extends Controller
                 
                 if(!$getFormLogin -> isEmpty()){
                     $countLogin = $getFormLogin ->total();
-                  
                 }
+                
                 $getBillLogin = $this->bill->getBill_history(session('id_ctm'));
       
                 if(!$getBillLogin -> isEmpty()){
@@ -431,7 +431,7 @@ class C_RoomController extends Controller
 
                         // $getServiceLg = $this->fsd->getServiceUD($id_don);
                         $getServiceLg = $this->fsd->getService_history($id_don);
-                        $gia_sl = $this -> fsd ->  multiplication($id_don);
+                        $gia_sl = $this -> fsd ->  getMultiplication($id_don);
                         if(!$gia_sl -> isEmpty()){
                             $allgia = $allgia-> merge($gia_sl);
                         }

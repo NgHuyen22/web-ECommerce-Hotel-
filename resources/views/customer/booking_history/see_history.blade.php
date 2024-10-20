@@ -121,8 +121,7 @@
                                                             
                                                             $finalPrice = $sv->don_gia_dv;
                                                             $sl = $sv-> so_luong_ct;
-                                                            $discountPercentage = 0;
-                                                
+                                                            $discountPercentage = 0;   
                                                  
                                                             if ($allgia->isNotEmpty()) {
                                                                 foreach ($allgia as $dv) {
@@ -161,18 +160,19 @@
                                                         </div>
                                                         <div class="span_child">
                                                             <p><span style="color:#204468; font-weight:bold;">Ngày sử dụng :  </span><span class="">{{ \Carbon\Carbon::parse($sv->ngay_su_dung)->format('d-m-Y') }}</span></p>
-                                                            <p ><span style="color:#204468; font-weight:bold;">Ưu đãi áp dụng :  </span>
-                                                                @if($allgia ->isNotEmpty())
+                                                            <p><span style="color:#204468; font-weight:bold;">Ưu đãi áp dụng :  </span>
+                                                                @if($allgia->isNotEmpty())
+                                                                    @php $promotionDisplayed = false; @endphp
                                                                     @foreach ($allgia as $dv)
-                                                                        @if($dv -> id_dv == $sv ->id_dv)
-                                                                            @if($dv->sl_ap_dung <= $sv -> so_luong_ct)
-                                                                                <span class="">{{$dv -> ten_ud != null ? $dv -> ten_ud: '' }}</span>
-                                                                            @else
-                                                                                <span></span>
+                                                                        @if($dv->id_dv == $sv->id_dv && !$promotionDisplayed)
+                                                                            @if($dv->sl_ap_dung <= $sv->so_luong_ct)
+                                                                                <span class="">{{ $dv -> ten_ud != null ? $dv->ten_ud : '' }}</span>
+                                                                                @php $promotionDisplayed = true; @endphp 
                                                                             @endif
                                                                         @endif
                                                                     @endforeach
                                                                 @endif
+                                                            
                                                             </p>
                                                         </div>
                                                         <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{ ($sv -> tinh_trang_ct) != null ? $sv -> tinh_trang_ct:''}}</span></p>
@@ -220,7 +220,7 @@
                                                                 </div>
                                                                 <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{($bill -> trang_thai_hd !=null) ? $bill-> trang_thai_hd :''}}</span></p>
                                                             @if($bill -> trang_thai_hd == 'Đã thanh toán')
-                                                                <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="">In</button>
+                                                                <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="printBill('{{ route('admin.print_bill',[$bill -> id_hd])}}')">In</button>
                                                             @endif
                                                   </div>
                                              @endif
@@ -290,6 +290,12 @@
                 @endif
             </ul>
         </nav>
+
+        <script>
+            function printBill(url){
+                window.location.href = url;
+            }
+        </script>
     </body>
     </html>
     @endsection

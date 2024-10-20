@@ -8,7 +8,7 @@ use App\Models\Users;
 use App\Models\BookingForm;
 use App\Models\FormServiceDetail;
 use Illuminate\Http\Request;
-
+use PDF;
 class BillController extends Controller
 {
     protected $bill;
@@ -103,7 +103,12 @@ class BillController extends Controller
             return redirect() -> route('admin.bill_index') -> with('error', 'Lỗi , vui lòng thử lại sau !!');        
     }
 
-    public function search_date(Request $rq) {
-       
+    public function print_bill(Request $rq, $id_hd) {
+        $bill = Bill::find($id_hd);
+        if (!$bill) {
+            abort(404, 'Không tìm thấy hóa đơn');
+        }
+
+        $pdf = PDF::loadView('invoices.invoice_pdf', ['bill' => $bill]);
     }
 }
