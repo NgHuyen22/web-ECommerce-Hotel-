@@ -69,7 +69,6 @@ class C_ServiceController extends Controller
      
             $ngay_su_dung = Carbon::createFromFormat('d-m-Y', $rq->ngay_su_dung)->format('Y-m-d') ;
             $data_so_luong = $rq ->hidden_so_luong;
-
             $ghi_chu = $rq ->ghi_chu;
             $data_id_dv = $rq ->hidden_id_dv;
             if(count($data_id_dv) == count($data_so_luong)){
@@ -101,11 +100,14 @@ class C_ServiceController extends Controller
                             if(!$gia_sl -> isEmpty()){
                                 $allgia = $allgia-> merge($gia_sl);
                                 $price = $allgia -> map(function($item){
-                                    // Tính giảm giá dựa trên % (ví dụ: giam = 10 thì giảm 10%)
-                                     $discount = $item->don_gia_dv * $item->so_luong_ct * ($item->giam / 100);
-                     
-                                     // Trả về tổng giá sau khi trừ phần trăm giảm giá
-                                     return $item->don_gia_dv * $item->so_luong_ct - $discount;
+                        
+                                    if ($item->so_luong_ct >= $item->sl_ap_dung) {
+                                        $discount = $item->don_gia_dv * $item->so_luong_ct * ($item->giam / 100);
+                                        return $item->don_gia_dv * $item->so_luong_ct - $discount;
+                                    } else {
+         
+                                        return $item->don_gia_dv * $item->so_luong_ct;
+                                    }
                                      
                                  });
                                  

@@ -56,7 +56,7 @@ class FormServiceDetail extends Model
                             ->leftJoin('special_offers as spo', 'spo.id_ud', '=', 'svi.id_ud') 
                             ->where("fsd.id_ddp",$id_ddp) 
                             ->where("fsd.gn", 1)
-                            ->select("fsd.*", "sv.ten_dv", "sv.don_gia_dv", "spo.ten_ud", "spo.giam")
+                            ->select("fsd.*", "sv.ten_dv", "sv.don_gia_dv", "spo.ten_ud", "spo.giam","spo.sl_ap_dung")
                             ->get(); 
      
     }
@@ -120,8 +120,7 @@ class FormServiceDetail extends Model
                             // ->where("fsd.status",1)
                             // ->where("fsd.gn",1)
                             // ->paginate(3);
-                            // ->get();
-                      
+                            // ->get();                 
     }
 
     public function cancleService($id_ct){

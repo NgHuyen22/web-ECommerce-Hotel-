@@ -1,0 +1,24 @@
+
+.back_room--button{
+    width: 2.5rem;
+    height: 2.4rem;
+    border-radius: 10%;
+    background-color: rgb(239, 80, 80);
+    transition: transform 0.3s ease; /* Hiệu ứng chuyển động mượt */
+    
+}
+
+
+.back_room--button:hover {
+    transform: scale(1.1); /* Phóng to 1.2 lần khi hover */
+}
+
+.save_room--button{
+    background-color: rgb(0, 128, 81) !important;
+    border: 0.2px solid rgb(0, 128, 81);
+    transition: transform 0.3s ease; /* Hiệu ứng chuyển động mượt */
+}
+
+.save_room--button:hover {
+    transform: scale(1.1); /* Phóng to 1.2 lần khi hover */
+}

@@ -108,6 +108,7 @@ class SpecialOffersController extends Controller
         $data = [
             'ten_ud' => $rq -> ten_ud,
             'giam' => $rq -> giam,
+            'sl_ap_dung' => $rq -> sl_ap_dung,
             'tg_ap_dung' => $rq -> ngay_ap_dung,
             'tg_ket_thuc' => $rq -> ngay_ket_thuc,
             'status' => 1,

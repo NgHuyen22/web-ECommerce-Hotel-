@@ -32,7 +32,12 @@
                 </div>
 
                 <div class="form-group label_input">
-                        <label for="id_dv" class="updated_form--label">Dịch vụ áp dụng : </label>
+                    <label for="ten_ud" class="updated_form--label">Số Lượng Áp Dụng : <span style="color:red">*</span> </label>
+                    <input type="text" class="form-control updated_form--input" id="ten_ud" name ="ten_ud" placeholder="" value="{{ $ud -> sl_ap_dung }}" >
+                </div>
+
+                <div class="form-group label_input">
+                        <label for="id_dv" class="updated_form--label">Dịch Vụ Áp Dụng : </label>
                         {{-- <select name="id_dv" class="form-control updated_form--input"  style="width: 5rem" id="id_dv">
                             @if($ttsv != null)
                                 <option value="{{ $ttsv -> id_dv}}"  selected hidden>{{ $ttsv -> ten_dv}}</option>

@@ -28,6 +28,7 @@
 
 .bill{
     margin-top: 3rem;
+    margin-bottom: 3rem;
     width: 70%;
     margin-left: 14rem;
     /* border: 2px solid rgba(32, 68, 104, 0.3); */
@@ -68,6 +69,7 @@ span_child1, .span_child {
 }
 .booking_content{
     margin-top: 2rem;
+
 }
 
 h4{

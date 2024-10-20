@@ -149,7 +149,7 @@ class BookingForm extends Model
         return $result = DB::table($this->bf)
                             ->where('id_kh', $id_kh)
                             ->where('tinh_trang','Đã xác nhận')
-                            ->where('gn', 1)
+                            // ->where('gn', 1)
                             ->pluck('id_don');
                             
     }

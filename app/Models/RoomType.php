@@ -28,16 +28,22 @@ class RoomType extends Model
                                 // ->get();
                                 // ->paginate(3);
                                 if (!empty($keywords)) {
-                                    $keywords = preg_replace('/[^0-9]/', '', $keywords);
                                     $result->where(function ($query) use ($keywords) {
-                                        $query->orWhere('ten_lp', 'like', '%' . $keywords . '%')
-                                                    ->orWhere('gia_lp', '=', $keywords)
-                                                    ->orWhere('tien_nghi', 'like', '%' . $keywords . '%')
-                                                    ->orWhereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') like ?", ['%' . $keywords . '%']) 
-                                                    ->orWhereRaw("DATE_FORMAT(updated_at, '%Y-%m-%d') like ?", ['%' . $keywords . '%']); 
+                                        // Kiểm tra nếu chuỗi có chứa số
+                                        if (preg_match('/\d/', $keywords)) {
+                                            // Loại bỏ các ký tự không phải số và dấu chấm
+                                            $cleanKeywords = preg_replace('/[^0-9]/', '', $keywords);
+                                            $query->orWhere('gia_lp', '=', $cleanKeywords)
+                                                  ->orWhereRaw("DATE_FORMAT(created_at, '%Y-%m-%d') like ?", ['%' . $cleanKeywords . '%']) 
+                                                  ->orWhereRaw("DATE_FORMAT(updated_at, '%Y-%m-%d') like ?", ['%' . $cleanKeywords . '%']);
+                                        } else {
+                                            // Nếu không có số thì tìm trong các trường văn bản
+                                            $query->orWhere('ten_lp', 'like', '%' . $keywords . '%')
+                                                  ->orWhere('tien_nghi', 'like', '%' . $keywords . '%');
+                                        }
                                     });
                                 }
-                            
+
                           return $result ->paginate(6);     
     }
 

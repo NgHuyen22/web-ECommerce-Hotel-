@@ -57,7 +57,7 @@ class C_RoomController extends Controller
            $spt =  $countIDRT - $checkSl;
             // Kiểm tra xem số lượng đặt có vượt quá số lượng phòng có sẵn không
             if ($checkSl + $sl > $countIDRT) {
-                return redirect()->route('customer.room_detail', [$id_rt]) ->withInput() -> with('error', 'Không đủ phòng, vui lòng đặt ít hơn hoặc đặt vào thời gian khác!');
+                return redirect()->route('customer.room_detail', [$id_rt]) ->withInput() -> with('error', 'Không đủ phòng, vui lòng đặt sl ít hơn hoặc đặt vào thời gian khác!');
 
             }
            
@@ -420,13 +420,13 @@ class C_RoomController extends Controller
                     $countBillLg = $getBillLogin->count();
                 }
                 $getIdDonLg = $this->bf->getIdDon(session('id_ctm'));
+       
                 $uuDai = collect();
                 if ($getIdDonLg != null) {
                     $allServicesLg = collect();
                     $allgia = collect();
                 //    $allGiaSl = collect();
                 //    $allServicesLg = collect();
-
                     foreach ($getIdDonLg as $id_don) {
 
                         // $getServiceLg = $this->fsd->getServiceUD($id_don);
@@ -439,6 +439,7 @@ class C_RoomController extends Controller
                             $allServicesLg = $allServicesLg->merge($getServiceLg);
                         }
                     }
+
                     if(!$allServicesLg -> isEmpty()){
                         $countServiceLg = $allServicesLg ->count();
                     }

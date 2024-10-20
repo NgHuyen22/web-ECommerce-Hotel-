@@ -62,38 +62,48 @@ class Bill extends Model
 
     public function getAllBill($ngay_thanh_toan = null, $ngay_thanh_toan1 = null, $keywords = null){
          $result = DB :: table("bill")
-                        ->join('users as us','us.id','=', 'bill.khach_hang')
-                        ->join('booking_form as bf','bf.id_don','=','bill.don_dat_phong')
-                        ->join('room as r','r.id_phong','=','bf.id_phong')
-                        ->join('room_type as rt','rt.id_lp','=','r.loai_phong')
-                        ->select('bill.*','bf.*','r.so_phong','rt.*','us.*')
+                        ->join('users as us', 'us.id', '=', 'bill.khach_hang')
+                        ->join('booking_form as bf', 'bf.id_don', '=', 'bill.don_dat_phong')
+                        ->join('room as r', 'r.id_phong', '=', 'bf.id_phong')
+                        ->join('room_type as rt', 'rt.id_lp', '=', 'r.loai_phong')
+                        ->select('bill.*', 'bf.id_don','bf.id_kh','bf.id_loai_phong','bf.id_phong',
+                        'bf.ngay_nhan_phong','bf.ngay_tra_phong','bf.so_ngay_o','bf.ghi_chu', 'r.so_phong', 'rt.id_lp','rt.ten_lp','rt.mo_ta','rt.tien_nghi','rt.gia_lp','rt.suc_chua', 
+                        'us.id','us.ho_ten','us.gioi_tinh','us.sdt','us.email','us.dia_chi','us.DTL')
                         ->where('bill.trang_thai_hd', 'Chưa thanh toán')
                         ->where('bill.status',1);
 
                         if (!empty($ngay_thanh_toan) && !empty($ngay_thanh_toan1)) {
-        
-                            $result->whereBetween('bill.updated_at', [$ngay_thanh_toan, $ngay_thanh_toan1]);
+                            if ($ngay_thanh_toan === $ngay_thanh_toan1) {
+                                $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan);
+                            } else {
+                                $result->whereBetween('bill.updated_at', [$ngay_thanh_toan, $ngay_thanh_toan1]);
+                            }
                         } elseif (!empty($ngay_thanh_toan)) {
-                          
                             $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan);
                         } elseif (!empty($ngay_thanh_toan1)) {
-                           
                             $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan1);
                         }
                         
+                        
                         if (!empty($keywords)) {
-                                $keywords = preg_replace('/[^0-9]/', '', $keywords);
-                                $result->where(function ($query) use ($keywords) {
-                                    $query->orWhere('us.ho_ten', 'like', '%' . $keywords . '%')
-                                                ->orWhere('rt.gia_lp', '=', $keywords)
-                                                ->orWhere('bill.phi_dv', '=', $keywords)
-                                                ->orWhere('bill.phi_them', '=', $keywords)
-                                                ->orWhere('bill.tong_tien', '=', $keywords)
-                                                ->orWhere('r.so_phong', '=', $keywords)
-                                                ->orWhere('bill.don_dat_phong', 'like', '%' . $keywords . '%');
-                                               
-                                });
+                            $result->where(function ($query) use ($keywords) {
+                                // Kiểm tra nếu chuỗi chứa số thì tìm trong các trường số
+                                if (preg_match('/\d/', $keywords)) {
+                                    // Loại bỏ các ký tự không phải số và dấu chấm
+                                    $cleanKeywords = preg_replace('/[^0-9]/', '', $keywords);
+                                    $query->orWhere('rt.gia_lp', '=', $cleanKeywords)
+                                          ->orWhere('bill.phi_dv', '=', $cleanKeywords)
+                                          ->orWhere('bill.phi_them', '=', $cleanKeywords)
+                                          ->orWhere('bill.tong_tien', '=', $cleanKeywords)
+                                          ->orWhere('r.so_phong', '=', $cleanKeywords)
+                                          ->orWhere('bill.don_dat_phong', '=', $cleanKeywords);
+                                } else {
+                                    // Nếu không có số thì tìm trong họ tên
+                                    $query->orWhere('us.ho_ten', 'like', '%' . $keywords . '%');
+                                }
+                            });
                         }
+                        
                         
                  
                         return $result->paginate(5);
@@ -113,30 +123,40 @@ class Bill extends Model
             ->where('bill.status', 1);
     
    
-        if (!empty($ngay_thanh_toan) && !empty($ngay_thanh_toan1)) {
+            if (!empty($ngay_thanh_toan) && !empty($ngay_thanh_toan1)) {
+                if ($ngay_thanh_toan === $ngay_thanh_toan1) {
+                    $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan);
+                } else {
+                    $result->whereBetween('bill.updated_at', [$ngay_thanh_toan, $ngay_thanh_toan1]);
+                }
+            } elseif (!empty($ngay_thanh_toan)) {
+                $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan);
+            } elseif (!empty($ngay_thanh_toan1)) {
+                $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan1);
+            }
             
-            $result->whereBetween('bill.updated_at', [$ngay_thanh_toan, $ngay_thanh_toan1]);
-        } elseif (!empty($ngay_thanh_toan)) {
-          
-            $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan);
-        } elseif (!empty($ngay_thanh_toan1)) {
-           
-            $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan1);
-        }
+            
+            if (!empty($keywords)) {
+                $result->where(function ($query) use ($keywords) {
+                    // Kiểm tra nếu chuỗi chứa số thì tìm trong các trường số
+                    if (preg_match('/\d/', $keywords)) {
+                        // Loại bỏ các ký tự không phải số và dấu chấm
+                        $cleanKeywords = preg_replace('/[^0-9]/', '', $keywords);
+                        $query->orWhere('rt.gia_lp', '=', $cleanKeywords)
+                              ->orWhere('bill.phi_dv', '=', $cleanKeywords)
+                              ->orWhere('bill.phi_them', '=', $cleanKeywords)
+                              ->orWhere('bill.tong_tien', '=', $cleanKeywords)
+                              ->orWhere('r.so_phong', '=', $cleanKeywords)
+                              ->orWhere('bill.don_dat_phong', '=', $cleanKeywords);
+                    } else {
+                        // Nếu không có số thì tìm trong họ tên
+                        $query->orWhere('us.ho_ten', 'like', '%' . $keywords . '%');
+                    }
+                });
+            }
+            
+            
         
-        if (!empty($keywords)) {
-            $keywords = preg_replace('/[^0-9]/', '', $keywords);
-            $result->where(function ($query) use ($keywords) {
-                $query->orWhere('us.ho_ten', 'like', '%' . $keywords . '%')
-                    ->orWhere('r.so_phong', '=', $keywords)
-                    ->orWhere('rt.gia_lp', '=', $keywords)
-                    ->orWhere('bill.phi_dv', '=', $keywords)
-                    ->orWhere('bill.phi_them', '=', $keywords)
-                    ->orWhere('bill.tong_tien', '=', $keywords)
-                    ->orWhere('bill.don_dat_phong', 'like', '%' . $keywords . '%');
-            });
-        
-        }
  
         return $result->paginate(5);
     }

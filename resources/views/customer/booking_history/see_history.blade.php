@@ -87,7 +87,7 @@
                                                             <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{$row -> tinh_trang}}</span></p>
                                                         </div>
                                                         @if( $row -> tinh_trang == 'Chưa xác nhận')
-                                                            <button type="button" class="btn btn-danger cancle-form" onclick="buttonCancle('{{route('customer.cancle_form',[$row -> id_don])}}')">Hủy</button>
+                                                            <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="buttonCancle('{{route('customer.cancle_form',[$row -> id_don])}}')">Hủy</button>
                                                         @endif
 
                                                         {{-- @if($bill -> tinh_trang == "Đã  xác nhận")
@@ -127,8 +127,11 @@
                                                             if ($allgia->isNotEmpty()) {
                                                                 foreach ($allgia as $dv) {
                                                                     if ($dv->id_dv == $sv->id_dv && $dv->giam != null) {
-                                                                 
-                                                                        $discountPercentage = $dv->giam; 
+                                                                        if($dv->sl_ap_dung <= $sl){
+                                                                            $discountPercentage = $dv->giam; 
+                                                                        }else{
+                                                                            $discountPercentage = 0;
+                                                                        }
                                                                         break;
                                                                     }
                                                                 }
@@ -138,8 +141,11 @@
                                                             if ($discountPercentage > 0) {
                                                                 $discountAmount = $finalPrice * $sl * ($discountPercentage / 100);
                                                                 $finalPrice = $finalPrice * $sl - $discountAmount;
+                                                            } else {
+                                                                    $finalPrice = $finalPrice * $sl; // Không giảm giá, giữ giá gốc
                                                             }
                                                         @endphp
+
                                                         <div class="span_child">
                                                             <p><span style="color:#204468; font-weight:bold;">Số lượng :  </span><span >{{$sv -> so_luong_ct}}</span></p>
                                                             <p><span style="color:#204468; font-weight:bold;">Tổng : </span><span style="font-weight: bold;color:rgb(237, 180, 107)">{{ number_format($finalPrice, 0 , ',', '.')}} VND</span></p>
@@ -159,7 +165,11 @@
                                                                 @if($allgia ->isNotEmpty())
                                                                     @foreach ($allgia as $dv)
                                                                         @if($dv -> id_dv == $sv ->id_dv)
-                                                                            <span class="">{{$dv -> ten_ud != null ? $dv -> ten_ud: '' }}</span>
+                                                                            @if($dv->sl_ap_dung <= $sv -> so_luong_ct)
+                                                                                <span class="">{{$dv -> ten_ud != null ? $dv -> ten_ud: '' }}</span>
+                                                                            @else
+                                                                                <span></span>
+                                                                            @endif
                                                                         @endif
                                                                     @endforeach
                                                                 @endif
@@ -167,7 +177,7 @@
                                                         </div>
                                                         <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{ ($sv -> tinh_trang_ct) != null ? $sv -> tinh_trang_ct:''}}</span></p>
                                                         @if( $sv -> tinh_trang_ct == "Chưa xác nhận")
-                                                            <button type="button" class="btn btn-danger cancle-form" onclick="buttonCancle('{{route('customer.cancle_service',[$sv -> id_ct])}}')">Hủy</button>
+                                                            <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="buttonCancle('{{route('customer.cancle_service',[$sv -> id_ct])}}')">Hủy</button>
                                                         @endif
                                                      </div>
                                                     @endif
@@ -209,7 +219,9 @@
                                                                     {{-- <p style="margin-left: 1.3rem;margin-top:0.5rem"><span style="color:#204468; font-weight:bold;">Tổng tiền : </span>  <span>{{number_format($row -> tong_tien,0, ',', '.')}} VND</span></p> --}}
                                                                 </div>
                                                                 <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{($bill -> trang_thai_hd !=null) ? $bill-> trang_thai_hd :''}}</span></p>
-                                                                
+                                                            @if($bill -> trang_thai_hd == 'Đã thanh toán')
+                                                                <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="">In</button>
+                                                            @endif
                                                   </div>
                                              @endif
                                         @endforeach

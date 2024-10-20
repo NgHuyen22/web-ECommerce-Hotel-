@@ -45,6 +45,7 @@
                                 <th scope="col" class="align-middle" style="text-align:center">ID</th>
                                 <th scope="col" class="align-middle" style="text-align:center">Tên Ưu Đãi</th>
                                 <th scope="col" class="align-middle" style="text-align:center">Giảm</th>                             
+                                <th scope="col" class="align-middle" style="text-align:center">SL Áp Dụng</th>                             
                                 <th scope="col" class="align-middle" style="text-align:center">Dịch Vụ Áp Dụng </th>
                                 <th scope="col" class="align-middle" style="text-align:center">Ngày Áp Dụng</th>
                                 <th scope="col" class="align-middle" style="text-align:center">Ngày Kết Thúc</th>
@@ -76,6 +77,7 @@
                                                         @endforeach --}}
 
                                                     {{-- @else --}}
+                                                    <td class="align-middle"style="text-align:center">{{ $row-> sl_ap_dung}}</td>
                                                     <td class="align-middle" style="text-align:left; width: 17rem;">
                                                         @foreach ($getUdDv as $dv)
                                                             @if($dv->id_ud == $row->id_ud)
@@ -101,7 +103,6 @@
                                                     
                                                     @endif
                                               
-                                                
                                                 <td class="align-middle"style="text-align:center;width:10rem">{{ \Carbon\Carbon::parse($row -> tg_ap_dung)->format('d-m-Y' )}}</td>
                                                 <td class="align-middle"style="text-align:center;width:10rem">{{ \Carbon\Carbon::parse($row -> tg_ket_thuc) -> format('d-m-Y') }}</td>
                                                

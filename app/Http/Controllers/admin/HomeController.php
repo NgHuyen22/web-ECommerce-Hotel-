@@ -169,6 +169,7 @@ class HomeController extends Controller
             $ngay_thanh_toan = $rq->ngay_thanh_toan;
             $ngay_thanh_toan1 = $rq->ngay_thanh_toan1;
             $keywords = $rq -> keywords;
+           
             $allBill = $this -> bill -> getAllBill($ngay_thanh_toan, $ngay_thanh_toan1,$keywords);
   
             if($allBill -> isNotEmpty()){
