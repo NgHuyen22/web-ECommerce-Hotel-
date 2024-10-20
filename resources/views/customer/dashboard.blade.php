@@ -61,15 +61,14 @@
                 <div class="col-lg-6">
                     <div class="about-text">
                         <div class="section-title">
-                            <span>About Us</span>
-                            <h2>Intercontinental LA <br />Westlake Hotel</h2>
+                            <span>Về chúng tôi</span>
+                            <h2>Khách sạn Cần Thơ<br />HazBin Hotel</h2>
                         </div>
-                        <p class="f-para">Sona.com is a leading online accommodation site. We’re passionate about
-                            travel. Every day, we inspire and reach millions of travelers across 90 local websites in 41
-                            languages.</p>
-                        <p class="s-para">So when it comes to booking the perfect hotel, vacation rental, resort,
-                            apartment, guest house, or tree house, we’ve got you covered.</p>
-                        <a href="#" class="primary-btn about-btn">Read More</a>
+                        <p class="f-para">Khách sạn được thành lập 2014, với đội ngũ nhân viên chuyên nghiệp và các tiện nghi hiện đại, hứa hẹn sẽ mang đến cho du khách trải nghiệm ấn tượng .</p>
+                        <p class="s-para">Giờ đây, du khách đã có một điểm đến lý tưởng ngay tại trung tâm thành phố Cần Thơ. 
+                            Sảnh chính rộng rãi, ngập tràn ánh sáng, kết hợp hài hòa giữa phong cách hiện đại và văn hóa miền Tây Nam Bộ, chào đón du khách đến với khách sạn Pullman Cần Thơ.
+                        </p>
+                        <a href="{{ route('customer.about')}}" class="primary-btn about-btn">Chi tiết</a>
                     </div>
                 </div>
                 <div class="col-lg-6">

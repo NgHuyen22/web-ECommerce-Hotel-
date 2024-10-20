@@ -16,11 +16,12 @@
                 icon: "info",
                 html: `
                 <style>
-                   
+                    @import url('https://fonts.cdnfonts.com/css/play');
                    .swal2-background-custom {
                         margin-left : 2rem;
                         border: 2px solid black; 
                         border-radius: 1rem; 
+                        font-family: 'Play', sans-serif ;
                      }
                     .list1{
                         justify-content: space-between;
@@ -47,19 +48,6 @@
                         justify-content: space-between;
                         
                     }
-                    .back{
-                    width:15%;
-                    display:flex;
-                    align-items: center;
-                    justify-content: center;
-                    background-color:rgb(255, 71, 71);
-                    border-radius: 0.5rem;
-                    
-                    }
-                    .back a{
-                        color:white;
-                    }
-                    
                    
                 </style>
                 @if (Session::has('error'))

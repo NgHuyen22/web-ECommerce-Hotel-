@@ -21,7 +21,7 @@
                                     {{-- <p></p> --}}
                                 <div class="bt-option">
                                     <a href="{{ route('customer.index')}}">Trang Chủ</a>
-                                    <span>Dịch vụ</span>
+                                    <span>Dịch Vụ</span>
                                 </div>
                             </div>
                         </div>

@@ -1,17 +1,17 @@
 @extends('layouts.admin_home')
-    @section('add_sv')
+    @section('accept_bill')
         <!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <link rel="stylesheet" href="{{ asset('admin/ad_css/service_management/getServices/add_sv.css')}}">
+            <link rel="stylesheet" href="{{ asset('admin/ad_css/bill_management/accept_bill.css')}}">
         </head>
         <body>
             <script>
                 Swal.fire({
-                    title: "Thêm Loại Dịch Vụ",
+                    title: "Xác Nhận Thanh Toán",
                     icon: "info",
                     html: `
                     <style>
@@ -25,16 +25,12 @@
                         .list1{
                             justify-content: space-between;
                         }
-                        
-                        .list1_item{
-                            width : 100%;
-                        }
                         .item1{
-                            width: 47%;
+                            width:47%;
     
                         }
                         .item2{
-                            width: 47%;
+                            width:47%;
                         }
                         
                         .form-control {
@@ -52,41 +48,46 @@
                             justify-content: space-between;
                             
                         }
-                        .tt_dv{
-                            height: 5.2vh;
+                   
+                        .sv_select{
+                            width: 100%;
+                            height: 5vh;
+                            margin-top : 1rem;
+                            margin-bottom : 0.9rem;
+                            border-radius: 5px;
                         }
-                    
+                        .sv_select:focus{
+                            border-color: rgb(37, 164, 249);
+                            outline: none;
+                        }
+
                     </style>
                     @if (Session::has('error'))
                         <div class="alert-register alert-add alert alert-danger">{{ Session::get('error') }}</div>
                     @endif
     
-                <form class="add_ldv_form" id="add_room--form" action="{{ route('admin.insert_dv', [$id_ldv])}}" method="POST">
+                <form class="add_ldv_form" id="add_room--form" action="{{route('admin.updated_bill',[$id_hd])}}" method="POST">
                     @csrf
-                  
-                    <div class="form-row d-flex list1" >
-                        <div class="form-group col-md-2 item1">
-                                <label for="ten_dv" class="label_form">Tên  DV</label>
-                                <input type="text" class="form-control tt_dv " id="ten_dv" name="ten_dv" value="{{old('ten_dv')}}" >
-                        </div>
-    
-                        <div class="form-group col-md-2 item2">
-                                 <label for="mo_ta_dv" class="label_form">Mô Tả : </label>
-                                <textarea type="text" class="form-control" id="mo_ta_dv" name="mo_ta_dv"  value="{{old('mo_ta_dv')}}"></textarea>
-                        </div>
-                    </div>
+                    @method('POST')
+                    <label for="pttt" class="label_form">Phương Thức Thanh Toán : </label>
+                    <select class="sv_select" style="text-align:center" id="pttt" name="pttt">
+                        <option value=""  selected hidden>Chọn Phương Thức</option>
+                        <option value="0">Chuyển Khoản</option>
+                        <option value="1">Tiền Mặt</option>
+                    </select>
 
                     <div class="form-row d-flex list1" >
                         <div class="form-group col-md-2 item1">
-                                <label for="don_gia_dv" class="label_form">Đơn Giá : </label>
-                                <input type="text" class="form-control tt_dv" id="don_gia_dv" name="don_gia_dv" value="{{old('don_gia_dv')}}" >
+                                <label for="tien_kh_gui" class="label_form">Tiền Khách Gửi : </label>
+                                <input type="text" class="form-control " id="tien_kh_gui" name="tien_kh_gui" value="{{old('tien_kh_gui')}}" >
                         </div>
-    
+            
                         <div class="form-group col-md-2 item2">
-                                 <label for="menu" class="label_form">Menu / Options : </label>
-                                <textarea type="text" class="form-control" id="menu" name="menu"  value="{{old('menu')}}"></textarea>
+                                <label for="tien_thua" class="label_form">Tiền Thừa</label>
+                                <input type="text" class="form-control input_form" id="tien_thua" name="tien_thua" value="{{old('tien_thua')}}" >
                         </div>
                     </div>
+    
                 
                     <div class="room--tools d-flex">
                         <button  button type="submit" class="btn btn-primary save_room--button" name="register">
@@ -94,7 +95,7 @@
                         </button>
                     
                     <div class="back_room--button">
-                            <a href="{{ route('admin.service_type') }}"><i class="fa-solid fa-rotate-left" style ="color :white; margin-top: 0.7rem; font-size: 1rem"></i></a>
+                            <a href="{{ route('admin.bill_index') }}"><i class="fa-solid fa-rotate-left" style ="color :white; margin-top: 0.7rem; font-size: 1rem"></i></a>
                     </div>
                 </div>
     
@@ -110,27 +111,28 @@
                     background: 'rgb(48, 84, 126)',
                     color: 'white',
                 });
-    
-                document.getElementById("add_room--form").addEventListener("submit", function(event) {
-                        var ten_ldv = document.getElementById('ten_ldv').value;
-                        var mo_ta = document.getElementById('mo_ta_ldv').value;
-                    
-    
-                        if (ten_ldv === "" || mo_ta === "") {
-                            event.preventDefault(); 
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Thất bại!',
-                                text: 'Vui lòng không để trống bất kỳ thông tin nào.',
-                                showConfirmButton: false,
-                                timer: 2000
-                            });
-                            setTimeout(() => {
-                                window.location.reload(true);
-                            }, 2300)
-                        }
-                });
             </script>
+            <script>
+                     document.getElementById('pttt').addEventListener('change', function() {
+                        var pttt = this.value;
+                        var tienKhGui = document.getElementById('tien_kh_gui');
+                        var tienThua = document.getElementById('tien_thua');
+
+                        if(pttt === "0"){
+                            
+                                tienKhGui.disabled = true;
+                                tienThua.disabled = true;
+                                tienKhGui.value = ''; 
+                                tienThua.value = ''; 
+                            }
+                            else if(pttt === "1") {
+                            
+                                tienKhGui.disabled = false;
+                                tienThua.disabled = false;
+                        }
+                    });
+            </script>
+            
         </body>
         </html>
     @endsection

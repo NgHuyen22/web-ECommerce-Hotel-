@@ -41,7 +41,7 @@
                             <div class="btn btn-primary sm_services_item">
                                     Loại dịch vụ
                             
-                                <span class="badge badge-light" style="background-color:aliceblue;"> <span style="color:black">{{ $countSV  }}</span></span>
+                                <span class="badge badge-light" style="background-color:#155edb ;"> <span style="color:white">{{ $countSV  }}</span></span>
                                 <span class="sr-only" >unread messages</span>
                             </div>
                         </a>
@@ -58,7 +58,7 @@
                             
                             <div class="search__icon ">
                                 <div class="col-2 w-100">
-                                    <button type ="submit search_button" class=" btn btn-primary btn-block btn-css search_button">Tìm</button>
+                                    <button type ="submit search_button" class=" btn btn-primary btn-block btn-css search_button"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </div>
                             </div>
     

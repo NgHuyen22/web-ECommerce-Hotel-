@@ -73,6 +73,9 @@
                     </div>
                 </div>
             </li>
+            {{-- <a href="https://fchat.vn/livechat" style="magin-top: 3rem !important">
+                <i class="align-middle" data-feather="message-square"></i>
+            </a> --}}
             <li class="nav-item dropdown" style="font-family: 'Play', sans-serif !important;">
                 <a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">

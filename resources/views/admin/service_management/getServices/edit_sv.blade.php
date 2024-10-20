@@ -71,9 +71,10 @@
                 document.getElementById("updated_form_sv").addEventListener('submit', function(event){
                         const ten_dv = document.getElementById('ten_dv').value;
                         const mo_ta_dv = document.getElementById('mo_ta_dv').value;
+                        const don_gia_dv = document.getElementById('don_gia_dv').value;
            
 
-                        if (ten_dv === "" || mo_ta_dv === "") {
+                        if (ten_dv === "" || mo_ta_dv === "" || don_gia_dv === "") {
                         event.preventDefault(); // Ngăn form gửi đi khi dữ liệu không hợp lệ
 
                         Swal.fire({

@@ -38,8 +38,8 @@
                             <div class="breadcrumb-text">
 
                                 <div class="bt-option">
-                                    <a href="{{ route('customer.service_type',['id_ldv' => $id_ldv])}}">Dịch vụ</a>
-                                    <span>Chi tiết dịch vụ</span>
+                                    <a href="{{ route('customer.service_type',['id_ldv' => $id_ldv])}}">Dịch Vụ</a>
+                                    <span>Chi Tiết Dịch Vụ</span>
                                 </div>
                             </div>
                         </div>

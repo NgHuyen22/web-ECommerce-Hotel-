@@ -37,7 +37,11 @@
                 
                         <div class="form-group label_input">
                                 <label for="gia_lp" class="updated_form--label">Giá : <span style="color:red">*</span> </label>
-                                <input type="text" class="form-control updated_form--input" id="gia_lp" name ="gia_lp"  placeholder="" value="{{ number_format($room_type -> gia_lp, 0, ',' , '.' )}} VND" >
+                                <div class="updated_form--input1">
+                                        <input type="text" class="form-control input_item" id="gia_lp" name ="gia_lp"  placeholder="" value="{{ number_format($room_type -> gia_lp, 0, ',' , '.' )}}" >
+                                        <span class="input-group-text percent">VND</span>
+                                    </div>
+                           
                         </div>
 
                         <div class="form-group label_input">

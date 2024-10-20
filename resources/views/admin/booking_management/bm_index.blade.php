@@ -34,48 +34,66 @@
                         });
                     </script>
                 @endif
-            <div class="">
+            <div class="tool_wrapper">
                 <a href="" class="wrapper_calender">
                     <i class="fa-solid fa-calendar-days" style="color: #1f407a;"></i>
                 </a>
-            </div>
-            {{-- <form action="" method="get" class="form__search--bkm mb-3">
-                @csrf   
 
-                <div class="input_search--bkm_icon container d-flex" style="font-family: 'Play', sans-serif !important;">
-                    <div class="bkm_search">
-                        <input type="search" class="form-control" name="keywords" placeholder="Từ khóa tìm kiếm..."
-                            value="{{ request()->keywords }}">
-                    </div>
+                <div class="wrapper_search">
+                    <form action="{{ route('admin.booking_management')}}" class="bm_index_form" id="" method="POST">
+                         @csrf
+                         <div class="form-group label_input">
+                             <label for="ngay_nhan_phong" class="bm_index_label" style="font-weight:bold">Ngày nhận phòng : </label>
+                             <input type="date" class="form-control bm_index_input" id="ngay_nhan_phong" name ="ngay_nhan_phong" placeholder="" value="{{old('ngay_nhan_phong', isset($ngay_nhan_phong) ? $ngay_nhan_phong : '')}}" >
+                             
+                         </div>
+                         
+                         <div class="form-group label_input">
+                             <label for="ngay_tra_phong" class="bm_index_label" style="font-weight:bold">Ngày trả phòng : </label>
+                             <input type="date" class="form-control bm_index_input" id="ngay_tra_phong" name ="ngay_tra_phong" placeholder="" value="{{ old('ngay_tra_phong', isset($ngay_tra_phong) ? $ngay_tra_phong : '') }}">
+                             
+                         </div>
 
-                    
-                    <div class="search__icon--bkm ">
-                        <div class="col-2 w-100">
-                            <button type ="submit" class=" btn btn-primary btn-block btn-css search_button">Tìm</button>
-                        </div>
-                    </div>
-
+                         <button type ="submit" class=" btn btn-primary btn-block btn-css search_button" style="background: #4398d1;"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>       
                 </div>
+            </div>
 
-            </form> --}}
 
             <ul class="nav nav-tabs tab_list" id="myTab" role="tablist">
                 {{-- 1 --}}
                 <li class="nav-item" role="presentation">
                   <button class="nav-link active nav_item_button" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
-                       Chưa duyệt
+                       Chưa xác nhận
                     </button>
                 </li> 
                 {{-- 2 --}}
                 <li class="nav-item" role="presentation">
                     <button class="nav-link nav_item_button1" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
-                       Đã Duyệt
+                       Đã xác nhận
                     </button>
                 </li>
             </ul>
 
             <div class="tab-content booking_form_list" id="myTabContent" style="  font-family: 'Play', sans-serif !important;">
                 <div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="home-tab"> 
+                    {{-- <div class="wrapper_search">
+                        <form action="" class="bm_index_form" id="" method="POST">
+                             @csrf
+                             <div class="form-group label_input">
+                                 <label for="ngay_nhan_phong" class="bm_index_label" style="font-weight:bold">Ngày nhận phòng : </label>
+                                 <input type="date" class="form-control bm_index_input" id="ngay_nhan_phong" name ="ngay_nhan_phong" placeholder="" value="" >
+                                 
+                             </div>
+                             
+                             <div class="form-group label_input">
+                                 <label for="ngay_tra_phong" class="bm_index_label" style="font-weight:bold">Ngày trả phòng : </label>
+                                 <input type="date" class="form-control bm_index_input" id="ngay_tra_phong" name ="ngay_tra_phong" placeholder="" value="">
+                                 
+                             </div>
+                        </form>       
+                    </div> --}}
+
                     <div class="tab-content table_content_csvc" id="pills-tabContent">
                         <div class="tab-pane fade show active content_csvc" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <table class="table update_room--table">
@@ -132,8 +150,8 @@
                                                             </select>
                                                         </td>
                                                         <td class="align-middle"style="text-align:center">{{ number_format($row -> gia_lp, 0, ',' , '.') }} VND / Đêm</td>
-                                                        <td class="align-middle"style="text-align:center">{{ $row -> ngay_nhan_phong }}</td>
-                                                        <td class="align-middle"style="text-align:center">{{ $row -> ngay_tra_phong }}</td>
+                                                        <td class="align-middle"style="text-align:center">{{ \Carbon\Carbon::parse($row->ngay_nhan_phong)->format('d-m-Y')  }}</td>
+                                                        <td class="align-middle"style="text-align:center">{{ \Carbon\Carbon::parse($row->ngay_tra_phong)->format('d-m-Y') }}</td>
                                                         <td class="align-middle"style="text-align:center">{{ $row -> created_at }}</td>
                                                         <td class="align-middle"style="text-align:center">{{ $row -> updated_at }}</td>
                                                         {{-- <td class="align-middle"style="text-align:center">{{ $row -> created_at }}</td>
@@ -185,7 +203,7 @@
                                                                     <input type="hidden" id="hidden_id_phong_{{ $row->id_don }}" name="hidden_id_phong" value="">
                                                                     <input type="hidden" name="gia" value="{{ $row->gia_lp }}">
                                                                     <input type="hidden" name="soNgay" value="{{ $row->so_ngay_o }}">
-                                                                    <button type="submit" class="btn btn-danger approved_icon" style="width: 2rem; height: 2rem; margin-left: 0.3rem; display: flex; justify-content: center; align-items: center;">
+                                                                    <button type="submit" class="btn btn-danger approved_icon" style="width: 2rem; height: 2rem; margin-right: 0.5rem; display: flex; justify-content: center; align-items: center;">
                                                                         <i class="fa-regular fa-square-check fa-fade" style="color: white"></i>
                                                                     </button>    
                                                                 </form>
@@ -199,9 +217,20 @@
                                                                 </script>
 
                                                              
-                                                                <div style="width: 30%; margin-top: 0.2rem; margin-left: 0.2rem;">
+                                                                {{-- <div style="width: 30%; margin-top: 0.2rem; margin-left: 0.2rem;">
                                                                     <a href="{{ route('admin.bf_detail',[ $row -> id_don])}}" style="font-size: 0.7rem; text-decoration: none; ">Chi Tiết</a>
-                                                                </div>
+                                                                </div> --}}
+                                                                <button type="button" onclick="Detail('{{ route('admin.bf_detail',[ $row -> id_don])}}')" class="button_popover"  data-bs-toggle="popover" data-bs-html="true"
+                                                                    data-bs-content =
+                                                                    "<div class='wrapper_info'>
+                                                                        <p><span class='info_label'>Số Ngày Ở : </span> <span>{{ $row -> so_ngay_o }}</span></p>
+                                                                        <div class= 'info'>
+                                                                            <p><span class='info_label'>Ghi Chú : </span> <span class='info_value'>{{ $row-> ghi_chu != null ?  $row-> ghi_chu : ''}}</span></p>     
+                                                                        </div>
+                                                                    </div>"
+                                                                    title="Thông Tin Phòng">
+                                                                    Chi tiết
+                                                                </button>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -282,7 +311,7 @@
                                         <th scope="col" class="align-middle" style="text-align:center">ID Đơn</th>
                                         <th scope="col" class="align-middle" style="text-align:center">Tên KH</th>
                                         <th scope="col" class="align-middle" style="text-align:center">Loại Phòng</th>
-                        
+                                        <th scope="col" class="align-middle" style="text-align:center">Phòng</th>
                                         <th scope="col" class="align-middle" style="text-align:center">Đơn Giá</th>
                                         <th scope="col" class="align-middle" style="text-align:center">Ngày Nhận Phòng</th>
                                         <th scope="col" class="align-middle" style="text-align:center">Ngày Trả Phòng</th>
@@ -303,10 +332,10 @@
                                                         <td class="align-middle"style="text-align:center    ;">{{ $row -> id_don }}</td>
                                                         <td class="align-middle"style="text-align:center;color: rgb(209, 43, 43); font-weight:bold;width: 10rem">{{ $row-> ho_ten }}</td>
                                                         <td class="align-middle"style="text-align:center;">{{ $row -> ten_lp }}</td>
-                                                 
+                                                        <td class="align-middle"style="text-align:center;">{{ $row -> so_phong }}</td>
                                                         <td class="align-middle"style="text-align:center">{{ number_format($row -> gia_lp, 0, ',' , '.') }} VND / Đêm</td>
-                                                        <td class="align-middle"style="text-align:center">{{ $row -> ngay_nhan_phong }}</td>
-                                                        <td class="align-middle"style="text-align:center">{{ $row -> ngay_tra_phong }}</td>
+                                                        <td class="align-middle"style="text-align:center">{{  \Carbon\Carbon::parse($row->ngay_nhan_phong)->format('d-m-Y')  }}</td>
+                                                        <td class="align-middle"style="text-align:center">{{  \Carbon\Carbon::parse($row->ngay_tra_phong)->format('d-m-Y') }}</td>
                                                         <td class="align-middle"style="text-align:center">{{ $row -> created_at }}</td>
                                                         <td class="align-middle"style="text-align:center">{{ $row -> updated_at }}</td>
                                                         {{-- <td class="align-middle"style="text-align:center">{{ $row -> created_at }}</td>
@@ -316,15 +345,26 @@
 
                                                                 <form action="" method="GET" id="delete_csvc_form" onsubmit="return false;">
                                                                     @csrf
-                                                                    <button type="submit" class="btn btn-danger delete_csvc" style="width: 2rem; height: 2rem; margin-left: 0.3rem; display: flex; justify-content: center; align-items: center;" onclick="confirmDelete('{{ route('admin.delete', [$row -> id_don])}}')">
+                                                                    <button type="submit" class="btn btn-danger delete_csvc" style="width: 2rem; height: 2rem; margin-right: 0.5rem; display: flex; justify-content: center; align-items: center;" onclick="confirmDelete('{{ route('admin.delete', [$row -> id_don])}}')">
                                                                         <i class="fa-regular fa-trash-can delete_csvc-icon" style="font-size: 0.9rem;"></i>
                                                                     </button>
                                                                    
                                                                 </form> 
                                                                 
-                                                                <div style="width: 30%; margin-top: 0.2rem; margin-left: 0.2rem;">
+                                                                {{-- <div style="width: 30%; margin-top: 0.2rem; margin-left: 0.2rem;">
                                                                     <a href="{{ route('admin.bf_detail',[ $row -> id_don])}}" style="font-size: 0.7rem; text-decoration: none; ">Chi Tiết</a>
-                                                                </div>
+                                                                </div> --}}
+                                                                <button type="button" onclick="Detail('{{ route('admin.bf_detail',[ $row -> id_don])}}')" class="button_popover"  data-bs-toggle="popover" data-bs-html="true"
+                                                                    data-bs-content =
+                                                                    "<div class='wrapper_info'>
+                                                                        <p><span class='info_label'>Số Ngày Ở : </span> <span>{{ $row -> so_ngay_o }}</span></p>
+                                                                        <div class= 'info'>
+                                                                            <p><span class='info_label'>Ghi Chú : </span> <span class='info_value'>{{ $row-> ghi_chu != null ?  $row-> ghi_chu : ''}}</span></p>     
+                                                                        </div>
+                                                                    </div>"
+                                                                    title="Thông Tin Phòng">
+                                                                    Chi tiết
+                                                                </button>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -470,6 +510,20 @@
                         
                                     }
                         });
+                }
+
+                 // Kích hoạt popover khi hover
+                 document.addEventListener('DOMContentLoaded', function () {
+                    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+                    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                        return new bootstrap.Popover(popoverTriggerEl, {
+                            trigger: 'hover' 
+                        })
+                    })
+                });
+
+                function Detail(url) {
+                    window.location.href = url;
                 }
             </script>
         </body>

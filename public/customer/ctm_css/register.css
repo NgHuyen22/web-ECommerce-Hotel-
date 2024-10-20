@@ -24,6 +24,10 @@ body {
 .user_gender{
     border: 2px solid #3498db;
 }
+.user_gender:focus{
+    border-color:  #3498db;
+    outline: none;
+}
 
 .div_user {
   

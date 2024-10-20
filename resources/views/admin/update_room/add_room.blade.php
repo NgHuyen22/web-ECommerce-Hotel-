@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('admin/ad_css/update_room/add_roomType.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/ad_css/update_room/add_room.css')}}">
 </head>
 <body>
     @extends('layouts.admin_home')
@@ -17,9 +17,10 @@
                     icon: "info",
                     html: `
                     <style>
-                    
-                    .swal2-background-custom {
-                            margin-left : 2rem;
+                        @import url('https://fonts.cdnfonts.com/css/play');
+                        .swal2-background-custom {
+                                margin-left : 2rem;
+                                font-family: 'Play', sans-serif ;
                         }
                         .list1{
                             justify-content: space-between;
@@ -47,19 +48,7 @@
                             justify-content: space-between;
                             
                         }
-                        .back{
-                        width:15%;
-                        display:flex;
-                        align-items: center;
-                        justify-content: center;
-                        background-color:rgb(255, 71, 71);
-                        border-radius: 0.5rem;
-                        
-                        }
-                        .back a{
-                            color:white;
-                        }
-                        
+                       
                     .label-input-wrapper{
                             width: 100%;
                         display: flex;
@@ -73,28 +62,21 @@
                 <form class="room_registraion--form" id="add_room--form" action="" method="POST">
                     @csrf
 
-                <div div class="label-input-wrapper">
-                    
+                <div div class="label-input-wrapper">    
                         <div class="form-group col-md-2 item1">
                                 <label for="so_phong" class="label_form">Nhập Số Phòng</label>
                                 <input type="text" class="form-control " id="so_phong" name="so_phong" value="" >
                         </div>
                          <input type="hidden" name="id_rt" value="{{ $id_rt != null ? $id_rt : '' }}">
-                    </div>
+                </div>
 
-        
-
-        
-            
-        
-                        
                     <div class="room--tools d-flex">
                         <button  button type="submit" class="btn btn-primary save_room--button" name="register">
                             <i class="fa-regular fa-floppy-disk" style ="font-size: 1rem"></i>
                         </button>
                     
                     <div class="back_room--button">
-                            <a href="{{ route('admin.update_room') }}"><i class="fa-solid fa-rotate-left" style ="color :white; margin-top: 0.5rem; font-size: 1rem"></i></a>
+                            <a href="{{ route('admin.update_room') }}"><i class="fa-solid fa-rotate-left" style ="color :white; margin-top: 0.7rem; font-size: 1rem"></i></a>
                     </div>
                 </div>
         

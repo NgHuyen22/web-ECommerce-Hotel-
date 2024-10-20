@@ -14,7 +14,7 @@
                             <nav class="mainmenu">
                                 <ul>
                                     <li class="active"><a href="{{ route('customer.index')}}">Trang Chủ</a></li>
-                                    <li><a href="">Giới Thiệu</a></li>
+                                    <li><a href="{{ route('customer.about')}}">Giới Thiệu</a></li>
                                     <li><a href="{{ route('customer.room_index')}}">Phòng</a>
                                         <ul class="dropdown">
                                             {{-- @if(count($room_type) > 0)

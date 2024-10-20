@@ -8,7 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlRge8VJLqr7U-qQT7bdDtzz-uX0doe0z0JQ&s" />
-{{-- <!--Start of Fchat.vn--><script type="text/javascript" src="https://cdn.fchat.vn/assets/embed/webchat.js?id=66d72f2b17774a30cd4952c8" async="async"></script><!--End of Fchat.vn--> --}}
+{{-- <!--Start of Fchat.vn--><script type="text/javascript" src="https://cdn.fchat.vn/assets/embed/webchat.js?id=6702e5f18455de4d23175d46" async="async"></script><!--End of Fchat.vn--> --}}
+
     <title>HTQLKS</title>
 
     <!-- Google Font -->
@@ -45,6 +46,7 @@
         @include('customer.header')
         @include('customer.menu')
             @yield('content')
+            @yield('about')
             @yield('insert_profile')
             @yield('view_profile')
             @yield('service_type.service_type')
@@ -52,6 +54,7 @@
             @yield('room_index')
             @yield('room_detail')
             @yield('see_form')
+            @yield('see_history')
             @include('customer.footer')
 
 
@@ -65,7 +68,14 @@
         </div>
     </div>
     <!-- Search model end -->
-
+    {{-- chatbot --}}
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      intent="WELCOME"
+      chat-title="HazBinHotel_HTQLKS"
+      agent-id="31865877-cff5-4c70-b57c-ad845ccbaeb3"
+      language-code="vi"
+    ></df-messenger>
     <!-- Js Plugins -->
     <script src="{{asset('customer/ctm_js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{asset('customer/ctm_js/bootstrap.min.js')}}"></script>

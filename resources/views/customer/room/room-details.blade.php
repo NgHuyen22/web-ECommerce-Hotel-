@@ -38,7 +38,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb-text">
-                            <h2>Chi Tiết Phòng</h2>
+                            {{-- <h2>Chi Tiết Phòng</h2> --}}
                             <div class="bt-option">
                                 <a href="{{ route('customer.room_index')}}">Phòng</a>
                                 <span>Chi Tiết Phòng</span>

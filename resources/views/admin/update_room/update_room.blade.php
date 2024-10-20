@@ -14,26 +14,26 @@
     <body>
             
                 @if (Session::has('error'))
-                <script>
-                    Swal.fire({
-                        icon: 'error',
-                        text: "{{ Session::get('error') }}",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                </script>
+                    <script>
+                        Swal.fire({
+                            icon: 'error',
+                            text: "{{ Session::get('error') }}",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    </script>
                 @endif
 
                 @if(Session::has('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        text: "{{ Session::get('success') }}",
-                        showConfirmButton: false,
-                        timer: 2000
-                    });
-                </script>
-            @endif
+                    <script>
+                        Swal.fire({
+                            icon: 'success',
+                            text: "{{ Session::get('success') }}",
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                    </script>
+                @endif
 
             <ul class="nav nav-pills mb-3 nav_tabs list_nav update_room--tool" id="pills-tab" role="tablist" style="margin-left : 2rem; margin-top : 3rem">
                 {{-- <li class="nav-item" role="presentation">
@@ -67,7 +67,7 @@
                     </div> --}}
                         <div class="search__icon ">
                             <div class="col-2 w-100">
-                                <button type ="submit" class=" btn btn-primary btn-block btn-css">Tìm</button>
+                                <button type ="submit" class=" btn btn-primary btn-block btn-css search_button"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </div>
                         </div>
 
@@ -101,7 +101,7 @@
                         <tbody class="table-group-divider update_room--tbody">
                             @if(!$room_type -> isEmpty())
                                     @php $count = 1; @endphp
-                                    @if (count($room_type) > 0)
+                                    {{-- @if (count($room_type) > 0) --}}
                                         @foreach ($room_type as $row) 
                                             <tr>
                                                 <th scope="row" class="align-middle" style="text-align:justify">{{ $count++ }}</th>
@@ -140,11 +140,11 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                    @else
+                                    {{-- @else
                                         <tr>
                                             <td colspan ="10" class="align-middle text-center">Không có dữ liệu</td>
                                         </tr>
-                                    @endif
+                                    @endif --}}
                             @else
                                 <tr>
                                     <td colspan ="10" class="align-middle text-center">Không có dữ liệu</td>             

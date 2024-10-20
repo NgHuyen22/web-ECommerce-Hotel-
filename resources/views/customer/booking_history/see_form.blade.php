@@ -108,6 +108,10 @@
                                                         <button type="button" class="btn btn-danger cancle-form" onclick="buttonCancle('{{route('customer.cancle_form',[$row -> id_don])}}')">Hủy</button>
                                                     @endif
 
+                                                    @if( $row -> tinh_trang == "Đã xác nhận")
+                                                        <button type="button" class="btn btn-danger cancle-form" onclick="">Đánh giá</button>
+                                                    @endif
+
                                         </div>
                                     </div> 
                                     
@@ -308,9 +312,14 @@
                                                         </div>
                                                         <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{ ($row -> tinh_trang_ct) != null ? $row -> tinh_trang_ct:''}}</span></p>
                                                     </div>
+                                                    @if( $row -> tinh_trang_ct == "Đã xác nhận")
+                                                        <button type="button" class="btn btn-danger cancle-form" onclick="">Đánh giá</button>
+                                                    @endif
+
                                                     @if( $row -> tinh_trang_ct == "Chưa xác nhận")
                                                         <button type="button" class="btn btn-danger cancle-form" onclick="buttonCancle('{{route('customer.cancle_service',[$row -> id_ct])}}')">Hủy</button>
                                                     @endif
+
 
                                         </div>
                                     </div> 
@@ -389,7 +398,7 @@
                                                                 <span style="margin-left: 1.3rem; margin-top: 2rem;color:#204468; font-weight:bold;">ID : <span ></span>{{ $row -> id_hd}}</span></span>
                                                                 <div class="span_child1">
                                                                     <p><span style="color:#204468; font-weight:bold;">Khách hàng :  </span><span ></span>{{$getUserLogin -> ho_ten}}</span></p>
-                                                                    <p><span style="color:#204468; font-weight:bold;">Số Phòng :  </span><span ></span>{{$row ->so_phong }}</span></p>
+                                                                    <p><span style="color:#204468; font-weight:bold;">Phòng :  </span><span >{{$row -> ten_lp}}</span> - {{$row ->so_phong }}</span></p>
                                                                     
                                                                 </div>
                                                                 <div class="span_child">

@@ -87,11 +87,14 @@
 
   box-shadow: 0 4px 10px rgba(32, 68, 104, 0.3) !important;
 }
-
 .search_button{
-  background-color:#2375c7 !important;
+  background-color: #4398d1 !important;
 }
 
+.search_button:hover {
+  
+  background-color: #3079aa !important;
+}
 
 .back_room{
 
@@ -138,7 +141,9 @@
 .sm_services_item{
   width: 100%;
   border-radius: 5px;
-  background-color: #2375c7;
+  background-color: #e7f1ff;
+  color: #155edb;
+  font-weight: bold;
 }
 .sm_services_item:hover{
 

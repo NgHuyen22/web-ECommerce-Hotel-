@@ -6,6 +6,7 @@
 .booking_form_list{
   margin-left: 1rem;
 }
+
 .tab_list{
     justify-content: space-evenly; 
     font-family: 'Play', sans-serif !important;
@@ -14,8 +15,8 @@
   }
   
 .nav_item_button1{
-    color: white !important;
-    background-color: rgb(23, 153, 114) !important;
+    color: black !important;
+    /* background-color: rgb(23, 153, 114) !important; */
   }
 .nav_item_button1:hover{
     color: white !important;
@@ -28,8 +29,8 @@
   }
 
 .nav_item_button{
-    color: white !important;
-    background-color: rgb(222, 70, 77) !important;
+    color: black !important;
+    /* background-color: rgb(222, 70, 77) !important; */
   }
 .nav_item_button:hover{
     color: white !important;
@@ -98,10 +99,12 @@
 .wrapper_calender{
   position: relative;
   display: inline-block;
+  width: 2%;
+  margin-left: 2rem;
 }
 
 .wrapper_calender::after {
-  content: 'Xem lịch trống';  /* Nội dung tooltip */
+  content: 'Xem lịch đặt phòng';  /* Nội dung tooltip */
   position: absolute;
   bottom: 2rem;  /* Đặt tooltip phía trên icon */
   left: 2rem;
@@ -160,7 +163,86 @@
 .back_room:hover .back-icon{
   color: rgb(21, 142, 104);
 }
+
 .swal2-background-custom{
   border: 2px solid black; 
   border-radius: 1rem;   
+}
+/* 
+.wrapper_search{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.bm_index_form{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 70%;
+}
+
+.label_input{
+  width: 40%;
+  display: flex;
+  align-items: center;
+}
+
+.bm_index_label{
+  width: 45%;
+}
+
+.bm_index_input{
+  width: 50%;
+} */
+
+.wrapper_search{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+}
+
+.bm_index_form{
+  display: flex;
+  justify-content:space-between ;
+  align-items: center;
+  width: 100%;
+  /* margin-left: 2rem; */
+}
+
+.label_input{
+  width: 50%;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.bm_index_label{
+  width: 42%;
+}
+
+.bm_index_input{
+  width: 50%;
+}
+
+.tool_wrapper{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.info_label {
+  font-weight: bold; 
+
+}
+
+.button_popover{
+  background-color: rgb(20, 20, 20) !important;
+  color: white !important;
+  border-radius: 7px;
 }

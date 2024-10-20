@@ -44,5 +44,17 @@ class Service extends Model
                             ->where('id_dv', $id_dv)
                             ->update($data);
     }
+
+    public function getAllService() {
+        return $result = DB::table($this -> sv)
+                            ->where('status', 1)
+                            ->get();
+    }
+    
+    public  function getTTService($id_dv){
+        return $result = DB::table($this -> sv)
+                            ->where('id_dv', $id_dv)
+                            ->first();
+    }
   
 }

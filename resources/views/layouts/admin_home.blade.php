@@ -26,6 +26,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="{{asset('admin/ad_css/footer.css')}}">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 	{{-- SweetAlert2 --}}
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -56,6 +57,12 @@
 					@yield('sv_index')
 					@yield('add_sv')
 					@yield('edit_sv')
+					@yield('update_offers_index')
+					@yield('edit_specialOffers')
+					@yield('add_incentives')
+					@yield('bill_index')
+					@yield('accept_bill')
+
 					{{-- @include('admin.footer') --}}
          </div>
     </div>

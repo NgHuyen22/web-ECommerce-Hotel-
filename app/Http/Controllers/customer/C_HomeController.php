@@ -43,6 +43,10 @@ class C_HomeController extends Controller
             return redirect()->route('customer.login');
         }
 
+        public function about() {
+             return view('customer.about.about');
+        }
+
         public function profile(){
             $getUserLogin = $this->us->getUser(session('id_ctm'));
             $countFormLogin = 0;

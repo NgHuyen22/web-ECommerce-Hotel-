@@ -28,7 +28,7 @@
                             <ul>
                                 <li>(12) 345 67890</li>
                                 <li>hazbinhotel@gmail.com</li>
-                                <li>3/2 - P.Xuan Khanh - Q.Ninh Kieu - TP.Can Tho</li>
+                                <li>9C Tran Phu - P.Xuan Khanh - Q.Ninh Kieu - TP.Can Tho</li>
                             </ul>
                         </div>
                     </div>

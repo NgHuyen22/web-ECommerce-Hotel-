@@ -63,7 +63,7 @@ class BookingFormController extends Controller
                                 $insertBill = $this -> bill -> insertBill($dataBill);
                             if($insertBill == true){
     
-                                return redirect() -> route('admin.booking_management') ->with('success', 'Đã duyệt thành công');
+                                return redirect() -> route('admin.booking_management') ->with('success', 'Xác nhận thành công');
                             }
                             
             }else{

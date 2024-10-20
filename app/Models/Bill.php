@@ -27,10 +27,24 @@ class Bill extends Model
         return $result = DB::table("bill")
                             ->leftJoin('booking_form as bf', 'bf.id_don', '=', 'bill.don_dat_phong')
                             ->leftJoin('room as r', 'r.id_phong', '=', 'bf.id_phong')
+                            ->join("room_type as rt",'rt.id_lp','=','bf.id_loai_phong')
                             ->where('khach_hang', $id_kh)
                             ->orderBy('id_hd','desc') 
-                            ->select('bill.*', 'bf.id_phong','r.so_phong')
+                            ->select('bill.*', 'bf.id_phong','rt.ten_lp','r.so_phong')
                             ->paginate(3);
+                        
+    }
+
+    public function getBill_history($id_kh){
+        return $result = DB::table("bill")
+                            ->leftJoin('booking_form as bf', 'bf.id_don', '=', 'bill.don_dat_phong')
+                            ->leftJoin('room as r', 'r.id_phong', '=', 'bf.id_phong')
+                            ->join("room_type as rt",'rt.id_lp','=','bf.id_loai_phong')
+                            ->where('khach_hang', $id_kh)
+                            ->orderBy('id_hd','desc') 
+                            ->select('bill.*', 'bf.id_phong','rt.ten_lp','r.so_phong')
+                            ->get();
+                        
     }
 
     public function getBillDon($id_don){
@@ -45,4 +59,99 @@ class Bill extends Model
                         ->where('id_hd', $id_hd)
                         ->update($data);
     }
+
+    public function getAllBill($ngay_thanh_toan = null, $ngay_thanh_toan1 = null, $keywords = null){
+         $result = DB :: table("bill")
+                        ->join('users as us','us.id','=', 'bill.khach_hang')
+                        ->join('booking_form as bf','bf.id_don','=','bill.don_dat_phong')
+                        ->join('room as r','r.id_phong','=','bf.id_phong')
+                        ->join('room_type as rt','rt.id_lp','=','r.loai_phong')
+                        ->select('bill.*','bf.*','r.so_phong','rt.*','us.*')
+                        ->where('bill.trang_thai_hd', 'Chưa thanh toán')
+                        ->where('bill.status',1);
+
+                        if (!empty($ngay_thanh_toan) && !empty($ngay_thanh_toan1)) {
+        
+                            $result->whereBetween('bill.updated_at', [$ngay_thanh_toan, $ngay_thanh_toan1]);
+                        } elseif (!empty($ngay_thanh_toan)) {
+                          
+                            $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan);
+                        } elseif (!empty($ngay_thanh_toan1)) {
+                           
+                            $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan1);
+                        }
+                        
+                        if (!empty($keywords)) {
+                                $keywords = preg_replace('/[^0-9]/', '', $keywords);
+                                $result->where(function ($query) use ($keywords) {
+                                    $query->orWhere('us.ho_ten', 'like', '%' . $keywords . '%')
+                                                ->orWhere('rt.gia_lp', '=', $keywords)
+                                                ->orWhere('bill.phi_dv', '=', $keywords)
+                                                ->orWhere('bill.phi_them', '=', $keywords)
+                                                ->orWhere('bill.tong_tien', '=', $keywords)
+                                                ->orWhere('r.so_phong', '=', $keywords)
+                                                ->orWhere('bill.don_dat_phong', 'like', '%' . $keywords . '%');
+                                               
+                                });
+                        }
+                        
+                 
+                        return $result->paginate(5);
+    }
+
+    public function getAllBillAcp($ngay_thanh_toan = null, $ngay_thanh_toan1 = null,$keywords = null) {
+      
+        $result = DB::table("bill")
+            ->join('users as us', 'us.id', '=', 'bill.khach_hang')
+            ->join('booking_form as bf', 'bf.id_don', '=', 'bill.don_dat_phong')
+            ->join('room as r', 'r.id_phong', '=', 'bf.id_phong')
+            ->join('room_type as rt', 'rt.id_lp', '=', 'r.loai_phong')
+            ->select('bill.*', 'bf.id_don','bf.id_kh','bf.id_loai_phong','bf.id_phong',
+            'bf.ngay_nhan_phong','bf.ngay_tra_phong','bf.so_ngay_o','bf.ghi_chu', 'r.so_phong', 'rt.id_lp','rt.ten_lp','rt.mo_ta','rt.tien_nghi','rt.gia_lp','rt.suc_chua', 
+            'us.id','us.ho_ten','us.gioi_tinh','us.sdt','us.email','us.dia_chi','us.DTL')
+            ->where('bill.trang_thai_hd', 'Đã thanh toán')
+            ->where('bill.status', 1);
+    
+   
+        if (!empty($ngay_thanh_toan) && !empty($ngay_thanh_toan1)) {
+            
+            $result->whereBetween('bill.updated_at', [$ngay_thanh_toan, $ngay_thanh_toan1]);
+        } elseif (!empty($ngay_thanh_toan)) {
+          
+            $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan);
+        } elseif (!empty($ngay_thanh_toan1)) {
+           
+            $result->whereDate('bill.updated_at', '=', $ngay_thanh_toan1);
+        }
+        
+        if (!empty($keywords)) {
+            $keywords = preg_replace('/[^0-9]/', '', $keywords);
+            $result->where(function ($query) use ($keywords) {
+                $query->orWhere('us.ho_ten', 'like', '%' . $keywords . '%')
+                    ->orWhere('r.so_phong', '=', $keywords)
+                    ->orWhere('rt.gia_lp', '=', $keywords)
+                    ->orWhere('bill.phi_dv', '=', $keywords)
+                    ->orWhere('bill.phi_them', '=', $keywords)
+                    ->orWhere('bill.tong_tien', '=', $keywords)
+                    ->orWhere('bill.don_dat_phong', 'like', '%' . $keywords . '%');
+            });
+        
+        }
+ 
+        return $result->paginate(5);
+    }
+    
+
+    public function deleteBill($id_hd) {
+        return $result = DB :: table("bill")
+                                ->where('id_hd', $id_hd)
+                                ->update(['status' => 0]);
+    }
+    
+    public function getTTBill($id_hd){
+        return $result = DB :: table("bill")
+                                ->where('id_hd', $id_hd)
+                                ->first();
+    }
+
 }

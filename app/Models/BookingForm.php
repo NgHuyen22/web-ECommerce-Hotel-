@@ -91,6 +91,18 @@ class BookingForm extends Model
                                 ->orderBy('id_don','desc') 
                                 ->paginate(3);
     }
+
+    public function getForm_history($id_kh){
+        return $result = DB::table('booking_form as bf') 
+                                ->leftjoin('room as r','r.id_phong','=','bf.id_phong')
+                                ->join('room_type as rt','bf.id_loai_phong','=','rt.id_lp')
+                                ->select('bf.*','r.so_phong','r.loai_phong','rt.ten_lp','rt.gia_lp')
+                                // ->where('r.status',1)
+                                // ->where('bf.status',1)
+                                ->where('bf.id_kh', $id_kh)
+                                ->orderBy('id_don','desc') 
+                                ->paginate(1);
+    }
  
     
                             
@@ -143,14 +155,27 @@ class BookingForm extends Model
     }
 
     public function getUnapproved(){
-        return $result = DB::table("booking_form as bf")
+         $result = DB::table("booking_form as bf")
                         ->join('users as us', 'us.id' , '=', 'bf.id_kh')
                         ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
                         ->leftJoin('room as r','r.id_phong','=','bf.id_phong')
                         ->select('bf.*','us.ho_ten','rt.ten_lp', 'rt.gia_lp' ,'r.so_phong')
                         ->where('tinh_trang','Chưa xác nhận')
-                        ->where('bf.status',1)
-                        ->paginate(4);
+                        ->where('bf.status',1);
+                        
+                        if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
+                            $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
+                                    ->orWhereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
+                        }
+
+                         elseif (!empty($ngay_nhan_phong)) {
+                            $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
+                        }
+
+                         elseif (!empty($ngay_tra_phong)) {
+                            $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
+                        }
+                        return $result  -> paginate(4);
                     
     }
     public function getRT(){
@@ -164,15 +189,27 @@ class BookingForm extends Model
                         
                     
     }
-        public function getApproved(){
-            return $result = DB::table("booking_form as bf")
+    public function getApproved($ngay_nhan_phong = null , $ngay_tra_phong = null){
+             $result = DB::table("booking_form as bf")
                             ->join('users as us', 'us.id' , '=', 'bf.id_kh')
                             ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
                             ->leftJoin('room as r','r.id_phong','=','bf.id_phong')
                             ->select('bf.*','us.ho_ten','rt.ten_lp', 'rt.gia_lp' ,'r.so_phong')
                             ->where('tinh_trang','Đã xác nhận')
-                            ->where('bf.status',1)
-                            ->paginate(4);
+                            ->where('bf.status',1);
+                            if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
+                                $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
+                                        ->orWhereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
+                            }
+
+                             elseif (!empty($ngay_nhan_phong)) {
+                                $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
+                            }
+
+                             elseif (!empty($ngay_tra_phong)) {
+                                $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
+                            }
+                            return $result  -> paginate(4);
                         
         }
 

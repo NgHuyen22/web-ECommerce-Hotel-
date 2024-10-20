@@ -15,12 +15,12 @@
                 icon: "info",
                 html: `
                 <style>
-                
-                .swal2-background-custom {
-                        margin-left : 2rem;
-                        border: 2px solid black; 
-                        border-radius: 1rem; 
-                        
+                   @import url('https://fonts.cdnfonts.com/css/play');
+                    .swal2-background-custom {
+                            margin-left : 2rem;
+                            border: 2px solid black; 
+                            border-radius: 1rem; 
+                            font-family: 'Play', sans-serif ;
                     }
                     .list1{
                         justify-content: space-between;

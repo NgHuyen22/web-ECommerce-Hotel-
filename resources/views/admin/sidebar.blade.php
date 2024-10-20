@@ -7,7 +7,7 @@
 
         <ul class="sidebar-nav">
             <li class="sidebar-header">
-                Pages
+                Hệ thống
             </li>
 
             <li class="sidebar-item active">
@@ -50,14 +50,25 @@
                 <a class="sidebar-link" href="{{ route('admin.update_room') }}">
                   <i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Cập nhật phòng</span>
                 </a>
-              </li>
+            </li>
 
-            {{-- <li class="sidebar-item">
-                <a class="sidebar-link" href="">
-                    <i class="fa-regular fa-star"></i> <span class="align-middle">Cập nhật ưu đãi</span>
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ route('admin.bill_index')}}">
+                    <i class="fa-regular fa-money-bill-1"></i> <span class="align-middle">Cập nhật hóa đơn</span>
                 </a>
-              </li>
-               --}}
+            </li>
+
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ route('admin.special_offers')}}">
+                    <i class="fa-regular fa-star"></i><span class="align-middle">Cập nhật ưu đãi</span>
+                </a>
+            </li>
+
+              <li class="sidebar-item">
+                <a class="sidebar-link" href="ui-cards-sbs.html">
+                    <i class="fa-regular fa-comment"></i> <span class="align-middle">Quản lý các đánh giá</span>
+                </a>
+            </li>
 
             <li class="sidebar-item">
                 <a class="sidebar-link" href="ui-cards.html">
@@ -68,7 +79,7 @@
 
             <li class="sidebar-item">
              <a class="sidebar-link" href="icons-feather.html">
-                <i class="fa-solid fa-users"></i><span class="align-middle">QL thông tin khách hàng</span>
+                <i class="fa-solid fa-users"></i><span class="align-middle">QLTT khách hàng</span>
             </a>
             </li>
 

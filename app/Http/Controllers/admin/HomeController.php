@@ -9,6 +9,9 @@ use App\Models\Users;
 use App\Models\RoomType;
 use App\Models\Room;
 use App\Models\BookingForm;
+use App\Models\SpecialOffers;
+use App\Models\ServiceIncentives;
+use App\Models\Bill;
 
 class HomeController extends Controller
 {
@@ -18,6 +21,9 @@ class HomeController extends Controller
     protected $rt;
     protected $r;
     protected $bf;
+    protected $spo;
+    protected $svi;
+    protected $bill;
     public function __construct()
     {
         // $this -> hsv = new ChatService();
@@ -25,6 +31,9 @@ class HomeController extends Controller
         $this -> rt = new RoomType();
         $this -> r = new Room();
         $this -> bf = new BookingForm();
+        $this -> spo = new SpecialOffers();
+        $this -> svi = new ServiceIncentives();
+        $this -> bill = new Bill();
     }
     public function index(){
         // $user =  $this -> us ->getUser(session('id_ad'));
@@ -75,9 +84,11 @@ class HomeController extends Controller
     //    return view("admin.booking_management.bm_index", compact('unapproved', 'approved', 'countUn', 'count'));
     // }
 
-    public function bm_index(){
-        $unapproved = $this -> bf -> getUnapproved();
-        $approved = $this -> bf -> getApproved();
+    public function bm_index(Request $rq){
+        $ngay_nhan_phong = $rq->ngay_nhan_phong;
+        $ngay_tra_phong = $rq -> ngay_tra_phong;
+        $unapproved = $this -> bf -> getUnapproved($ngay_nhan_phong,$ngay_tra_phong);
+        $approved = $this -> bf -> getApproved($ngay_nhan_phong, $ngay_tra_phong);
         
         $ngayNhan = $this -> bf -> getNgayNhan();
         $ngayTra = $this -> bf -> getNgayTra();
@@ -94,10 +105,10 @@ class HomeController extends Controller
         $room_type = $this->bf->getRT(); // Lấy danh sách loại phòng chưa xác nhận
         $ngayNhan = $this -> bf -> getNgayNhan()->unique();
         $ngayTra = $this -> bf -> getNgayTra() -> unique();
-        $all = collect(); // Khởi tạo Collection để lưu trữ tất cả các phòng trống
+        $all = collect();
        
         foreach ($room_type as $item) {
-            $rt = $this->r->getRoomRT($item); // Lấy danh sách phòng theo loại phòng hiện tại
+            $rt = $this->r->getRoomRT($item); 
             if (!$rt->isEmpty()) {
                 if(!$ngayNhan -> isEmpty() || !$ngayTra -> isEmpty()){
                    
@@ -135,6 +146,41 @@ class HomeController extends Controller
         }
        
         
-       return view("admin.booking_management.bm_index", compact('unapproved', 'approved', 'countUn', 'count','all'));
+       return view("admin.booking_management.bm_index", compact('unapproved', 'approved', 'countUn', 'count','all','ngay_nhan_phong','ngay_tra_phong'));
+    }
+
+    // public function spo_index(){
+    //     $getUD = $this -> spo -> getUD();
+    //     $getUdDv = $this -> svi -> getUdDv();
+   
+    //     return view('admin.Update _offers.update_offers_index', compact('getUD','getUdDv'));
+    // }
+    public function spo_index(){
+        $getUD = $this -> spo -> getUD();
+        $getUdDv = $this -> svi -> getUdDv();
+   
+        return view('admin.Update _offers.update_offers_index', compact('getUD','getUdDv'));
+    }
+
+    public function bill_index(Request $rq) {
+            $count = 0;
+            $countAcp = 0;
+           
+            $ngay_thanh_toan = $rq->ngay_thanh_toan;
+            $ngay_thanh_toan1 = $rq->ngay_thanh_toan1;
+            $keywords = $rq -> keywords;
+            $allBill = $this -> bill -> getAllBill($ngay_thanh_toan, $ngay_thanh_toan1,$keywords);
+  
+            if($allBill -> isNotEmpty()){
+                $count = $allBill -> total();
+            }
+
+            $allBill_acp = $this -> bill -> getAllBillAcp($ngay_thanh_toan, $ngay_thanh_toan1,$keywords);
+            // dd($allBill_acp);
+            if ($allBill_acp -> isNotEmpty()) {
+                $countAcp = $allBill_acp -> total();
+            }
+
+            return view('admin.bill_management.bill_index', compact('allBill', 'count', 'allBill_acp', 'countAcp','ngay_thanh_toan1','ngay_thanh_toan'));
     }
 }

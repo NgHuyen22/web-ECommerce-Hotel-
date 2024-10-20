@@ -7,8 +7,10 @@ use App\Http\Controllers\admin\LoginController;
 use App\Http\Controllers\admin\UpdatedRoomController;
 use App\Http\Controllers\admin\BookingFormController;
 use App\Http\Controllers\admin\ServiceMController;
-use App\Http\Controllers\customer\about\C_ServiceController;
+use App\Http\Controllers\admin\SpecialOffersController;
+use App\Http\Controllers\admin\BillController;
 
+use App\Http\Controllers\customer\about\C_ServiceController;
 use App\Http\Controllers\customer\C_HomeController;
 use App\Http\Controllers\customer\C_RoomController;
 /*
@@ -81,7 +83,7 @@ Route::group(['middleware' => 'auth'], function(){
 
         //QL DAT PHONG 
         Route::prefix('hazbinhotel/htqlks/admin/booking_management')->group(function(){
-            Route::get('/',[HomeController::class,'bm_index'])->name('admin.booking_management') ;
+            Route::match(['get','post'],'/',[HomeController::class,'bm_index'])->name('admin.booking_management') ;
 
             // XEM LICH TRONG
             // Route::get('/see_empty_calendar',[BookingFormController::class,'calender'])->name('admin.calender') ;
@@ -121,6 +123,34 @@ Route::group(['middleware' => 'auth'], function(){
             // XOA PHONG
             Route::get('/delete_room/id_rt={id_r}', [UpdatedRoomController::class, 'delete_room']) -> name('admin.delete_room');
         });
+
+        //CAP NHAT UU DAI
+        Route::prefix('/special_offers')->group(function(){
+            Route::get('/',[HomeController::class,'spo_index'])->name('admin.special_offers') ;
+            //DUNG AP DUNG UD VAO DV
+            Route::get('/stop_applying_dv/{id_uddv}',[SpecialOffersController::class,'stop'])->name('admin.stop_applying_dv') ;
+            //SUA UD
+            Route::post('/edit_special_offers/{id_ud}',[SpecialOffersController::class,'edit_spo'])->name('admin.edit_special_offers') ;
+            Route::post('/updated_special_offers',[SpecialOffersController::class,'updated']) -> name('admin.updated_special_offers');
+            //XOA UD
+            Route::get('/remove_special_offers/{id_ud}',[SpecialOffersController::class,'remove']) -> name('admin.remove_special_offers');
+            //THEM UD
+            Route::get('/add_incentives',[SpecialOffersController::class,'add_incentives']) -> name('admin.add_incentives');
+            Route::post('/insert_incentives',[SpecialOffersController::class,'insert_incentives']) -> name('admin.insert_incentives');
+
+        });
+
+        //QL HOA DON
+        Route::prefix('/bill_management') ->group(function() {
+            Route::match(['get','post'], '/',[HomeController::class,'bill_index'])->name('admin.bill_index') ;
+            //xac nhan thanh toan
+            Route::match(['get','post'],'accept_bill/{id_hd}',[BillController::class,'accept_bill'])->name('admin.accept_bill') ;
+            //cap nhat hd 
+            Route::post('updated_bill/{id_hd}',[BillController::class,'updated_bill'])->name('admin.updated_bill') ;
+            //xoa hd 
+            Route::get('deleteBill/{id_hd}',[BillController::class,'deleteBill'])->name('admin.deleteBill');
+        
+        });
     });
 
 
@@ -151,6 +181,7 @@ Route::group(['middleware' => 'auth'], function(){
             // Route::prefix('/htqlks/customer')->group(function(){
         
                 Route::get('/',[C_HomeController::class,'index']) ->name('customer.index');
+                Route::get('about/',[C_HomeController::class,'about']) ->name('customer.about');
                 Route::get('/profile',[C_HomeController::class,'profile']) ->name('customer.view_profile');
         //PHONG
                 //XEM PHONG
@@ -164,7 +195,8 @@ Route::group(['middleware' => 'auth'], function(){
                 Route::post('/booking_room/insert_profile',[C_RoomController::class,'save_profile']) -> name('customer.save_profile');
         
                     // XEM LICH SU DAT PHONG
-                    Route::get('/profile/see_form',[C_RoomController::class,'see_form']) -> name('customer.see_form');
+                    // Route::get('/profile/see_form',[C_RoomController::class,'see_form']) -> name('customer.see_form');
+                    Route::get('/profile/see_form',[C_RoomController::class,'see_history']) -> name('customer.see_form');
                     Route::get('/cancle_form/{id_don}',[C_RoomController::class,'cancle']) -> name('customer.cancle_form');
                     Route::get('/cancle_service_form/{id_ct}',[C_ServiceController::class,'cancle_service']) -> name('customer.cancle_service');
                     
@@ -177,6 +209,8 @@ Route::group(['middleware' => 'auth'], function(){
                     Route::get('/{id_ldv}/service',[C_ServiceController::class,'service']) ->name('customer.service');
                     Route::post('/service/service_booking',[C_ServiceController::class,'service_booking']) ->name('customer.service_booking');
                    });
+
+                
 });
 
 

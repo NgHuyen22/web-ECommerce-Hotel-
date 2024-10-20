@@ -28,6 +28,7 @@ class RoomType extends Model
                                 // ->get();
                                 // ->paginate(3);
                                 if (!empty($keywords)) {
+                                    $keywords = preg_replace('/[^0-9]/', '', $keywords);
                                     $result->where(function ($query) use ($keywords) {
                                         $query->orWhere('ten_lp', 'like', '%' . $keywords . '%')
                                                     ->orWhere('gia_lp', '=', $keywords)

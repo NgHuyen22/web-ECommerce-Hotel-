@@ -148,6 +148,7 @@ class C_RoomController extends Controller
             $id_rt = $rq -> id_loai_phong;
             $id_kh = $rq-> id_kh;
             $getUser = $this -> us -> getUser($id_kh);
+
             $getNameRT = $this -> rt -> getRoomTypeID($id_rt);
                    for ($i = 0; $i < $sl; $i++) {
                         $data =[
@@ -170,6 +171,7 @@ class C_RoomController extends Controller
                     }
                     if($insertForm == true){
                         $getForm = $this->bf->getFormFirst($id_kh);
+                
                         // $gia_lp = $this -> rt -> giaLP($id_rt);
                         // $gia_lp = (int) $gia_lp;
                         // $tong_tien = $soNgay * $gia_lp;
@@ -245,6 +247,7 @@ class C_RoomController extends Controller
                   
                 }
                 $getBillLogin = $this->bill->getBill(session('id_ctm'));
+      
                 if(!$getBillLogin -> isEmpty()){
                     $countBillLg = $getBillLogin->total();
                 }
@@ -325,7 +328,7 @@ class C_RoomController extends Controller
                         // }
                     
                     }
-                    // dd($allgia);
+                    // dd($allServicesLg);
 
                     if(!$allServicesLg -> isEmpty()){
                         $countServiceLg = $allServicesLg ->count();
@@ -380,8 +383,98 @@ class C_RoomController extends Controller
     }
     
         return view('customer.booking_history.see_form', compact('getUserLogin', 'getFormLogin', 'countLogin', 'count', 'getUser', 'getForm', 'getBillLogin', 'countBillLg', 'getBill', 'countBill','allServicesLg','countServiceLg','countService','allServicesLgperPage','allgia'));
+
     }
+
+    public function see_history() {
+        $sl = session('so_luong');
+        $getUserLogin = $this -> us -> getUser(session('id_ctm'));
+        $getUser = $this -> us -> getUser(session('idkh_notRegister'));
+
+        $getFormLogin = null;
+        $getForm = null;
+        $countLogin = 0;
+        $count = 0;
+
+        $getIdDonLg= null;
+        $getIdDon = null;
+        $countServiceLg = 0;
+        $countService = 0;
+
+        $getBillLogin = null;
+        $getBill = null;
+        $countBillLg = 0;
+        $countBill = 0;
     
+        // Nếu người dùng đăng nhập tồn tại
+            if ($getUserLogin != null) {
+                $getFormLogin = $this->bf->getForm_history($getUserLogin->id);
+                
+                if(!$getFormLogin -> isEmpty()){
+                    $countLogin = $getFormLogin ->total();
+                  
+                }
+                $getBillLogin = $this->bill->getBill_history(session('id_ctm'));
+      
+                if(!$getBillLogin -> isEmpty()){
+                    $countBillLg = $getBillLogin->count();
+                }
+                $getIdDonLg = $this->bf->getIdDon(session('id_ctm'));
+                $uuDai = collect();
+                if ($getIdDonLg != null) {
+                    $allServicesLg = collect();
+                    $allgia = collect();
+                //    $allGiaSl = collect();
+                //    $allServicesLg = collect();
+
+                    foreach ($getIdDonLg as $id_don) {
+
+                        // $getServiceLg = $this->fsd->getServiceUD($id_don);
+                        $getServiceLg = $this->fsd->getService_history($id_don);
+                        $gia_sl = $this -> fsd ->  multiplication($id_don);
+                        if(!$gia_sl -> isEmpty()){
+                            $allgia = $allgia-> merge($gia_sl);
+                        }
+                        if (!$getServiceLg->isEmpty()) {
+                            $allServicesLg = $allServicesLg->merge($getServiceLg);
+                        }
+                    }
+                    if(!$allServicesLg -> isEmpty()){
+                        $countServiceLg = $allServicesLg ->count();
+                    }
+                
+             
+                    $currentPage = LengthAwarePaginator::resolveCurrentPage(); // Trang hiện tại
+                    $perPage = 3; // Số lượng bản ghi trên mỗi trang
+                    $currentItems = $allServicesLg->slice(($currentPage - 1) * $perPage, $perPage)->all(); // Lấy bản ghi cho trang hiện tại
+                
+                    // Tạo LengthAwarePaginator
+                    $paginator = new LengthAwarePaginator($currentItems, $allServicesLg->count(), $perPage, $currentPage, [
+                        'path' => LengthAwarePaginator::resolveCurrentPath(), // Đường dẫn hiện tại
+                        'query' => request()->query(), // Tham số truy vấn
+                    ]);
+                
+                  
+                    $allServicesLgperPage = $paginator; 
+                }
+
+            }
+      
+        
+
+        // Nếu người dùng chưa đăng nhập tồn tại
+        if ($getUser != null) {
+            $getForm = $this->bf->getForm($getUser->id);
+            if($getForm != null){
+                $count = $getForm->total();
+            }
+            $getBill = $this->bill->getBill(session('idkh_notRegister'));
+            if($getBill != null){
+                $countBill = $getBill->total();
+            }
+        }
+        return view("customer.booking_history.see_history", compact('getUserLogin', 'getFormLogin', 'countLogin', 'count', 'getUser', 'getForm', 'getBillLogin', 'countBillLg', 'getBill', 'countBill','allServicesLg','countServiceLg','countService','allServicesLgperPage','allgia'));
+    }
 
     public function cancle($id_don){
         // $deleteBill = $this -> bill -> cancleBill($id_don);
