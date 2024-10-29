@@ -4,6 +4,8 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 use App\Http\Services\admin\ChatService;
 use App\Models\Users;
 use App\Models\RoomType;
@@ -11,6 +13,7 @@ use App\Models\Room;
 use App\Models\BookingForm;
 use App\Models\SpecialOffers;
 use App\Models\ServiceIncentives;
+use App\Models\Service;
 use App\Models\Bill;
 
 class HomeController extends Controller
@@ -24,6 +27,7 @@ class HomeController extends Controller
     protected $spo;
     protected $svi;
     protected $bill;
+    protected $sv;
     public function __construct()
     {
         // $this -> hsv = new ChatService();
@@ -34,6 +38,7 @@ class HomeController extends Controller
         $this -> spo = new SpecialOffers();
         $this -> svi = new ServiceIncentives();
         $this -> bill = new Bill();
+        $this -> sv = new Service();
     }
     public function index(){
         // $user =  $this -> us ->getUser(session('id_ad'));
@@ -183,5 +188,50 @@ class HomeController extends Controller
             }
 
             return view('admin.bill_management.bill_index', compact('allBill', 'count', 'allBill_acp', 'countAcp','ngay_thanh_toan1','ngay_thanh_toan'));
+    }
+
+    public function statistical_management() {
+        $tongDT =  $this -> bill -> totalRevenue() -> toArray();
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+       
+        $booking_month = $this -> bf -> getBFMonth($currentMonth);
+        $service_month = $this -> bill -> getSVMonth($currentMonth);
+        $ctm_month = $this -> bf -> getUSMonth($currentMonth);
+   
+        $totalRevenue = 0;
+        $totalSV = 0;
+        $total = 0;
+        $totalCTM = 0;
+
+        if($ctm_month -> isNotEmpty()) {
+            $totalCTM = $ctm_month -> count();
+        }else {
+            $totalCTM = 0;
+        }
+
+        if ($booking_month->isNotEmpty()) {
+            $totalRevenue = $booking_month->sum(function ($item) {
+                return $item->gia_lp * $item->so_ngay_o;
+            });
+
+        }else {
+            $totalRevenue = 0 ; 
+        }
+
+        if ($service_month->isNotEmpty()) {
+            $totalSV = $service_month->sum(function ($item) {
+                return $item -> phi_dv;
+            });
+
+            $total = $service_month->sum(function ($item) {
+                return $item -> tong_tien;
+            });
+            
+        }else {
+            $totalSV = 0 ; 
+            $total = 0;
+        }
+        return view('admin.tk_data.index_ statistical', compact('totalRevenue','totalSV','total','totalCTM', 'ctm_month','currentMonth', 'currentYear','tongDT'));
     }
 }

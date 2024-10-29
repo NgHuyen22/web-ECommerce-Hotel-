@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\RoomType;
+use App\Models\BookingForm;
+
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +17,13 @@ class UpdatedRoomController extends Controller
 {
     protected $rt;
     protected $r;
+    protected $bf;
 
     public function __construct()
     {
         $this -> rt = new RoomType();
         $this -> r = new Room();
+        $this -> bf = new BookingForm();
     }
 
     
@@ -37,6 +41,9 @@ class UpdatedRoomController extends Controller
             'gia_lp' => intval($gia_lp_cleaned), //ep thành chuỗi số ngueyen
             'suc_chua' => $rq -> suc_chua,
             'dien_tich' => $rq -> dien_tich,
+            'phan_hang' => $rq -> phan_hang,
+            'search_count' =>0,
+            'search_booking' =>0,
             'status' => 1,
             'created_at' => now(),
             'updated_at' => now(),
@@ -122,6 +129,7 @@ class UpdatedRoomController extends Controller
         $room_type = $this -> rt -> getRoomTypeID($id_rt);
         // $countRoom = $this -> r -> countRoomTypeID($id_rt);
         $countRoom = $room -> total();
+    
         return view('admin.update_room.room_detail', compact('room', 'room_type', 'countRoom') );
     }
 

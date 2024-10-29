@@ -37,7 +37,6 @@
 
                     <form action="" method="get" class="form_search mb-3">
                         @csrf
-
                         <div class="input_search_icon container d-flex">
                             <div class="update_room--search">
                                 <input type="search" class="form-control" name="keywords" placeholder="Từ khóa tìm kiếm..."
@@ -48,9 +47,7 @@
                                     <button type ="submit" class=" btn btn-primary btn-block btn-css search_button" style="background: #4398d1;"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </div>
                             </div>
-
                         </div>
-
                     </form>
 
                     <form action="{{ route('admin.bill_index')}}" class="bill_index" id="" method="POST">

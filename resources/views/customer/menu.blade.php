@@ -52,12 +52,27 @@
                                             <li><a href="#">FAQ</a></li> 
                                         </ul>
                                     </li>
-                                    <li><a href="./contact.html">Liên Hệ</a></li>
+                                    <li><a href="{{ route('customer.contact_index')}}">Liên Hệ</a></li>
                                 </ul>
                             </nav>
-                            <div class="nav-right search-switch">
-                                <i class="fa-solid fa-magnifying-glass "></i>
-                            </div>
+                            {{-- <div class="nav-right search-switch"> --}}
+                                {{-- <form action="{{ route('customer.search')}}" method="POST">
+                                    @csrf
+                                    <input type="search" id="search-input" name="query" placeholder="Tìm kiếm loại phòng..." value="{{ request('query', old('query')) }}">
+                                    <button type="submit">
+                                        <i class="fa-solid fa-magnifying-glass "></i>
+                                    </button>
+                                </form> --}}
+                                {{-- <form action="{{ route('customer.search') }}" method="POST">
+                                    @csrf
+                                    <input type="search" id="search-input" name="query" placeholder="Tìm kiếm loại phòng..." value="{{ request('query', old('query')) }}">
+                                    <div id="suggestions" style="border: 1px solid #ddd; background-color: white; position: absolute; z-index: 1000;"></div>
+                                    <button type="submit">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </form> --}}
+                                
+                            {{-- </div> --}}
                         </div>
                     </div>
                 </div>

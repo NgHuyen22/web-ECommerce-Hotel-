@@ -62,7 +62,13 @@
 					@yield('add_incentives')
 					@yield('bill_index')
 					@yield('accept_bill')
-
+					@yield('index_statistical')
+					@yield('room_booking_details')
+					@yield('calendar_room_booking')
+					@yield('service_booking_details')
+					@yield('service_booking_schedule')
+					@yield('slkh_index')
+					@yield('slkh_details')
 					{{-- @include('admin.footer') --}}
          </div>
     </div>

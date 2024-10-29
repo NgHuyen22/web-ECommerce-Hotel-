@@ -8,7 +8,10 @@ use App\Models\Users;
 use App\Models\BookingForm;
 use App\Models\FormServiceDetail;
 use Illuminate\Http\Request;
-use PDF;
+// use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\Snappy\Facades\SnappyPdf;
+// use PDF;
 class BillController extends Controller
 {
     protected $bill;
@@ -104,11 +107,18 @@ class BillController extends Controller
     }
 
     public function print_bill(Request $rq, $id_hd) {
-        $bill = Bill::find($id_hd);
+        $bill = $this -> bill -> getTTBill2($id_hd);
+        $sv = $this -> fsv -> getService_history($bill -> don_dat_phong);
+        $gia_sl = $this -> fsv ->  getMultiplication($bill -> don_dat_phong);
+       
         if (!$bill) {
             abort(404, 'Không tìm thấy hóa đơn');
         }
+        //  $pdf = SnappyPdf::loadView('customer.booking_history.invoices.invoice_pdf',  ['bill' => $bill]);
+        //  return $pdf->inline('filename.pdf');
+     
 
-        $pdf = PDF::loadView('invoices.invoice_pdf', ['bill' => $bill]);
+         $pdf = Pdf::loadView('customer.booking_history.invoices.invoice_pdf',  ['bill' => $bill, 'services' => $sv,'gia_sl' => $gia_sl]);
+         return $pdf->stream('HazBin_Hotel_Bill.pdf');
     }
 }

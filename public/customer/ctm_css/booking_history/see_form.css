@@ -51,24 +51,24 @@
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    justify-content: center;  /* Căn giữa theo chiều ngang */
-    list-style: none;         /* Xóa bỏ dấu đầu dòng của danh sách */
+    justify-content: center;  
+    list-style: none;      
     padding: 0;             
-    margin-top: 20px;         /* Thêm khoảng cách phía trên */
-    margin-bottom: 30px;         /* Thêm khoảng cách phía trên */
+    margin-top: 20px;
+    margin-bottom: 30px;  
     /* width: 30%; */
 }
 
 .room_pagination .page-item {
-    margin: 0 5px;            /* Khoảng cách giữa các item */
+    margin: 0 5px;    
 }
 
 .room_pagination .page-link {
-    color: #2375c7;           /* Màu cho liên kết trang */
-    text-decoration: none;    /* Xóa gạch chân */
-    padding: 0.5rem 0.75rem;  /* Điều chỉnh padding */
-    border-radius: 5px;       /* Bo góc các nút */
-    border: 1px solid #dee2e6;/* Đường viền xung quanh các nút */
+    color: #2375c7;      
+    text-decoration: none;  
+    padding: 0.5rem 0.75rem; 
+    border-radius: 5px;   
+    border: 1px solid #dee2e6;
 }
 
 .room_pagination .page-item.active .page-link {

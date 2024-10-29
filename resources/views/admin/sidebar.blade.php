@@ -88,7 +88,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="charts-chartjs.html">
+                <a class="sidebar-link" href="{{ route('admin.statistical_management')}}">
                     <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Thống kê</span>
                 </a>
             </li>
@@ -100,7 +100,7 @@
             </li>
         </ul>
 
-        <div class="sidebar-cta">
+        {{-- <div class="sidebar-cta">
             <div class="sidebar-cta-content">
                 <strong class="d-inline-block mb-2">Upgrade to Pro</strong>
                 <div class="mb-3 text-sm">
@@ -110,6 +110,6 @@
                     <a href="" class="btn btn-primary">Upgrade to Pro</a>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </nav>

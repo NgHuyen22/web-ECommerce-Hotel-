@@ -48,3 +48,35 @@
 /* .room-item img:hover{
     transform: scale(1.05);
 } */
+
+.wrapper_search{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 3rem;
+    margin-left: 1rem;
+}
+
+.select_price{
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item_price{
+    width: 86% !important;
+}
+
+.submit_price{
+    width: 10% !important;
+}
+
+.search_room{
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}

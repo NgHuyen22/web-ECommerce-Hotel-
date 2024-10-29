@@ -55,6 +55,8 @@
             @yield('room_detail')
             @yield('see_form')
             @yield('see_history')
+            @yield('search')
+            @yield('contact')
             @include('customer.footer')
 
 

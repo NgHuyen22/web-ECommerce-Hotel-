@@ -220,7 +220,8 @@
                                                                 </div>
                                                                 <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{($bill -> trang_thai_hd !=null) ? $bill-> trang_thai_hd :''}}</span></p>
                                                             @if($bill -> trang_thai_hd == 'Đã thanh toán')
-                                                                <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="printBill('{{ route('admin.print_bill',[$bill -> id_hd])}}')">In</button>
+                                                                {{-- <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="printBill('{{ route('admin.print_bill',[$bill -> id_hd])}}')">In</button> --}}
+                                                                <a href="{{ route('admin.print_bill',[$bill -> id_hd])}}"class="btn btn-danger cancle-form"  target="black" style="margin-bottom: 1rem;margin-left: 1rem;" >In</a>
                                                             @endif
                                                   </div>
                                              @endif

@@ -180,4 +180,29 @@ class Bill extends Model
                                 ->first();
     }
 
+    public function getTTBill2($id_hd){
+        return $result = DB :: table("bill")
+                                ->join('booking_form as bf','bf.id_don','=','don_dat_phong')
+                                ->join('room_type as rt','rt.id_lp', 'bf.id_loai_phong')
+                                ->join('room as r','r.loai_phong','=','rt.id_lp')
+                                ->join('users as us','us.id' ,'=', 'bill.khach_hang')
+                                ->select('bill.*','us.ho_ten','rt.id_lp','rt.gia_lp','rt.mo_ta','rt.tien_nghi','rt.suc_chua','r.so_phong','bf.ngay_nhan_phong','bf.ngay_tra_phong',
+                                'bf.so_ngay_o')
+                                ->where('id_hd', $id_hd)
+                                ->first();
+    }
+
+    public function getSVMonth($bien) {
+        return $result = DB :: table("bill")
+                         ->whereMonth('created_at',$bien)
+                         ->get();
+    }
+
+    public function totalRevenue() {
+        return $result = DB :: table("bill")
+        ->select(DB::raw('MONTH(updated_at) as month'), DB::raw('SUM(tong_tien) as tong_tien'))
+                            ->groupBy(DB::raw('MONTH(updated_at)'))
+                            ->get();
+    }
+
 }

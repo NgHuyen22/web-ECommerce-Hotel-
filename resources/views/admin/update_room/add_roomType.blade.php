@@ -91,6 +91,12 @@
                             <input type="text" class="form-control input_form" id="dien_tich" name="dien_tich" value="{{old('dien_tich')}}" >
                         </div>
                 </div>
+                <div class="form-row d-flex list1" >
+                        <div class="form-group col-md-2 item1">
+                            <label for="phan_hang" class="label_form">Hạng mục</label>
+                            <input type="text" class="form-control input_form" id="phan_hang" name="phan_hang" value="{{old('phan_hang')}}" >
+                        </div>
+                </div>
     
                 <div class="room--tools d-flex">
                     <button  button type="submit" class="btn btn-primary save_room--button" name="register">
@@ -122,8 +128,9 @@
                     var tien_nghi = document.getElementById('tien_nghi').value;
                     var suc_chua = document.getElementById('suc_chua').value;
                     var dien_tich = document.getElementById('dien_tich').value;
+                    var phan_hang = document.getElementById('phan_hang').value;
     
-                    if (ten_lp === "" || gia_lp === "" || mo_ta === "" || tien_nghi === "" || suc_chua === "" || dien_tich === "") {
+                    if (ten_lp === "" || gia_lp === "" || mo_ta === "" || tien_nghi === "" || suc_chua === "" || dien_tich === "" || phan_hang ==="") {
                         event.preventDefault(); 
                         Swal.fire({
                             icon: 'error',

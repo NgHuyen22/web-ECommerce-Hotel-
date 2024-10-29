@@ -5,14 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Laravel\Scout\Searchable;
+
 
 class BookingForm extends Model
 {
-    use HasFactory;
+    // use HasFactory;
+    use Searchable;
     
-    protected $bf = "booking_form";
+    protected $table = "booking_form";
+    protected $primaryKey = 'id_don';
+
+    public function toSearchableArray()
+       {
+            return [
+                'id_don' => $this->id_don,
+                'id_kh' => $this->id_kh,
+                'id_loai_phong' => $this->id_loai_phong,
+            ];
+       }
+       
     public function insertForm($data){
-        return $result = DB::table($this -> bf) -> insert($data);
+        return $result = DB::table($this -> table) -> insert($data);
     }
 
     public function checkBF($id_rt,$ngayNhan, $ngayTra){
@@ -119,7 +133,7 @@ class BookingForm extends Model
     }
 
     public function getIDForm($id_kh, $id_rt,$ngayNhan, $ngayTra){
-        return $result = DB::table($this->bf)
+        return $result = DB::table($this->table)
                             ->where('status',1)
                             ->where('tinh_trang','Đã xác nhận')
                             ->where('id_kh',$id_kh)
@@ -139,14 +153,14 @@ class BookingForm extends Model
                             ->get();
     }
     public function cancleForm($id_don){
-            return $result = DB::table($this->bf)
+            return $result = DB::table($this->table)
                                 ->where('id_don', $id_don)
                                 ->delete();
                                 // ->update(['status' => 0]);
     }
 
     public function getIdDon($id_kh){
-        return $result = DB::table($this->bf)
+        return $result = DB::table($this->table)
                             ->where('id_kh', $id_kh)
                             ->where('tinh_trang','Đã xác nhận')
                             // ->where('gn', 1)
@@ -243,15 +257,159 @@ class BookingForm extends Model
     }
 
     public function approved($id_don, $data){
-        return $result = DB::table($this->bf)
+        return $result = DB::table($this->table)
                             ->where('id_don', $id_don)
                             ->update($data);
     }
     
     public function deleteForm($id_don){
-        return $result = DB::table($this->bf)
+        return $result = DB::table($this->table)
                             ->where('id_don', $id_don)
                             ->update(['status' => 0]);
+    }
+
+    public function getBFMonth($bien) {
+        return $result = DB::table('booking_form as bf')
+                            ->join('room_type as rt', 'rt.id_lp' ,'=' , 'bf.id_loai_phong')
+                            ->join('bill as b', 'b.don_dat_phong','=','bf.id_don')
+                            ->where('bf.tinh_trang','Đã xác nhận')
+                            ->where('b.trang_thai_hd', 'Đã thanh toán')
+                            // ->whereMonth('bf.created_at',$bien)
+                            ->whereMonth('b.updated_at',$bien)
+                            ->select('bf.id_don','bf.created_at','bf.updated_at','bf.id_loai_phong','bf.so_ngay_o','rt.gia_lp')
+                            ->get();
+    }
+
+    public function getBFAllMonth() {
+        return $result = DB::table('booking_form as bf')
+                            ->join('room_type as rt', 'rt.id_lp' ,'=' , 'bf.id_loai_phong')
+                            ->join('bill as b', 'b.don_dat_phong','=','bf.id_don')
+                            ->where('bf.tinh_trang','Đã xác nhận')
+                            ->where('b.trang_thai_hd', 'Đã thanh toán')
+                            // ->whereMonth('b.updated_at', $month) 
+                            ->select (
+                                DB::raw('MONTH(b.updated_at) as month'),
+                                'rt.id_lp',
+                                'rt.ten_lp',                         
+                                DB::raw('SUM(rt.gia_lp * bf.so_ngay_o) as tong_dt'),
+                                DB::raw('COUNT(bf.id_don) as tong_don'),
+                            )
+                            ->groupBy(DB::raw('MONTH(b.updated_at)'), 'rt.id_lp','rt.ten_lp')
+                            ->get();
+                         
+    }
+
+    // public function getDT($month,$id_lp) {
+    //  return $result = DB::table('booking_form as bf')
+    //                         ->join('room_type as rt', 'rt.id_lp' ,'=' , 'bf.id_loai_phong')
+    //                         ->join('bill as b', 'b.don_dat_phong','=','bf.id_don')
+    //                         ->where('bf.tinh_trang','Đã xác nhận')
+    //                         ->where('b.trang_thai_hd', 'Đã thanh toán')
+    //                         ->whereMonth('b.updated_at', $month) 
+    //                         ->where('bf.id_loai_phong',$id_lp)
+    //                         ->select('rt.ten_lp','rt.gia_lp','bf.so_ngay_o','b.updated_at')
+    //                         ->get();
+            
+    // }
+    public function getDT($month, $id_lp) {
+        return DB::table('booking_form as bf')
+            ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
+            ->join('bill as b', 'b.don_dat_phong', '=', 'bf.id_don')
+            ->where('bf.tinh_trang', 'Đã xác nhận')
+            ->where('b.trang_thai_hd', 'Đã thanh toán')
+            ->whereMonth('b.updated_at', $month)
+            ->where('bf.id_loai_phong', $id_lp)
+            ->select(
+                'rt.ten_lp',
+                DB::raw('DATE(b.updated_at) as ngay_thanh_toan'),
+                DB::raw('SUM(rt.gia_lp * bf.so_ngay_o) as tong_dt')
+            )
+            ->groupBy('ngay_thanh_toan','rt.ten_lp')
+            ->get();
+    }
+    
+
+    public function getAllMonth() {
+        return $result = DB::table('booking_form as bf')
+                            ->join('bill as b', 'b.don_dat_phong','=','bf.id_don')
+                            ->where('bf.tinh_trang','Đã xác nhận')
+                            ->where('b.trang_thai_hd', 'Đã thanh toán')
+                            ->select (
+                                DB::raw('MONTH(b.updated_at) as month'),
+                             
+                            )
+                            ->groupBy(DB::raw('MONTH(b.updated_at)'))
+                            ->paginate(1);
+    }
+   
+
+    public function getUSMonth($bien) {
+        // return $result = DB::table('booking_form as bf')
+        //                     // ->join('users as us', 'us.id', '=', 'bf.id_kh')
+        //                     ->where('bf.tinh_trang','Đã xác nhận')
+        //                     // ->select('us.*', 'bf.id_don','bf.id_kh','bf.id_loai_phong', 'bf.id_phong', 'bf.ngay_nhan_phong',
+        //                     // 'bf.ngay_tra_phong','bf.so_ngay_o', 'bf.tinh_trang')
+        //                   ->groupBy('bf.id_kh')
+        //                     ->get();
+    return $result = DB::table('booking_form as bf')
+                ->join('users as us', 'us.id', '=', 'bf.id_kh')
+                ->where('bf.tinh_trang', 'Đã xác nhận')
+                ->whereMonth('bf.updated_at',$bien)
+                ->select('us.*', 
+                         'bf.id_kh', 
+                         DB::raw('MIN(bf.id_don) as id_don'), 
+                         DB::raw('MIN(bf.id_loai_phong) as id_loai_phong'), 
+                         DB::raw('MIN(bf.id_phong) as id_phong'), 
+                         DB::raw('MIN(bf.ngay_nhan_phong) as ngay_nhan_phong'), 
+                         DB::raw('MIN(bf.ngay_tra_phong) as ngay_tra_phong'), 
+                         DB::raw('MIN(bf.so_ngay_o) as so_ngay_o'), 
+                         'bf.tinh_trang')
+                         ->groupBy('bf.id_kh', 'us.id', 'us.ho_ten', 'us.gioi_tinh', 'us.sdt', 'us.email', 'us.dia_chi', 'us.DTL', 'us.password', 'us.role', 'us.token', 'us.created_at', 'us.updated_at', 'bf.tinh_trang')
+                ->get();
+    }
+
+    public function getUS() {
+        return $result = DB::table('booking_form as bf')
+                                    ->join('users as us', 'us.id', '=', 'bf.id_kh')
+                                    ->join('bill as b', 'b.don_dat_phong', '=', 'bf.id_don')
+                                    ->where('bf.tinh_trang', 'Đã xác nhận')  
+                                    ->select(
+                                        'us.id',
+                                        'us.ho_ten',
+                                        DB::raw('MONTH(b.updated_at) as month'),
+                                        DB::raw('COUNT(bf.id_don) as total_bookings')
+                                    )
+                                ->groupBy(DB::raw('MONTH(b.updated_at)'),'us.id', 'us.ho_ten')
+                                ->get();
+    }
+
+    public function getBF($month,$id_kh){
+        return $result = DB::table('booking_form as bf')
+                            ->leftjoin('users as us', 'us.id', '=', 'bf.id_kh')
+                             ->join('bill as b', 'b.don_dat_phong', '=', 'bf.id_don')
+                             ->join('room_type as rt', 'rt.id_lp' ,'=' , 'bf.id_loai_phong')
+                            //  ->leftjoin('room as r', 'r.loai_phong' ,'=' , 'rt.id_lp')
+                             ->where('bf.tinh_trang', 'Đã xác nhận') 
+                             ->whereMonth('b.updated_at',$month) 
+                             ->select('us.ho_ten','bf.*','rt.ten_lp')
+                             ->get();
+    }
+
+    public function getCalendar($id_rt) {
+        return $result = DB::table($this->table)
+                            ->where('status',1)
+                            ->where('gn',1)
+                            ->where('id_loai_phong', $id_rt)
+                            ->select('ngay_nhan_phong','ngay_tra_phong','id_loai_phong')
+                            ->get();
+    }
+
+    public function getSearchRoom($id_kh){
+        return $result = DB::table($this->table)
+                            ->where('id_kh', $id_kh)
+                            ->select('id_loai_phong')
+                            ->distinct()
+                            ->get();
     }
 
 }

@@ -9,10 +9,13 @@ use App\Http\Controllers\admin\BookingFormController;
 use App\Http\Controllers\admin\ServiceMController;
 use App\Http\Controllers\admin\SpecialOffersController;
 use App\Http\Controllers\admin\BillController;
+use App\Http\Controllers\admin\Statistical;
 
 use App\Http\Controllers\customer\about\C_ServiceController;
 use App\Http\Controllers\customer\C_HomeController;
 use App\Http\Controllers\customer\C_RoomController;
+use App\Http\Controllers\customer\C_ContactController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,7 +81,6 @@ Route::group(['middleware' => 'auth'], function(){
                 
                 //XÓA DV
                 Route::get('/services/id_svt={id_ldv}/delete/id_sv={id_dv}', [ServiceMController::class, 'delete_sv']) -> name('admin.delete_sv');
-
             });
 
         //QL DAT PHONG 
@@ -98,6 +100,7 @@ Route::group(['middleware' => 'auth'], function(){
             Route::get('/booking_form_details/{id_don}',[BookingFormController::class,'bf_detail'])->name('admin.bf_detail') ;
 
         });
+
         // CAP NHAT PHONG
         Route::prefix('/updated_room')->group(function(){
             Route::get('/',[HomeController::class,'update_room'])->name('admin.update_room') ;
@@ -149,8 +152,25 @@ Route::group(['middleware' => 'auth'], function(){
             Route::post('updated_bill/{id_hd}',[BillController::class,'updated_bill'])->name('admin.updated_bill') ;
             //xoa hd 
             Route::get('deleteBill/{id_hd}',[BillController::class,'deleteBill'])->name('admin.deleteBill');
-        
-        
+
+        //THONG KE
+        Route::prefix('/statistical_management') ->group(function() {
+            Route::match(['get','post'], '/',[HomeController::class,'statistical_management'])->name('admin.statistical_management') ;
+            //TK DAT PHONG
+            Route::get('/room_booking_details', [Statistical::class,'room_booking_details']) -> name('admin.room_booking_details');
+            Route::get('/booking_schedule/{month}/{id_lp}', [Statistical::class,'calendar_room_booking']) -> name('admin.calendar_room_booking'); 
+
+            //TK DAT DV
+            Route::get('/service_booking_details', [Statistical::class,'service_booking_details']) -> name('admin.service_booking_details');
+            Route::get('/service_booking_schedule/{month}/{id_dv}', [Statistical::class,'service_booking_schedule']) -> name('admin.calendar_room_booking');
+
+            //TKE SL KHACH HANG
+            Route::get('/slkh_index', [Statistical::class,'slkh_index']) -> name('admin.slkh_index');
+            //TKE TONG DOANH THU
+            Route::get('/total_revenue', [Statistical::class,'total_revenue']) -> name('admin.total_revenue');
+            // Route::get('/slkh_details/{month}/{id_kh}', [Statistical::class,'slkh_details']) -> name('admin.slkh_details');
+          
+        });    
         });
     });
 
@@ -181,15 +201,20 @@ Route::group(['middleware' => 'auth'], function(){
         // Route::group(['middleware' => 'auth'], function(){
             // Route::prefix('/htqlks/customer')->group(function(){
         
-                Route::get('/',[C_HomeController::class,'index']) ->name('customer.index');
+                Route::match(['get', 'post'], '/',[C_HomeController::class,'index']) ->name('customer.index');
                 Route::get('about/',[C_HomeController::class,'about']) ->name('customer.about');
                 Route::get('/profile',[C_HomeController::class,'profile']) ->name('customer.view_profile');
 
                 //PHONG
                 //XEM PHONG
-                Route::get('/room',[C_HomeController::class,'room_index']) ->name('customer.room_index');
+                Route::match(['get','post'],'/room',[C_HomeController::class,'room_index']) ->name('customer.room_index');
                 Route::get('/room-detail/{id_rt}',[C_HomeController::class,'room_detail']) ->name('customer.room_detail');
-        
+                Route::match(['get','post'],'search',[C_HomeController::class,'search']) ->name('customer.search');
+                Route::post('/search_price',[C_HomeController::class,'search_price']) ->name('customer.search_price');
+                Route::match(['get','post'],'search_name',[C_HomeController::class,'search_name']) ->name('customer.search_name');
+                Route::get('/room/increment-search/{id_lp}', [C_HomeController::class, 'incrementSearchCount'])->name('room.increment_search');
+                
+
                 //DAT PHONG
                 Route::post('/booking_room',[C_RoomController::class,'booking_room']) ->name('customer.booking_room');
                 Route::post('/booking_room/insert_form',[C_RoomController::class,'insert_form']) ->name('customer.insert_form');
@@ -214,7 +239,10 @@ Route::group(['middleware' => 'auth'], function(){
                     Route::post('/service/service_booking',[C_ServiceController::class,'service_booking']) ->name('customer.service_booking');
                    });
 
-                
+                //Liên lạc
+                Route::prefix('/contact')->group(function(){
+                    Route::match(['get','post'], '/',[C_ContactController::class,'contact_index']) ->name('customer.contact_index');
+                });
 });
 
 

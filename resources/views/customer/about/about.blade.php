@@ -68,7 +68,7 @@
             <div class="address">
                 <div>
 
-                    <h4><a href=""><i class="fa-solid fa-location-dot location" style="color: rgb(255, 109, 109)"></i></a>Địa chỉ</h4>
+                    <h4 style="margin-left: 0.4rem;"><a href=""><i class="fa-solid fa-location-dot location" style="color: rgb(255, 109, 109)"></i></a><span style="margin-left: 0.4rem">Địa chỉ</span></h4>
                     <div class="info">
                         <p>HazBin Hotel</p>
                         <p>9C Tran Phu - P.Xuan Khanh - Q.Ninh Kieu - TP.Can Tho</p>

@@ -132,12 +132,16 @@
                     </nav>
                     
                 @else
+                    <a href="{{ route('admin.add_room2' , [$room_type -> id_lp])}}" class="add_room--wrapper" style="margin-left: 2rem; margin-top:2rem">
+                        <i class="fa-solid fa-plus add_room--icon" style="color: #ca1c50; cursor: pointer; font-size:1.2rem; margin-top : 0.5rem"></i>
+                    </a>
                      <p style="margin-left: 2rem; font-weight:bold; margin-top:10rem">Chưa có dữ liệu .</p>
                 @endif
 
                 <div class="back_room">
                     <a href="{{ route('admin.update_room')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
                  </div>
+                 
                 <script>
                     function confirmDelete(url) {
                     Swal.fire({

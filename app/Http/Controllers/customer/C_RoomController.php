@@ -58,7 +58,6 @@ class C_RoomController extends Controller
             // Kiểm tra xem số lượng đặt có vượt quá số lượng phòng có sẵn không
             if ($checkSl + $sl > $countIDRT) {
                 return redirect()->route('customer.room_detail', [$id_rt]) ->withInput() -> with('error', 'Không đủ phòng, vui lòng đặt sl ít hơn hoặc đặt vào thời gian khác!');
-
             }
            
         //    if($check){
@@ -81,6 +80,7 @@ class C_RoomController extends Controller
                         'so_luong' => $sl,
                         'so_phong_trong' => $spt
                     ]);
+
 
                 //phan insert bk form
                     // for ($i = 0; $i < $sl; $i++) {
@@ -164,10 +164,10 @@ class C_RoomController extends Controller
                             'status' => 1,
                             'gn' => 1,
 
-                        ];
-                    
+                        ];  
                         $insertForm = $this -> bf -> insertForm($data);
-                       
+                        $roomType = RoomType::findOrFail($id_rt);
+                        $roomType->increment('search_booking');
                     }
                     if($insertForm == true){
                         $getForm = $this->bf->getFormFirst($id_kh);

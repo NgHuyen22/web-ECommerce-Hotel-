@@ -79,6 +79,7 @@
     color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
     pointer-events: none;
 }
+
 .update_room--table {
   border-spacing: 0 15px; /* Tạo khoảng cách giữa các hàng */
   border-collapse: separate; 
@@ -135,9 +136,7 @@
 }
 
 .back_room{
-
   margin-left: 2rem !important;
-  /* color: rgb(221, 72, 72); */
   border: 2px solid rgb(221, 72, 72);
   transition: transform 0.3s ease; 
   width: 2.5rem;

@@ -15,7 +15,8 @@
                 <div class="col-xl-4 col-lg-5 offset-xl-2 offset-lg-1">
                     <div class="booking-form">
                         <h3 style="text-align: center">Đặt Phòng</h3>
-                        <form action="" class="" method="POST">
+                        <form action="{{ route('customer.index')}}" class="" method="POST">
+                            @csrf
                             <div class="check-date">
                                 <label for="date-in">Ngày nhận phòng :</label>
                                 <input type="text" class="date-input" id="date-in" name="ngay_nhan_phong">
@@ -26,19 +27,29 @@
                                 <input type="text" class="date-input" id="date-out" name="ngay_tra_phong">
                                 <i class="fa-solid fa-calendar-days" ></i>
                             </div>
-                            <div class="select-option">
+                            {{-- <div class="select-option">
                                 <label for="guest">Người lớn :</label>
                                 <select id="guest">
-                                    <option value="">2 Adults</option>
-                                    <option value="">3 Adults</option>
+                                    <option value="">1</option>
+                                    <option value="">2</option>
+                                    <option value="">3</option>
                                 </select>
+                            </div> --}}
+                            <div class="check-date">
+                                <label for="quantity">Người lớn:</label>
+                                <div class="quantity-control">
+                                    {{-- <button type="button" class="quantity-btn minus-btn">-</button> --}}
+                                    <input type="number" class="form-control quantity-input" id="quantity"  min="1" max = "10"  value="{{ old('adult') }}"  name="adult">
+                                    {{-- <button type="button" class="quantity-btn plus-btn">+</button> --}}
+                                </div>
                             </div>
-                            <div class="select-option">
-                                <label for="room">Trẻ em: </label>
-                                <select id="room">
-                                    <option value="">1 Room</option>
-                                    <option value="">2 Room</option>
-                                </select>
+                            <div class="check-date">
+                                <label for="quantity">Trẻ em:</label>
+                                <div class="quantity-control">
+                                    {{-- <button type="button" class="quantity-btn minus-btn">-</button> --}}
+                                    <input type="number" class="form-control quantity-input" id="quantity" min="0" max = "10"  value="{{ old('children') }}" name="children">
+                                    {{-- <button type="button" class="quantity-btn plus-btn">+</button> --}}
+                                </div>
                             </div>
                             <button type="submit">Tìm phòng trống</button>
                         </form>
@@ -154,131 +165,94 @@
     <!-- Services Section End -->
 
     <!-- Home Room Section Begin -->
-    <section class="hp-room-section">
-        <div class="container-fluid">
-            <div class="hp-room-items">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/room-b1.jpg') }}">
-                            <div class="hr-text">
-                                <h3>Double Room</h3>
-                                <h2>199$<span>/Pernight</span></h2>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td class="r-o">Size:</td>
-                                            <td>30 ft</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Capacity:</td>
-                                            <td>Max persion 5</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Bed:</td>
-                                            <td>King Beds</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Services:</td>
-                                            <td>Wifi, Television, Bathroom,...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <a href="#" class="primary-btn">More Details</a>
-                            </div>
+    
+    {{-- @if($mostSearch -> isEmpty())
+        <p></p>
+    @else
+        <h4 style="text-align:center; font-weight: bold;margin-bottom: 2rem">Top các phòng thịnh hành</h4>
+
+            <section class="hp-room-section">
+                    <div class="container-fluid">
+                        <div class="hp-room-items">
+                            <div class="row">
+                                @foreach ($mostSearch as $most)
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $most->ten_lp) . '.jpg') }}">
+                                            <div class="hr-text">
+                                                <h3>{{ $most -> ten_lp}}</h3>
+                                                <h2> {{ number_format($most->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="r-o">Diện tích :</td>
+                                                            <td>{{ $most -> dien_tich}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Sức chứa:</td>
+                                                            <td>{{ $most -> suc_chua }} người</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Mô tả:</td>
+                                                            <td> {{ \Illuminate\Support\Str::words($most->mo_ta, 15, '...') }}</td>
+                                                        </tr>
+                                                       
+                                                    </tbody>
+                                                </table>
+                                                <a href="{{ route('customer.room_detail', $most->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div> 
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/room-b2.jpg') }}">
-                            <div class="hr-text">
-                                <h3>Premium King Room</h3>
-                                <h2>159$<span>/Pernight</span></h2>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td class="r-o">Size:</td>
-                                            <td>30 ft</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Capacity:</td>
-                                            <td>Max persion 5</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Bed:</td>
-                                            <td>King Beds</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Services:</td>
-                                            <td>Wifi, Television, Bathroom,...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <a href="#" class="primary-btn">More Details</a>
-                            </div>
+            </section>
+    @endif --}}
+
+    @if($similarRoom -> isEmpty())
+        <p></p>
+    @else
+        <h4 style="text-align:center; font-weight: bold;margin-bottom: 2rem">Có thể bạn sẽ thích</h4>
+
+            <section class="hp-room-section">
+                    <div class="container-fluid">
+                        <div class="hp-room-items">
+                            <div class="row">
+                                @foreach ($similarRoom as $content)
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $content->ten_lp) . '.jpg') }}">
+                                            <div class="hr-text">
+                                                <h3>{{ $content -> ten_lp}}</h3>
+                                                <h2> {{ number_format($content->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="r-o">Diện tích :</td>
+                                                            <td>{{ $content -> dien_tich}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Sức chứa:</td>
+                                                            <td>{{ $content -> suc_chua }} người</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Mô tả:</td>
+                                                            <td> {{ \Illuminate\Support\Str::words($content->mo_ta, 15, '...') }}</td>
+                                                        </tr>
+                                                       
+                                                    </tbody>
+                                                </table>
+                                                <a href="{{ route('customer.room_detail', $content->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div> 
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/room-b3.jpg') }}">
-                            <div class="hr-text">
-                                <h3>Deluxe Room</h3>
-                                <h2>198$<span>/Pernight</span></h2>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td class="r-o">Size:</td>
-                                            <td>30 ft</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Capacity:</td>
-                                            <td>Max persion 5</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Bed:</td>
-                                            <td>King Beds</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Services:</td>
-                                            <td>Wifi, Television, Bathroom,...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <a href="#" class="primary-btn">More Details</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/room-b4.jpg') }}">
-                            <div class="hr-text">
-                                <h3>Family Room</h3>
-                                <h2>299$<span>/Pernight</span></h2>
-                                <table>
-                                    <tbody>
-                                        <tr>
-                                            <td class="r-o">Size:</td>
-                                            <td>30 ft</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Capacity:</td>
-                                            <td>Max persion 5</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Bed:</td>
-                                            <td>King Beds</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="r-o">Services:</td>
-                                            <td>Wifi, Television, Bathroom,...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <a href="#" class="primary-btn">More Details</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Home Room Section End -->
+            </section>
+    @endif
+
+        <!-- Home Room Section End -->
 
     <!-- Testimonial Section Begin -->
     <section class="testimonial-section spad">
@@ -395,5 +369,6 @@
             </div>
         </div>
     </section>
+    <script>{{ asset('customer/ctm_js/room/room_detail.js')}}</script>
     <!-- Blog Section End -->
 @endsection
