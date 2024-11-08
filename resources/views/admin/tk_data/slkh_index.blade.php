@@ -44,7 +44,7 @@
                     </ul>
                 </nav>
                 
-                <button type="button" class="btn btn-dark ctm_list">Danh sách khách hàng thân thuộc</button>
+                {{-- <button type="button" class="btn btn-dark ctm_list">Danh sách khách hàng thân thuộc</button> --}}
             </div>
             
             @foreach ($month as $monthData)
@@ -82,7 +82,7 @@
         @endif
 
         <div class="back_room">
-            <a href="{{ route('admin.statistical_management')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
+            <a href="{{ route('admin.index')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
         </div>
 
         </body>

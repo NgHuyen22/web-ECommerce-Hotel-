@@ -92,7 +92,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-group-divider update_room--tbody">
-                                            @if(!$approved -> isEmpty())
+                                            @if($approved ->count() > 0)
                                                 @php $count = 1; @endphp
                                                 @if(count($approved) > 0)
                                                         @foreach ( $approved as $row )
@@ -146,7 +146,7 @@
                                 </div>
                 
                             </div>
-                                @if(!$approved -> isEmpty())
+                                @if($approved ->count() > 0)
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination room_pagination">
                                             <!-- Previous Page Link -->

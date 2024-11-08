@@ -98,5 +98,15 @@ class Users extends Model
                             ->insert($data);
     }
 
+    public function deleteCTM($id_kh) {
+        return $result = DB::table($this->us)
+                            ->where('id', $id_kh)
+                            ->update(['status'=> 0]);
+    }
 
+    public function editProfile($id_kh,$data){
+        return $result = DB::table($this->us)
+                            ->where('id', $id_kh)
+                            ->update($data);
+    }
 }

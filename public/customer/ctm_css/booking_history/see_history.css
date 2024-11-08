@@ -117,3 +117,102 @@ h4{
     color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
     pointer-events: none;
 }
+
+.evaluate{
+    margin-left: 1rem;
+}
+
+.status-rating{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+#commentIs {
+    width: 100%;
+    height: 15vh;
+    margin-top: 2rem;
+    color: white
+}
+#comment {
+    width: 100%;
+    height: 15vh;
+    margin-top: 2rem;
+}
+
+#edit_content{
+    color:rgb(218, 218, 218);
+    font-style: italic;
+    font-size: 16px;
+    margin-left: 16rem;
+   
+}
+#created_at_ev{
+    color:rgb(218, 218, 218);
+    font-style: italic;
+    font-size: 15px;
+    margin-left: 19rem;
+   
+}
+#updated_at_ev{
+    color:rgb(218, 218, 218);
+    font-style: italic;
+    font-size: 15px;
+   
+}
+.star-ratingIs{
+    margin-right: 0.9rem;
+}
+.star-rating{
+    margin-right: 0.9rem;
+}
+
+.modal-title{
+    text-align: center;
+    color: white;
+}
+
+.modal-content{
+    height: 62vh;
+    background-color: rgb(48, 84, 126);
+    border: 2px solid black;
+}
+
+.close{
+    color: white
+}
+
+.tool{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tool_button{
+    width: 4rem;
+    border-radius: 8px;
+    background-color: rgb(53, 189, 116);
+    color: white;
+}
+
+.tool_button:hover{
+    
+    background-color: rgb(38, 153, 92);
+    color: white;
+}
+.tool_button2{
+    width: 6rem;
+    border-radius: 8px;
+    background-color: rgb(53, 189, 116);
+    color: white;
+}
+.tool_button2:hover{
+    
+    background-color: rgb(38, 153, 92);
+    color: white;
+}
+
+.breadcrumb-section{
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}

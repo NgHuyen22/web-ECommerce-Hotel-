@@ -10,6 +10,8 @@ use App\Http\Controllers\admin\ServiceMController;
 use App\Http\Controllers\admin\SpecialOffersController;
 use App\Http\Controllers\admin\BillController;
 use App\Http\Controllers\admin\Statistical;
+use App\Http\Controllers\admin\ManageCotactInfo;
+use App\Http\Controllers\admin\CTMInfoManagement;
 
 use App\Http\Controllers\customer\about\C_ServiceController;
 use App\Http\Controllers\customer\C_HomeController;
@@ -40,7 +42,8 @@ Route::post('/htqlks/admin/login',[LoginController::class,'check_login']);
 Route::group(['middleware' => 'auth'], function(){
     Route::prefix('hazbinhotel/htqlks/admin')->group(function(){
 
-        Route::get('/',[HomeController::class,'index'])->name('admin.index') ;
+        // Route::get('/',[HomeController::class,'index'])->name('admin.index') ;
+        Route::match(['get','post'], '/',[HomeController::class,'statistical_management'])->name('admin.index') ;
         // Route::get('/chatbox',[HomeController::class,'chatbox']) ->name('chatbox');
         Route::get('/logout',[HomeController::class,'logout']) ->name('admin.logout');
  
@@ -84,7 +87,7 @@ Route::group(['middleware' => 'auth'], function(){
             });
 
         //QL DAT PHONG 
-        Route::prefix('hazbinhotel/htqlks/admin/booking_management')->group(function(){
+        Route::prefix('/booking_management')->group(function(){
             Route::match(['get','post'],'/',[HomeController::class,'bm_index'])->name('admin.booking_management') ;
 
             // XEM LICH TRONG
@@ -98,6 +101,11 @@ Route::group(['middleware' => 'auth'], function(){
             
             //CHI TIET DON DP
             Route::get('/booking_form_details/{id_don}',[BookingFormController::class,'bf_detail'])->name('admin.bf_detail') ;
+            
+            //XEM LICH DAT PHONG
+            Route::match(['get', 'post'],'/view_booking_schedule',[BookingFormController::class,'view_booking_schedule'])->name('admin.view_booking_schedule') ;
+            Route::match(['get', 'post'], '/admin/view_booking_schedule/{id_lp}', [BookingFormController::class, 'booking_schedule'])->name('admin.booking_schedule');
+
 
         });
 
@@ -153,16 +161,29 @@ Route::group(['middleware' => 'auth'], function(){
             //xoa hd 
             Route::get('deleteBill/{id_hd}',[BillController::class,'deleteBill'])->name('admin.deleteBill');
 
+        // QL CAC DANH GIA
+        Route::prefix('/manage_reviews') ->group(function() {
+            Route::match(['get','post'], '/',[HomeController::class,'manage_reviews'])->name('admin.manage_reviews') ;
+            Route::match(['get','post'],'/see_review_details/{id_lp}',[HomeController::class,'see_review_details'])->name('admin.see_review_details') ;
+            Route::match(['get','post'],'/hide_review/{id_dg}',[HomeController::class,'hide_review'])->name('admin.hide_review') ;
+        });
+
+        //QL Liên hệ
+        Route::prefix('/manage_contact_information') ->group(function() {
+            Route::match(['get','post'], '/',[HomeController::class,'manage_contact_information'])->name('admin.manage_contact_information') ;
+            Route::match(['get','post'], '/reply_email',[ManageCotactInfo::class,'reply_email'])->name('admin.reply_email') ;
+        });
+
         //THONG KE
         Route::prefix('/statistical_management') ->group(function() {
-            Route::match(['get','post'], '/',[HomeController::class,'statistical_management'])->name('admin.statistical_management') ;
+            // Route::match(['get','post'], '/',[HomeController::class,'statistical_management'])->name('admin.statistical_management') ;
             //TK DAT PHONG
             Route::get('/room_booking_details', [Statistical::class,'room_booking_details']) -> name('admin.room_booking_details');
-            Route::get('/booking_schedule/{month}/{id_lp}', [Statistical::class,'calendar_room_booking']) -> name('admin.calendar_room_booking'); 
+            Route::get('/room_booking_schedule/{month}/{id_lp}', [Statistical::class,'calendar_room_booking']) -> name('admin.calendar_room_booking'); 
 
             //TK DAT DV
             Route::get('/service_booking_details', [Statistical::class,'service_booking_details']) -> name('admin.service_booking_details');
-            Route::get('/service_booking_schedule/{month}/{id_dv}', [Statistical::class,'service_booking_schedule']) -> name('admin.calendar_room_booking');
+            Route::get('/service_booking_schedule/{month}/{id_dv}', [Statistical::class,'service_booking_schedule']) -> name('admin.service_booking_schedule');
 
             //TKE SL KHACH HANG
             Route::get('/slkh_index', [Statistical::class,'slkh_index']) -> name('admin.slkh_index');
@@ -171,16 +192,22 @@ Route::group(['middleware' => 'auth'], function(){
             // Route::get('/slkh_details/{month}/{id_kh}', [Statistical::class,'slkh_details']) -> name('admin.slkh_details');
           
         });    
+        
+        //QLTT KHÁCH HÀNG
+        Route::prefix('/customer_information_management') ->group(function() {
+            Route::match(['get','post'], '/',[HomeController::class,'customer_information_management'])->name('admin.customer_information_management') ;
+            Route::match(['get','post'], '/customer_type/{type}',[CTMInfoManagement::class,'customer_type'])->name('admin.customer_type') ;
+            Route::match(['get','post'], '/delete_customer_info/{id_kh}',[CTMInfoManagement::class,'delete_customer_info'])->name('admin.delete_customer_info') ;
         });
     });
 
-
+});
 });
 
 
 
 // customer
-    Route::prefix('hazbinhotel/htqlks/customer')->group(function(){
+Route::prefix('hazbinhotel/htqlks/customer')->group(function(){
 
         //DANG_KY
         Route::get('/register',[LoginController::class,'register'])->name('customer.register');
@@ -204,6 +231,7 @@ Route::group(['middleware' => 'auth'], function(){
                 Route::match(['get', 'post'], '/',[C_HomeController::class,'index']) ->name('customer.index');
                 Route::get('about/',[C_HomeController::class,'about']) ->name('customer.about');
                 Route::get('/profile',[C_HomeController::class,'profile']) ->name('customer.view_profile');
+                Route::post('/edit_profile/{id_kh}',[C_HomeController::class,'edit_profile']) ->name('customer.edit_profile');
 
                 //PHONG
                 //XEM PHONG
@@ -226,8 +254,13 @@ Route::group(['middleware' => 'auth'], function(){
                     Route::get('/profile/see_form',[C_RoomController::class,'see_history']) -> name('customer.see_form');
                     Route::get('/cancle_form/{id_don}',[C_RoomController::class,'cancle']) -> name('customer.cancle_form');
                     Route::get('/cancle_service_form/{id_ct}',[C_ServiceController::class,'cancle_service']) -> name('customer.cancle_service');
-                    //in hd
-                    Route::get('/in-hoa-don/{id_hd}', [BillController::class, 'print_bill'])->name('admin.print_bill');
+
+                    //DANH GIA
+                    Route::get('/evaluate', [C_RoomController::class, 'evaluate'])->name('customer.evaluate');
+                    //SUA DG
+                    Route::get('/update_review', [C_RoomController::class, 'update_review'])->name('customer.update_review');
+                    //IN HD
+                    Route::get('/in-hoa-don/{id_hd}', [BillController::class, 'print_bill'])->name('customer.print_bill');
                     
                     //DANG XUAT
                  Route::get('/logout',[C_HomeController::class,'logout']) ->name('customer.logout');
@@ -239,9 +272,10 @@ Route::group(['middleware' => 'auth'], function(){
                     Route::post('/service/service_booking',[C_ServiceController::class,'service_booking']) ->name('customer.service_booking');
                    });
 
-                //Liên lạc
+                //LIÊN HỆ
                 Route::prefix('/contact')->group(function(){
                     Route::match(['get','post'], '/',[C_ContactController::class,'contact_index']) ->name('customer.contact_index');
+                    Route::post('/insert_form_ct',[C_ContactController::class,'insert_form_ct']) ->name('customer.insert_form_ct');
                 });
 });
 

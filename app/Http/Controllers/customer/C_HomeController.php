@@ -11,7 +11,9 @@ use App\Models\Room;
 use App\Models\BookingForm;
 use App\Models\ServiceType;
 use App\Models\SearchHistory;
+use App\Models\Evaluate;
 
+use Termwind\Components\Dd;
 use function PHPUnit\Framework\isEmpty;
 
 class C_HomeController extends Controller
@@ -23,6 +25,7 @@ class C_HomeController extends Controller
         protected $bf;
         protected $svt;
         protected $sht;
+        protected $ev;
         public function __construct()
         {
             // $this -> hsv = new ChatService();
@@ -32,6 +35,7 @@ class C_HomeController extends Controller
             $this -> bf = new BookingForm();
             $this -> svt = new ServiceType();
             $this -> sht = new SearchHistory();
+            $this -> ev = new Evaluate();
         }
         // public function index(Request $rq){
         //     // $rq -> ngay_nhan_phong, $rq->ngay_tra_phong, $rq -> adult, $rq -> children;
@@ -40,35 +44,187 @@ class C_HomeController extends Controller
         //     $mostSearch =RoomType :: getMostSearchedRooms();
         //     return view('customer.dashboard',compact('user','mostSearch'));
         // }
-        public function index(Request $rq){
-            $user =  $this -> us ->getUser(session('id_ctm'));   
-            $similarRoom = collect();
-            $roomType = collect();
-            // dd(session('id_ctm'));
-            $mostSearch =RoomType :: getMostSearchedRooms();
-            $contentSugg =   $this -> bf ->getSearchRoom(session('id_ctm'));
-            // $contentSugg = BookingForm::where('id_kh', session('id_ctm'))->select('id_loai_phong')->distinct() ->get();
-            if($contentSugg -> isNotEmpty()){   
-                foreach ($contentSugg as $id_lp) {              
-                    $roomData = $this->rt->getRoomTypeID($id_lp->id_loai_phong);
-                }
+    // public function index(Request $rq){
+    //         $user =  $this -> us ->getUser(session('id_ctm'));   
+    //         $similarRoom = collect();
+    //         $similarSearch = collect();
+    //         $roomType = collect();
+    //         $roomData = collect();
+    //         $listSimilarCTM = array();
+    //         $roomTypeSearch = collect();
+    //         $recommendedRooms = collect();
+    //         $combinedRooms = collect();
+    //         $finalRooms = collect();
+    //         // if(session('id_ctm')){
+    //                 $mostSearch =RoomType :: getMostSearchedRooms();
+    //                 $contentSugg =   $this -> bf ->getSearchRoom(session('id_ctm'));
+    //                 // $contentSugg = BookingForm::where('id_kh', session('id_ctm'))->select('id_loai_phong')->distinct() ->get();
+    //                 if ($contentSugg->isNotEmpty()) {
+                        
+    //                     foreach ($contentSugg as $id_lp) {              
+    //                         $listSimilarCTM = $this -> bf ->getBooking($id_lp->id_loai_phong,session('id_ctm')) ->toArray();
+    //                         $roomData = $this->rt->getRoomTypeID1($id_lp->id_loai_phong);            
+    //                         if ($roomData) {
+    //                             $roomType = $roomType->merge(collect([$roomData])); 
+    //                         }
+    //                     }
+
+    //                     if(!empty($listSimilarCTM)){
+    //                         foreach($listSimilarCTM as $list){
+    //                             $roomUs =  $this ->bf ->getListRoom($list->id_kh, $list ->id_loai_phong)->take(4)->toArray();
+    //                         }
+
+    //                         if(!empty($roomUs)){
+    //                             foreach($roomUs as $list){
+    //                                 $recommendedRooms = RoomType::search('')
+    //                                 ->whereIn('id_lp', [$list->id_loai_phong])
+    //                                 ->get();
+    //                             }
+    //                         }
+    //                     }
+
+    //                     if ($roomType->isNotEmpty()) {
+    //                         $excludedIds = $roomType->pluck('id_lp')->toArray();
+                            
+    //                         foreach ($roomType as $room) {
+    //                             $similarRoom = $similarRoom->merge(
+    //                                 $this->rt->getRoomContent($room->phan_hang, $excludedIds)
+    //                             );
+    //                         }
+    //                         $similarRoom = $similarRoom->unique('id_lp')->take(4);
+    //                     }
+    //                 }
+                    
+                    
+    //                 $searchSugg =   $this -> sht ->getSearchRoom(session('id_ctm'));
+                    
+    //                 if($searchSugg -> isNotEmpty()){   
+    //                     foreach ($searchSugg as $room) {              
+    //                         $roomSearch = $this->rt->getRoomTypeID1($room->id_lp);            
+    //                         if ($roomSearch) {
+    //                             $roomTypeSearch = $roomTypeSearch->merge(collect([$roomSearch])); 
+    //                         }
+    //                     }
+
+    //                     if ($roomTypeSearch->isNotEmpty()) {
+    //                         // Tạo mảng chứa các id_lp từ roomType
+    //                         $excludedIdsSearch = $roomTypeSearch->pluck('id_lp')->toArray();
+    //                         // Gộp nội dung phòng vào similarRoom
+    //                         foreach ($roomTypeSearch as $room) {
+    //                             // Lấy các phòng khác cùng phân hạng nhưng không bao gồm các id_lp trong excludedIds
+    //                             $similarSearch = $similarSearch->merge(
+    //                                 $this->rt->getRoomContent($room->phan_hang, $excludedIdsSearch)
+    //                             );
+    //                         }
+    //                         $similarSearch = $similarSearch->unique('id_lp');
+    //                         if($similarRoom -> isNotEmpty()){
+    //                             $similarSearch = $similarSearch->whereNotIn('id_lp', $similarRoom->pluck('id_lp')->toArray())->take(4);
+    //                         }
+                            
+    //                     }
+    //                 }
+
+    //                 $mergeRooms = false;
+    //                 if ($similarRoom->count() > 0  &&  $similarSearch->count() > 0) {
+    //                     $mergeRooms = true;
+    //                     $combinedRooms = $similarRoom->merge($similarSearch)->whereNotIn('id_lp', $recommendedRooms->pluck('id_lp')->toArray())->unique('id_lp');
+    //                 }
+    //                 $finalRooms = $recommendedRooms->merge($combinedRooms)->unique('id_lp');
+    //                 $mostSearch =RoomType :: getMostSearchedRooms()  ->take(4);
+
+    //         return view('customer.dashboard',compact('user','mostSearch','similarRoom','similarSearch','mostSearch','mergeRooms','combinedRooms','recommendedRooms','finalRooms'));
+
+    // }
+    public function index(Request $rq)
+    {
+        $user =  $this->us->getUser(session('id_ctm'));   
+        $similarRoom = collect();
+        $similarSearch = collect();
+        $roomType = collect();
+        $roomData = collect();
+        $listSimilarCTM = array();
+        $roomTypeSearch = collect();
+        $recommendedRooms = collect();
+        $combinedRooms = collect();
+    
+        $mostSearch = RoomType::getMostSearchedRooms();
+        $contentSugg = $this->bf->getSearchRoom(session('id_ctm'));
+    
+        if ($contentSugg->isNotEmpty()) {
+            foreach ($contentSugg as $id_lp) {              
+                $listSimilarCTM = collect($this->bf->getBooking($id_lp->id_loai_phong, session('id_ctm'))->toArray());
+                $roomData = $this->rt->getRoomTypeID1($id_lp->id_loai_phong);            
                 if ($roomData) {
                     $roomType = $roomType->merge(collect([$roomData])); 
-                    if($roomType -> isNotEmpty()) {
-                        foreach($roomType as $room){
-
-                            $similarRoom = $similarRoom->merge(
-                                    $this->rt->getRoomContent($room -> phan_hang, $room->id_lp)
-                                );
-                        }
-                        // dd($similarPricedRooms);
+                }
+            }
+    
+            if ($listSimilarCTM->isNotEmpty()) {
+                foreach ($listSimilarCTM as $list) {
+                    $roomUs = collect($this->bf->getListRoom($list->id_kh, $list->id_loai_phong)->take(4)->toArray());
+                }
+    
+                if ($roomUs->isNotEmpty()) {
+                    foreach ($roomUs as $list) {
+                        $recommendedRooms = collect(RoomType::search('')
+                            ->whereIn('id_lp', [$list->id_loai_phong])
+                            ->get());
                     }
                 }
-               
-            }  
-
-            return view('customer.dashboard',compact('user','mostSearch','similarRoom'));
+            }
+    
+            if ($roomType->isNotEmpty()) {
+                $excludedIds = $roomType->pluck('id_lp')->toArray();
+    
+                foreach ($roomType as $room) {
+                    $similarRoom = $similarRoom->merge(
+                        collect($this->rt->getRoomContent($room->phan_hang, $excludedIds))
+                    );
+                }
+                $similarRoom = $similarRoom->unique('id_lp')->take(4);
+            }
         }
+    
+        $searchSugg = $this->sht->getSearchRoom(session('id_ctm'));
+    
+        if ($searchSugg->isNotEmpty()) {   
+            foreach ($searchSugg as $room) {              
+                $roomSearch = $this->rt->getRoomTypeID1($room->id_lp);            
+                if ($roomSearch) {
+                    $roomTypeSearch = $roomTypeSearch->merge(collect([$roomSearch])); 
+                }
+            }
+    
+            if ($roomTypeSearch->isNotEmpty()) {
+                $excludedIdsSearch = $roomTypeSearch->pluck('id_lp')->toArray();
+    
+                foreach ($roomTypeSearch as $room) {
+                    $similarSearch = $similarSearch->merge(
+                        collect($this->rt->getRoomContent($room->phan_hang, $excludedIdsSearch))
+                    );
+                }
+                $similarSearch = $similarSearch->unique('id_lp');
+                if ($similarRoom->isNotEmpty()) {
+                    $similarSearch = $similarSearch->whereNotIn('id_lp', $similarRoom->pluck('id_lp')->toArray())->take(4);
+                }
+            }
+        }
+    
+        $mergeRooms = false;
+        if ($similarRoom->count() > 0 && $similarSearch->count() > 0) {
+            $mergeRooms = true;
+            $combinedRooms = $similarRoom->merge($similarSearch)
+                ->whereNotIn('id_lp', $recommendedRooms->pluck('id_lp')->toArray())
+                ->unique('id_lp');
+        }
+    
+        $finalRooms = $recommendedRooms->merge($combinedRooms)->unique('id_lp')->sortBy('id_lp');
+        $mostSearch = RoomType::getMostSearchedRooms()->take(4);
+    
+        return view('customer.dashboard', compact('user', 'mostSearch', 'similarRoom', 'similarSearch', 'mergeRooms', 'combinedRooms', 'recommendedRooms', 'finalRooms'));
+    }
+    
+
 
         public function logout(){
             session()->forget('id_ctm');
@@ -96,6 +252,37 @@ class C_HomeController extends Controller
             return view('customer.view_profile.profile',compact('user','countFormLogin'));
         } 
 
+        public function edit_profile($id_kh,Request $rq) {
+            $rq->validate([
+                'ho_ten' => 'string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
+                'sdt' => 'regex:/^[0-9]{10}$/', // Chỉ chấp nhận 10 chữ số
+                'email' => 'email',
+                'dia_chi' => 'max:250',
+            ], [
+               'ho_ten.string' => 'Họ tên phải là chuỗi ký tự.',
+               'ho_ten.regex' => 'Họ tên không được chứa số.',
+               'ho_ten.max' => 'Họ tên không được nhập quá 50 kí tự',
+                'sdt.regex' => 'Số điện thoại không chứa ký tự và phải có đúng 10 chữ số.',
+                'email.email' => 'Email không đúng định dạng.',
+                'dia_chi.max' => 'Không được nhập địa chỉ quá 250 kí tự.',              
+            ]);
+
+            $data = [
+                'ho_ten' => $rq ->ho_ten,
+                'gioi_tinh' => $rq ->gioi_tinh,
+                'sdt' => $rq ->sdt,
+                'email' => $rq ->email,
+                'dia_chi' => $rq ->dia_chi,
+                'updated_at' => now()
+            ];
+            $editProfile = $this -> us -> editProfile($id_kh,$data);
+            if($editProfile) {
+                return redirect() ->route('customer.view_profile')->with('success',"Cập nhật thông tin thành công");
+            }else{
+                return redirect() ->route('customer.view_profile')->with('error',"Lỗi, vui lòng thử lại sau !!");         
+            }
+        }
+
         public function room_index( Request $rq){
             // $room_type = $this -> rt -> getAllRoom();
            
@@ -119,7 +306,7 @@ class C_HomeController extends Controller
                 // dd($similarPricedRooms);
             }  
             
-            $mostSearch =RoomType :: getMostSearchedRooms();
+            $mostSearch =RoomType :: getMostSearchedRooms() ->take(3);
             $mostBooking = RoomType :: getMostBookingRoom();
             if($rq -> value == 1) {
                 $price = 500000;
@@ -152,9 +339,18 @@ class C_HomeController extends Controller
         }
              
         public function room_detail($id_rt) {
+            $getEV = $this -> ev -> getEVRoom($id_rt);  
+            $getLimitEV = collect();
+            $avg = 0 ;
+            if($getEV ->isNotEmpty()) {
+                $avg = $getEV -> avg('diem');
+                $getLimitEV = $getEV -> sortByDesc('diem') ->take(2);
+            }
+            
             $getUserLogin = $this->us->getUser(session('id_ctm'));
             $getUser = $this->us->getUser(session('idCtm_notLogin'));
-        
+            $room_calendar = $this -> rt -> room($id_rt);
+            $bookings = $this -> bf -> checkBooking($id_rt);
             // Khởi tạo biến mặc định
             $countFormLogin = 0;
             $countForm = 0;
@@ -180,10 +376,35 @@ class C_HomeController extends Controller
             
             $room_detail = $this->rt->getRoomTypeID($id_rt);
             $calendar = $this -> bf -> getCalendar($id_rt);
-            dd($calendar);
-            return view('customer.room.room-details', compact('room_detail', 'countRoom', 'countRoomNull', 'countFormLogin', 'countForm'));
+            // dd($calendar);
+            return view('customer.room.room-details', compact('room_detail', 'countRoom', 'countRoomNull',
+                                                                                 'countFormLogin', 'countForm','room_calendar','bookings','getEV','avg','getLimitEV'));
         }
 
+    //  public function search(Request $rq) {
+    //         $keywords = $rq->keywords;  
+    //         $count = 0;
+    //         $similarPricedRooms = collect();
+    //         // $roomTypes = $this -> rt -> getAllRoom($keywords);
+    //         $roomTypes =RoomType ::search($keywords) ->get();
+         
+    //         $room_type = $this -> rt -> getAllRoom();
+    //         if($roomTypes -> isNotEmpty()){
+    //             $count = $roomTypes -> count();         
+    //             foreach ($roomTypes as $roomType) {
+    //                 $similarPricedRooms = $similarPricedRooms->merge(
+    //                     $this->rt->getRoomsBySimilarPrice($roomType->phan_hang, $roomType -> id_lp)
+    //                 );
+    //             }
+    //             // dd($similarPricedRooms);
+    //         }    
+            
+    //         $mostSearch =RoomType :: getMostSearchedRooms();
+    //         $mostBooking = RoomType :: getMostBookingRoom();
+
+            
+    //         return view('customer.room.room_index',compact('keywords', 'roomTypes','mostSearch','count','mostBooking','room_type','similarPricedRooms'));
+    // }
      public function search(Request $rq) {
             $keywords = $rq->keywords;  
             $count = 0;
@@ -195,6 +416,15 @@ class C_HomeController extends Controller
             if($roomTypes -> isNotEmpty()){
                 $count = $roomTypes -> count();         
                 foreach ($roomTypes as $roomType) {
+                    if(session('id_ctm')){
+
+                        SearchHistory::create([
+                            'id_lp' => $roomType->id_lp,
+                            'id_kh' => session('id_ctm'), 
+                            'keywords' => $keywords,  
+                        ]);
+                    }
+
                     $similarPricedRooms = $similarPricedRooms->merge(
                         $this->rt->getRoomsBySimilarPrice($roomType->phan_hang, $roomType -> id_lp)
                     );

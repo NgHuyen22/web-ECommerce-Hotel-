@@ -13,21 +13,36 @@ class RoomType extends Model
     
        protected $table ="room_type" ;
        protected $primaryKey = 'id_lp';
+    //    public function toSearchableArray()
+    //    {
+    //         return [
+    //             'id_lp' => $this->id_lp,
+    //             'ten_lp' => $this->ten_lp,
+    //             'mo_ta' => $this->mo_ta,
+    //             // 'tien_nghi' => $this->tien_nghi,
+    //             'gia_lp' => $this->gia_lp,
+    //             // 'suc_chua' => $this->suc_chua,
+    //             // 'dien_tich' => $this->dien_tich,
+    //             'search_count' => 0,
+    //             'search_booking' => 0,
+    //             // 'status' => $this->status,
+    //             // 'created_at' => $this->created_at,
+    //             // 'updated_at' => $this->updated_at,
+    //         ];
+    //    }
        public function toSearchableArray()
        {
             return [
                 'id_lp' => $this->id_lp,
                 'ten_lp' => $this->ten_lp,
                 'mo_ta' => $this->mo_ta,
-                // 'tien_nghi' => $this->tien_nghi,
-                'gia_lp' => $this->gia_lp,
+                'tien_nghi' => $this->tien_nghi,
+                // 'gia_lp' => $this->gia_lp,
                 // 'suc_chua' => $this->suc_chua,
                 // 'dien_tich' => $this->dien_tich,
                 'search_count' => 0,
                 'search_booking' => 0,
                 // 'status' => $this->status,
-                // 'created_at' => $this->created_at,
-                // 'updated_at' => $this->updated_at,
             ];
        }
     public function getRoomType(){
@@ -48,6 +63,13 @@ class RoomType extends Model
         return $result = DB::table($this -> table) 
                                 ->where('status' , 1)
                                 ->where('id_lp' , $id_rt)
+                                ->first();
+    }
+    public function getRoomTypeID1($id_rt){
+        $id_rt = is_array($id_rt) ? $id_rt : [$id_rt];
+        return $result = DB::table($this -> table) 
+                                ->where('status' , 1)
+                                ->whereIn('id_lp', $id_rt) 
                                 ->first();
     }
 
@@ -119,10 +141,13 @@ class RoomType extends Model
     }
 
     public function getRoomContent($phan_hang,$id_rt) {
+        $excludedIds = is_array($id_rt) ? $id_rt : [$id_rt];
         return $result = DB :: table($this -> table)
                                     ->where('phan_hang',$phan_hang)
-                                    ->where('id_lp', '!=', $id_rt)
+                                    // ->where('id_lp', '!=', $id_rt)
+                                    ->whereNotIn('id_lp', $excludedIds) 
                                     ->where('status', 1)
+                                    ->distinct()
                                     ->get();
     }
     public static function getMostSearchedRooms()
@@ -130,7 +155,7 @@ class RoomType extends Model
         return self::orderBy('search_count', 'desc')
                         ->where('status', 1)
                         ->where('search_count', '>=', 4) 
-                        ->take(3)
+                       
                         ->get();
     }
     
@@ -162,6 +187,14 @@ class RoomType extends Model
             return $result ->paginate(6);     
     }
     
-    
+    public function room($id_lp) {
+       return $result = DB::table('room_type as rt')
+                    ->leftJoin('room as r', 'r.loai_phong' ,'=', 'rt.id_lp')
+                    ->where('rt.id_lp',$id_lp)
+                    ->where('rt.status', 1)
+                    ->where('r.status', 1)
+                    ->select('r.id_phong','r.so_phong','rt.ten_lp')
+                    ->get();
+    }
 
 }

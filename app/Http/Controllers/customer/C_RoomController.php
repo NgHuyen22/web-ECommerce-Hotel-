@@ -9,6 +9,7 @@ use App\Models\RoomType;
 use App\Models\Room;
 use App\Models\BookingForm;
 use App\Models\Bill;
+use App\Models\Evaluate;
 use App\Models\FormServiceDetail;
 use App\Models\ServiceIncentives;
 
@@ -29,6 +30,7 @@ class C_RoomController extends Controller
     protected $r;
     protected $fsd;
     protected $svi;
+    protected $ev;
     public function __construct()
     {
         $this -> us = new Users();
@@ -38,6 +40,7 @@ class C_RoomController extends Controller
         $this -> bill = new Bill();
         $this -> fsd = new FormServiceDetail();
         $this -> svi = new ServiceIncentives();
+        $this -> ev = new Evaluate();
     }
 
         public function booking_room(Request $rq){
@@ -197,18 +200,17 @@ class C_RoomController extends Controller
                             // $insertBill = $this -> bill -> insertBill($dataBill);
                         // }
                         
-                            // gui email báo thành công 
+
                             try{
                                 Mail::send('customer.booking_room.notice_of_bf', ['customer' => $getUser ,'getForm' => $getForm,'id_rt' =>  $id_rt,'getNameRT' => $getNameRT ], function ($email) use ($getUser) {
-                                    $email->subject('HTQLKS - Thông báo đặt phòng tại HazBin Hotel');
+                                    $email->subject('HazBin - Thông báo đặt phòng tại HazBin Hotel');
                                     $email->to($getUser->email, $getUser->ho_ten);
                                 });
-                                // Log::info('Email đã được gửi tới: ' . $getUser->email);
+
                             }catch(Exception $e){
                                 // Log::error('Lỗi khi gửi email: ' . $e->getMessage());
                                 return redirect()->route('customer.room_detail',['id_rt' => $id_rt])  ->with('error', 'Hệ thống đang gặp sự cố, hãy thử lại sau !! Lỗi: ' . $e->getMessage());;
                             }
-                            // Session::put('ten_lpForm', $ten_lp);
                             return redirect() -> route('customer.see_form') -> with('success', 'Đặt phòng thành công !') ;
                                                                                                     //   ->with('ten_lpLogin' , $getNameRT -> ten_lp)
                                                                                                     //   ->with('so_luong' , $sl);
@@ -223,7 +225,8 @@ class C_RoomController extends Controller
         $sl = session('so_luong');
         $getUserLogin = $this -> us -> getUser(session('id_ctm'));
         $getUser = $this -> us -> getUser(session('idkh_notRegister'));
-
+        $allServicesLg = collect();
+        $allgia = collect();
         $getFormLogin = null;
         $getForm = null;
         $countLogin = 0;
@@ -387,10 +390,12 @@ class C_RoomController extends Controller
     }
 
     public function see_history() {
+        $getEV = $this -> ev -> getEV();
         $sl = session('so_luong');
         $getUserLogin = $this -> us -> getUser(session('id_ctm'));
         $getUser = $this -> us -> getUser(session('idkh_notRegister'));
-
+        $allServicesLg = collect();
+        $allgia = collect();
         $getFormLogin = null;
         $getForm = null;
         $countLogin = 0;
@@ -408,6 +413,7 @@ class C_RoomController extends Controller
     
         // Nếu người dùng đăng nhập tồn tại
             if ($getUserLogin != null) {
+                
                 $getFormLogin = $this->bf->getForm_history($getUserLogin->id);
                 
                 if(!$getFormLogin -> isEmpty()){
@@ -474,7 +480,12 @@ class C_RoomController extends Controller
                 $countBill = $getBill->total();
             }
         }
-        return view("customer.booking_history.see_history", compact('getUserLogin', 'getFormLogin', 'countLogin', 'count', 'getUser', 'getForm', 'getBillLogin', 'countBillLg', 'getBill', 'countBill','allServicesLg','countServiceLg','countService','allServicesLgperPage','allgia'));
+
+        $current = Carbon::now()->format('Y-m-d');
+        return view("customer.booking_history.see_history", compact('getUserLogin', 'getFormLogin', 'countLogin', 'count', 'getUser', 'getForm', 
+                                                                                                            'getBillLogin', 'countBillLg', 'getBill', 
+                                                                                                            'countBill','allServicesLg','countServiceLg',
+                                                                                                            'countService','allServicesLgperPage','allgia','current','getEV'));
     }
 
     public function cancle($id_don){
@@ -619,6 +630,45 @@ class C_RoomController extends Controller
                     
                     return redirect() -> route('customer.insert_profile') ->with('error', 'Lỗi cập nhật thông tin KH, vui lòng thử lại!');
                 }
+            }
+        }
+
+        public function evaluate(Request $rq){
+            $rating = $rq->query('rating');
+            $comment = $rq->query('comment');
+            $user_id = $rq->query('user_id');
+            $booking_id = $rq->query('booking_id');
+            $room_id = $rq->query('room_id');
+            $data = [
+                'noi_dung' => $comment,
+                'diem' => $rating,
+                'khach_hang' =>$user_id,
+                'don' => $booking_id,
+                'loai_phong' =>$room_id,
+                'so_lan_sua' => 0,
+                'status' =>1
+            ];
+            $insertEV = $this -> ev -> insertEV($data);
+            if($insertEV){
+                return redirect() -> route('customer.see_form') ->with('success','Thành công');
+            }else{
+                return redirect() -> route('customer.see_form') ->with('error','Lỗi, vui lòng thử lại sau !!');
+            }
+        }
+
+        public function update_review(Request $rq) {
+            $comment = $rq->query('comment');
+            $booking_id = $rq->query('booking_id');
+            $data = [
+                'noi_dung' => $comment,
+                'so_lan_sua' => 1,
+                'updated_at' => now()
+            ];
+            $updateEV = $this -> ev -> updateEV($data,$booking_id);
+            if($updateEV){
+                return redirect() -> route('customer.see_form') ->with('success','Thành công');
+            }else{
+                return redirect() -> route('customer.see_form') ->with('error','Lỗi, vui lòng thử lại sau !!');
             }
         }
         

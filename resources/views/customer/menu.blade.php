@@ -44,7 +44,8 @@
                                             @endif
                                         </ul>
                                     </li>
-                                    <li><a href="./pages.html">Hướng Dẫn</a></li>
+                                    {{-- <li><a href="./pages.html">Hướng Dẫn</a></li> --}}
+                                    <li><a href="{{ route('customer.contact_index')}}">Liên Hệ</a></li>
                                     <li><a href="./pages.html">Khác</a>                                    
                                         <ul class="dropdown">
                                             <li><a href="./room-details.html">Tin Tức</a></li>
@@ -52,7 +53,6 @@
                                             <li><a href="#">FAQ</a></li> 
                                         </ul>
                                     </li>
-                                    <li><a href="{{ route('customer.contact_index')}}">Liên Hệ</a></li>
                                 </ul>
                             </nav>
                             {{-- <div class="nav-right search-switch"> --}}

@@ -119,3 +119,9 @@
 .detail_view:hover{
     color: #42709e !important;
 }
+
+
+.breadcrumb-section{
+    padding-top: 0px !important;
+    /* padding-bottom: 0px !important; */
+}

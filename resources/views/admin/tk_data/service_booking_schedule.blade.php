@@ -27,7 +27,7 @@
         </div>
 
         <div class="back_room">
-            <a href="{{ route('admin.update_room')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
+            <a href="{{ route('admin.service_booking_details')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
          </div>
 
         <!-- FullCalendar JS -->

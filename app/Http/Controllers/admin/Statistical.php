@@ -9,27 +9,61 @@ use Carbon\Carbon;
 use App\Models\BookingForm;
 use App\Models\Service;
 use App\Models\Bill;
+use App\Models\RoomType;
 
 class Statistical extends Controller
 {
     protected $bf;
     protected $sv;
     protected $bill;
+    protected $rt;
     public function __construct()
     {
         $this -> bf = new BookingForm();
         $this -> sv = new Service();
         $this -> bill = new Bill();
+        $this -> rt = new RoomType();
     }
 
 
     public function room_booking_details(Request $rq) {
-        $booking_month = $this -> bf -> getBFAllMonth();
-        // dd($booking_month);
-        $month = $this -> bf -> getAllMonth();
-        return view('admin.tk_data.room_booking_details', compact('booking_month','month'));
+        $booking_month = $this->bf->getBFAllMonth();
+        $roomType = $this->rt->getRoomType();
+        $month = $this->bf->getAllMonth();
+        $roomStatsByMonth = [];
+        
+        if ($booking_month->isNotEmpty()) {
+            // Nhóm các đặt phòng theo tháng
+            $groupedByMonth = $booking_month->groupBy('month');
+    
+            foreach ($groupedByMonth as $monthKey => $bookings) {
+                // Lấy danh sách id của phòng đã đặt trong tháng hiện tại
+                $bookedRoomIds = $bookings->pluck('id_lp')->unique()->toArray();
+    
+                // Tìm các phòng không được đặt
+                $unbookedRooms = $roomType->filter(function ($room) use ($bookedRoomIds) {
+                    return !in_array($room->id_lp, $bookedRoomIds);
+                });
+    
+                    // Nếu có nhiều bản ghi, sắp xếp để tìm phòng đặt nhiều nhất và ít nhất
+                    $maxBookingRoom = $bookings->sortByDesc('so_luot_dat')->first();
+                    $minBookingRoom = $bookings->sortBy('so_luot_dat')->first();
+                // Lưu thông tin theo từng tháng, bao gồm tháng
+                $roomStatsByMonth[] = [
+                    'month' => $monthKey,
+                    'maxBookingRoom' => $maxBookingRoom,
+                    'minBookingRoom' => $minBookingRoom,
+                    'unbookedRooms' => $unbookedRooms,
+                ];
+            }
+        } else {
+            $roomStatsByMonth = null;
+        }
+    
+        // dd($roomStatsByMonth);
+        return view('admin.tk_data.room_booking_details', compact('booking_month', 'month', 'roomStatsByMonth'));
     }
-
+    
     public function calendar_room_booking($month, $id_lp) {    
         $getDT = $this->bf->getDT($month, $id_lp)->map(function ($item) {
             $item->tong_dt = number_format($item->tong_dt, 0, ',', '.');
@@ -40,9 +74,42 @@ class Statistical extends Controller
 
     public function service_booking_details() {
         $service_month = $this -> sv -> getSVAllMonth();
-        // dd($service_month);
+        $service = $this -> sv -> getAllService();
         $month = $this -> sv -> getAllMonth();
-       return view('admin.tk_data.service_booking_details',compact('service_month','month'));
+        $roomStatsByMonth = [];
+        
+        if ($service_month->isNotEmpty()) {
+            // Nhóm các đặt phòng theo tháng
+            $groupedByMonth = $service_month->groupBy('month');
+    
+            foreach ($groupedByMonth as $monthKey => $bookings) {
+                // Lấy danh sách id của phòng đã đặt trong tháng hiện tại
+                $bookedRoomIds = $bookings->pluck('id_dv')->unique()->toArray();
+    
+                // Tìm các phòng không được đặt
+                $unbookedRooms = $service->filter(function ($room) use ($bookedRoomIds) {
+                    return !in_array($room->id_dv, $bookedRoomIds);
+                });
+            
+                    // Nếu có nhiều bản ghi, sắp xếp để tìm phòng đặt nhiều nhất và ít nhất
+                    $maxBookingRoom = $bookings->sortByDesc('so_luot_dat')->first();
+                    $minBookingRoom = $bookings->sortBy('so_luot_dat')->first();
+                
+    
+                // Lưu thông tin theo từng tháng, bao gồm tháng
+                $roomStatsByMonth[] = [
+                    'month' => $monthKey,
+                    'maxBookingRoom' => $maxBookingRoom,
+                    'minBookingRoom' => $minBookingRoom,
+                    'unbookedRooms' => $unbookedRooms,
+                ];
+            }
+        } else {
+            $roomStatsByMonth = null;
+        }
+        // dd($roomStatsByMonth);
+    //    return view('admin.tk_data.service_booking_details',compact('service_month','month'));
+       return view('admin.tk_data.service_booking_details', compact('service_month', 'month', 'roomStatsByMonth'));
     }
 
     public function service_booking_schedule($month,$id_dv) {

@@ -192,9 +192,15 @@ class Bill extends Model
                                 ->first();
     }
 
+    // public function getSVMonth($bien) {
+    //     return $result = DB :: table("bill")
+    //                      ->whereMonth('created_at',$bien)
+    //                      ->get();
+    // }
     public function getSVMonth($bien) {
         return $result = DB :: table("bill")
                          ->whereMonth('created_at',$bien)
+                         ->where('trang_thai_hd','Đã thanh toán')
                          ->get();
     }
 

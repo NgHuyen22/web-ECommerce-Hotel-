@@ -11,9 +11,9 @@
             </li>
 
             <li class="sidebar-item active">
-                <a class="sidebar-link sb_link" href="{{route('admin.index')}}">
-      <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Trang chủ</span>
-    </a>
+                <a class="sidebar-link sb_link" href="{{ route('admin.index')}}">
+                    <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Thống kê</span>
+                </a>
             </li>
 
             {{-- <li class="sidebar-item">
@@ -65,25 +65,25 @@
             </li>
 
               <li class="sidebar-item">
-                <a class="sidebar-link" href="ui-cards-sbs.html">
+                <a class="sidebar-link" href="{{ route('admin.manage_reviews')}}">
                     <i class="fa-regular fa-comment"></i> <span class="align-middle">Quản lý các đánh giá</span>
                 </a>
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="ui-cards.html">
-                    <i class="fa-regular fa-address-book"></i><span class="align-middle">Quản lý liên hệ</span>
+                <a class="sidebar-link" href="{{ route('admin.manage_contact_information')}}">
+                    <i class="fa-regular fa-address-book"></i><span class="align-middle">Quản lý TT liên hệ</span>
                 </a>
             </li>
 
 
             <li class="sidebar-item">
-             <a class="sidebar-link" href="icons-feather.html">
-                <i class="fa-solid fa-users"></i><span class="align-middle">QLTT khách hàng</span>
-            </a>
+                <a class="sidebar-link" href="{{ route('admin.customer_information_management')}}">
+                    <i class="fa-solid fa-users"></i><span class="align-middle">QLTT khách hàng</span>
+                </a>
             </li>
 
-            <li class="sidebar-header">
+            {{-- <li class="sidebar-header">
                 Thống kê
             </li>
 
@@ -97,19 +97,7 @@
                 <a class="sidebar-link" href="maps-google.html">
                     <i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
-
-        {{-- <div class="sidebar-cta">
-            <div class="sidebar-cta-content">
-                <strong class="d-inline-block mb-2">Upgrade to Pro</strong>
-                <div class="mb-3 text-sm">
-                    Are you looking for more components? Check out our premium version.
-                </div>
-                <div class="d-grid">
-                    <a href="" class="btn btn-primary">Upgrade to Pro</a>
-                </div>
-            </div>
-        </div> --}}
     </div>
 </nav>

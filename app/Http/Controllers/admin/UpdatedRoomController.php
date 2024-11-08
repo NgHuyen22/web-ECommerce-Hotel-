@@ -129,7 +129,6 @@ class UpdatedRoomController extends Controller
         $room_type = $this -> rt -> getRoomTypeID($id_rt);
         // $countRoom = $this -> r -> countRoomTypeID($id_rt);
         $countRoom = $room -> total();
-    
         return view('admin.update_room.room_detail', compact('room', 'room_type', 'countRoom') );
     }
 

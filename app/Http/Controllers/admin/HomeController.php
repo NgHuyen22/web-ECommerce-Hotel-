@@ -15,6 +15,8 @@ use App\Models\SpecialOffers;
 use App\Models\ServiceIncentives;
 use App\Models\Service;
 use App\Models\Bill;
+use App\Models\Evaluate;
+use App\Models\Contact;
 
 class HomeController extends Controller
 {
@@ -28,6 +30,8 @@ class HomeController extends Controller
     protected $svi;
     protected $bill;
     protected $sv;
+    protected $ev;
+    protected $ct;
     public function __construct()
     {
         // $this -> hsv = new ChatService();
@@ -39,6 +43,8 @@ class HomeController extends Controller
         $this -> svi = new ServiceIncentives();
         $this -> bill = new Bill();
         $this -> sv = new Service();
+        $this -> ev = new Evaluate();
+        $this -> ct = new Contact();
     }
     public function index(){
         // $user =  $this -> us ->getUser(session('id_ad'));
@@ -194,11 +200,22 @@ class HomeController extends Controller
         $tongDT =  $this -> bill -> totalRevenue() -> toArray();
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
-       
+        
         $booking_month = $this -> bf -> getBFMonth($currentMonth);
         $service_month = $this -> bill -> getSVMonth($currentMonth);
+
         $ctm_month = $this -> bf -> getUSMonth($currentMonth);
-   
+        //danh sách khách tháng trước - hiện tại
+        $ctm_lastMonth = $this -> bf -> getIDUSMonth($currentMonth - 1);
+        $ctm_currentMonth = $this -> bf -> getIDUSMonth($currentMonth);
+        //tổng số khách tháng trước - hiện tại
+        $total_ctm_lastMonth = $ctm_lastMonth->count() > 0 ? $ctm_lastMonth->count() : 0;
+        $total_ctm_currentMonth = $ctm_currentMonth->count() > 0 ? $ctm_currentMonth->count() : 0;
+        // số lượng kh quay lại - tỉ lệ kh quay lại
+        $repeat_ctm = $ctm_currentMonth -> intersect($ctm_lastMonth) ->count();
+        $rateReturnCTM = ($repeat_ctm / $total_ctm_lastMonth) * 100;
+        // dd($rateReturnCTM);
+
         $totalRevenue = 0;
         $totalSV = 0;
         $total = 0;
@@ -232,6 +249,48 @@ class HomeController extends Controller
             $totalSV = 0 ; 
             $total = 0;
         }
-        return view('admin.tk_data.index_ statistical', compact('totalRevenue','totalSV','total','totalCTM', 'ctm_month','currentMonth', 'currentYear','tongDT'));
+       
+    
+        return view('admin.tk_data.index_ statistical', compact('totalRevenue','totalSV','total',
+        'totalCTM', 'ctm_month','currentMonth', 'currentYear','tongDT',
+        'total_ctm_lastMonth', 'total_ctm_currentMonth','repeat_ctm','rateReturnCTM'));
+    }
+
+    public function manage_reviews() {
+        $getEV = $this -> ev -> getNumberEV();
+        $getRT = $this -> rt->getRoomType();
+        // dd($getRT);
+        return view('admin.manage_review.manage_review_index', compact('getEV','getRT'));
+    }
+
+    public function see_review_details($id_lp, Request $request) {
+        $rating = $request->value; 
+        $showEV = $this -> ev -> getEVRoom($id_lp,$rating) ->sortByDesc('updated_at');  
+        return view('admin.manage_review.see_review_detail',compact('showEV','id_lp','rating'));
+    }
+
+    public function hide_review($id_dg) {
+        $data =[
+            'status' => 0,
+        ];
+        $hidden = $this -> ev -> hiddenEV($data, $id_dg);
+        if ($hidden) {
+            return response()->json(['success' => true]);
+        }else{
+            return redirect() -> route('admin.see_review_details')->with('error','Lỗi, vui lòng thử lại sau !');
+        }
+    }
+
+    public function manage_contact_information() {
+        $getContact = $this ->ct->getContact();
+        // dd($getContact);
+        $getContact2 = $this -> ct -> getContact2();
+        $current = Carbon::now()->format('Y-m-d');
+        return view('admin.manage_contact_info.manage_contact_info',compact('getContact','current','getContact2'));
+    }
+
+    public function customer_information_management() {
+        $customer = $this -> bf -> getAllBF() ;
+        return view('admin.customer_information_management.ctm_management',compact('customer'));
     }
 }

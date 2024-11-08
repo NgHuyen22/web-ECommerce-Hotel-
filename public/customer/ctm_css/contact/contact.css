@@ -1,0 +1,62 @@
+
+.wrapper_ct{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem;
+}
+
+.map{
+    width: 35%;
+    height: 100% !important;
+    margin-top: 0 !important;
+}
+
+.contact{
+    width: 60%;
+    padding: 5rem;
+    background-color: rgb(250, 239, 222);
+    border-radius: 10px; 
+}
+
+.content{
+    width: 100%;
+    background-color: white ;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 8px; 
+}
+
+.tool_flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.item_ct{
+    width: 45%;
+}
+.tool_button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit{
+    background-color: #c24040;
+    border-color: #c24040;
+    color: white;
+}
+
+.submit:hover{
+    background-color: #b92828;
+    border-color: #b92828;
+}
+
+.breadcrumb-section{
+    padding-top: 0px !important;
+    padding-bottom: 30px !important;
+}

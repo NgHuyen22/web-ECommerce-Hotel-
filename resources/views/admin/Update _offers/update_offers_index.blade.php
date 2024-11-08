@@ -147,6 +147,9 @@
 
             </div>
 
+            <div class="back_room">
+                <a href="{{ route('admin.index')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
+            </div>
          
         <script>
             function confirmStop(url){

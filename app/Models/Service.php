@@ -107,7 +107,7 @@ class Service extends Model
                                         ELSE sv.don_gia_dv * fsd.so_luong_ct
                                     END
                                 ) as tong_dt'),
-                                DB::raw('COUNT(fsd.id_ct) as tong_don'),
+                                DB::raw('COUNT(fsd.id_ct) as so_luot_dat'),
                             )
                             ->groupBy(DB::raw('MONTH(b.updated_at)'), 'sv.id_dv','sv.ten_dv','svt.ten_ldv')
                             ->get();               

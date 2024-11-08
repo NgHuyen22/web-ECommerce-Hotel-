@@ -11,10 +11,9 @@
         <body>
           
             @if ($month->isNotEmpty())
-            {{-- Phân trang --}}
             <nav aria-label="Page navigation example">
                 <ul class="pagination custom-pagination">
-                    {{-- Nút "Previous" --}}
+
                     @if ($month->onFirstPage())
                         <li class="page-item disabled">
                             <a class="page-link prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
@@ -28,8 +27,7 @@
                             </a>
                         </li>
                     @endif
-            
-                    {{-- Nút "Next" --}}
+
                     @if ($month->hasMorePages())
                         <li class="page-item">
                             <a class="page-link next" href="{{ $month->nextPageUrl() }}" aria-label="Next">
@@ -47,47 +45,8 @@
             </nav>
             
     
-            {{-- Hiển thị dữ liệu theo từng tháng --}}
-          
-            {{-- @php
-                $currentMonth = null;
-                $count = 1;
-            @endphp
-    
-            @foreach ($booking_month as $booking)
-                @if ($currentMonth !== $booking->month)
-        
-                    @if ($currentMonth !== null)
-                        </tbody>
-                        </table>
-                    @endif
-                    <h4 style="color: rgb(248, 98, 98);text-align:center;margin-top: 2rem;margin-bottom: 3rem">Tháng {{ $currentMonth }}</h4>
-                    <table class="table update_room--table">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="align-middle" style="text-align:center">STT</th>
-                                <th scope="col" class="align-middle" style="text-align:center">ID Loại Phòng</th>
-                                <th scope="col" class="align-middle" style="text-align:center">Tên Loại Phòng</th>
-                                <th scope="col" class="align-middle" style="text-align:center">Tổng Doanh Thu</th>
-                            </tr>
-                        </thead>
-                        <tbody class="update_room--">
-                        @php
-                            $currentMonth = $booking->month;
-                            $count = 1;
-                        @endphp
-                @endif
-                <tr>
-                    <th scope="row" class="align-middle" style="text-align:center">{{ $count++ }}</th>
-                    <td class="align-middle" style="text-align:center;">{{ $booking->id_lp }}</td>
-                    <td class="align-middle" style="text-align:center;">{{ $booking->ten_lp }}</td>
-                    <td class="align-middle" style="text-align:center;color:#efad6c;font-weight:bold">{{ number_format($booking->tong_dt, 0, ',', '.') }} VND</td>
-                </tr>
-            @endforeach
-            </tbody>
-            </table> --}}
             @php
-                $totalTongDon = 0; // Khởi tạo biến tổng đơn
+                $totalTongDon = 0; 
             @endphp
 
             @foreach ($month as $monthData)
@@ -99,11 +58,12 @@
                             <th scope="col" class="align-middle" style="text-align:center">ID Loại Phòng</th>
                             <th scope="col" class="align-middle" style="text-align:center">Tên Loại Phòng</th>
                             <th scope="col" class="align-middle" style="text-align:center">Tổng Doanh Thu</th>
+                            <th scope="col" class="align-middle" style="text-align:center">Số Lượt Đặt</th>
                             <th scope="col" colspan="2"></th>
                         </tr>
                     </thead>
                     <tbody class="update_room--tbody">
-                        @php $count = 1; @endphp
+                        @php $count = 1; $stt = 0;@endphp
                         @foreach ($booking_month as $booking)
                             @if ($booking->month == $monthData->month)
                                 <tr>
@@ -111,26 +71,46 @@
                                     <td class="align-middle" style="text-align:center;">{{ $booking->id_lp }}</td>
                                     <td class="align-middle" style="text-align:center;">{{ $booking->ten_lp }}</td>
                                     <td class="align-middle" style="text-align:center;color:#efad6c;font-weight:bold">{{ number_format($booking->tong_dt, 0, ',', '.') }} VND</td>        
+                                    <td class="align-middle" style="text-align:center;">{{ $booking->so_luot_dat }}</td>
                                     <td class="align-middle" style="text-align:center;"><a class="detail" href="{{ route('admin.calendar_room_booking',[ $monthData->month, $booking->id_lp ]) }}">Chi tiết</a></td>
                                 </tr>
-
                                 @php
-                                    $totalTongDon += $booking->tong_don;
+                                    $stt = $count - 1; 
                                 @endphp
                             @endif
                         @endforeach
                     </tbody>
                 </table>
+                <p class="total_bill"><span style="font-weight: bold; color: rgb(204, 53, 53)">Tổng  :</span> {{ $stt }}</p>
+
+                @foreach ($roomStatsByMonth as $stats)
+                    @if ($stats['month'] == $monthData->month)
+                        <div class="room-stats summary_info">
+                            <h5 style="color: rgb(34, 139, 34);font-weight: bold;margin-bottom: 1rem">Thông tin tóm tắt :</h5>
+                            <p ><strong style=" color: #d9534f; font-weight: bold;">Phòng đặt nhiều nhất:</strong> {{ $stats['maxBookingRoom']->ten_lp ?? 'Không có' }} (Số lượt đặt: {{ $stats['maxBookingRoom']->so_luot_dat ?? 0 }})</p>
+                            <p><strong style=" color: #d9534f; font-weight: bold;">Phòng đặt ít nhất:</strong > {{ $stats['minBookingRoom']->ten_lp ?? 'Không có' }} (Số lượt đặt: {{ $stats['minBookingRoom']->so_luot_dat ?? 0 }})</p>
+                            <p><strong style=" color: #d9534f; font-weight: bold;">Phòng không được đặt:</strong> 
+                                @if ($stats['unbookedRooms']->isNotEmpty())
+                                    {{ $stats['unbookedRooms']->pluck('ten_lp')->join(', ') }}
+                                @else
+                                    Không có
+                                @endif
+                            </p>
+                        </div>
+                    @endif
+                @endforeach
             @endforeach
-            <p class="total_bill"><span style="font-weight: bold; color: rgb(204, 53, 53)">Tổng đơn :</span> {{ $totalTongDon }}</p>
+            
         @else
            <tr>
             <td colspan="4" class="no_data">Không có dữ liệu ..</td>
            </tr>
         @endif
 
+        
+           
         <div class="back_room">
-            <a href="{{ route('admin.statistical_management')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
+            <a href="{{ route('admin.index')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
          </div>
 
         </body>

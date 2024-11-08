@@ -8,6 +8,9 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ asset('admin/ad_css/statistical/index.css')}}">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+
     </head>
     <body>  
         <main class="content">
@@ -123,7 +126,7 @@
                                                 ${{ number_format($total, 0, ',', '.') }}
                                             </h2>
                                             <div class="mb-0">
-                                                <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> <a href="{{ route('admin.total_revenue')}}" class="detail">Xem chi tiết</a></span>
+                                                <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> <a href="#" class="detail"></a>.</span>
                                             </div>
                                         </div>
                                     </div>
@@ -131,9 +134,37 @@
                             </div>
                         </div>
                     </div>
-          
+                    <div class="col-xl-6 col-xxl-7">
+                        <div class="card flex-fill w-100">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Tỷ lệ đặt phòng lặp lại</h5>
+                            </div>
+                            <div class="card-body d-flex">
+                                <div class="align-self-center w-100">
+                                    <div class="py-3">
+                                        <div class="chart chart-xs">
+                                            <canvas id="chartjs-dashboard-pie-2"></canvas>
+                                        </div>
+                                    </div>
+                        
+                                    <table class="table mb-0">
+                                        <tbody>
+                                            <tr>
+                                                <td>Khách quay lại</td>
+                                                <td class="text-end">{{$repeat_ctm}}  ({{ ceil($repeat_ctm / $total_ctm_lastMonth * 100) }}%)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Khách không quay lại</td>
+                                                <td class="text-end">{{$total_ctm_lastMonth - $repeat_ctm}} ({{ ceil(($total_ctm_lastMonth - $repeat_ctm) / $total_ctm_lastMonth * 100) }}%)</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>--}Ư
 
                 <div class="col-xl-6 col-xxl-7">
                     <div class="card flex-fill w-100">
@@ -187,79 +218,9 @@
                     }
                 </script>
                  --}}
-                <div class="wrapper_chart">
+                <div class="wrapper_chart" >
                     <canvas id="chart-options-example"></canvas>
                 </div>
-
-                {{-- đoạn script này đúng --}}
-                 {{-- <script>
-                    const dataChartOptionsExample = {
-                        type: 'bar',
-                        data: {
-                            labels: ["1", "2", "3", "4", "5", "6", "8", "9", "10", "11", "12"],
-                            datasets: [{
-                                label: '# of Votes',
-                                data: [12, 19, 3, 5, 2, 3, 7, 10, 15, 8, 11],
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)',
-                                    'rgb(255, 144, 144)',
-                                    'rgb(153, 210, 244)',
-                                    'rgb(248, 199, 255)',
-                                    'rgb(255, 240, 129)',
-                                    '#ffcdcd',
-                                    'rgb(183, 255, 148)'
-                                ],
-                                borderColor: [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)',
-                                    'rgb(252, 120, 120)',
-                                    'rgb(101, 189, 240)',
-                                    'rgb(234, 166, 243)',
-                                    'rgb(237, 223, 112)',
-                                    '#fbbaba',
-                                    'rgb(157, 237, 118)'
-                                ],
-                                borderWidth: 1,
-                            }],
-                        },
-                        options: {
-                            scales: {
-                                x: {
-                                    title: {
-                                    display: true,
-                                    text: 'Tháng',
-                                    color: '#2f3e50', 
-                                    font: {
-                                        weight: 'bold', 
-                                        size: 17   
-                                    }
-                                },
-                                    ticks: { color: '#4285F4' },
-                                },
-                                y: {
-                                    ticks: { color: '#f44242' },
-                                },
-                            },
-                        },
-                    };
-                
-                    // Khởi tạo biểu đồ Chart.js
-                    new Chart(
-                        document.getElementById('chart-options-example'),
-                        dataChartOptionsExample
-                    );
-                </script>
-                 --}}
-
                 <script>
                     // document.addEventListener('DOMContentLoaded', function () {
                         var totalData = @json($tongDT);
@@ -309,15 +270,6 @@
                                 options: {
                                     scales: {
                                         x: {
-                                            // title: {
-                                            //     display: true,
-                                            //     text: 'Tháng',
-                                            //     color: '#2f3e50',
-                                            //     font: {
-                                            //         weight: 'bold',
-                                            //         size: 17   
-                                            //     }
-                                            // },
                                             ticks: { color: '#4285F4' },
                                         },
                                         y: {
@@ -327,7 +279,6 @@
                                 },
                             };
                             
-                            // Khởi tạo biểu đồ Chart.js
                             const chartElement = document.getElementById('chart-options-example');
                             if (chartElement) {
                                 new Chart(chartElement, dataChartOptionsExample);
@@ -337,74 +288,123 @@
                         } else {
                             console.error('totalData is not an array or is null:', totalData);
                         }
-                    // });
-
                 </script>
                 
 
-                <div class="row">
-                    <div class="col-12 col-md-6 col-xxl-3 d-flex order-2 order-xxl-3">
-                        <div class="card flex-fill w-100">
-                            <div class="card-header">
-    
-                                <h5 class="card-title mb-0">Browser Usage</h5>
-                            </div>
-                            <div class="card-body d-flex">
-                                <div class="align-self-center w-100">
-                                    <div class="py-3">
-                                        <div class="chart chart-xs">
-                                            <canvas id="chartjs-dashboard-pie"></canvas>
-                                        </div>
-                                    </div>
-    
-                                    <table class="table mb-0">
-                                        <tbody>
-                                            <tr>
-                                                <td>Chrome</td>
-                                                <td class="text-end">4306</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Firefox</td>
-                                                <td class="text-end">3801</td>
-                                            </tr>
-                                            <tr>
-                                                <td>IE</td>
-                                                <td class="text-end">1689</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {{-- <div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
-                        <div class="card flex-fill w-100">
-                            <div class="card-header">
-    
-                                <h5 class="card-title mb-0">Real-Time</h5>
-                            </div>
-                            <div class="card-body px-4">
-                                <div id="world_map" style="height:350px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
-                        <div class="card flex-fill">
-                            <div class="card-header">
-    
-                                <h5 class="card-title mb-0">Calendar</h5>
-                            </div>
-                            <div class="card-body d-flex">
-                                <div class="align-self-center w-100">
-                                    <div class="chart">
-                                        <div id="datetimepicker-dashboard"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
+                {{-- <div class="row">
+                   
                 </div>
+                 --}}
+{{--                 
+                <script>
+                  document.addEventListener("DOMContentLoaded", function () {
+                    const ctx = document.getElementById('chartjs-dashboard-pie-2').getContext('2d');
+                    const rateReturnCTM = {{ json_encode($rateReturnCTM) }};
+                    const nonReturnCTM = 100 - rateReturnCTM;
+                    console.log(rateReturnCTM, nonReturnCTM);
+
+                    // Phá hủy biểu đồ cũ nếu đã tồn tại
+                    if (window.pieChart2) {
+                        window.pieChart2.destroy();
+                    }
+
+                    // Khởi tạo biểu đồ mới với dữ liệu và màu sắc đã yêu cầu
+                    window.pieChart2 = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Khách quay lại', 'Khách không quay lại'],
+                            datasets: [{
+                                data: [rateReturnCTM, nonReturnCTM],
+                                backgroundColor: ['#007bff', '#dc3545'], // Xanh cho khách quay lại, đỏ cho khách không quay lại
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (tooltipItem) {
+                                            const data = tooltipItem.dataset.data;
+                                            const total = data.reduce((acc, value) => acc + value, 0);
+                                            const value = data[tooltipItem.dataIndex];
+                                            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+
+                                            // Trả về giá trị phần trăm kèm dấu '%'
+                                            return `${tooltipItem.label}: ${percentage}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+                </script> --}}
+                
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        const ctx = document.getElementById('chartjs-dashboard-pie-2').getContext('2d');
+                        const rateReturnCTM = {{ json_encode($rateReturnCTM) }}; // Tỷ lệ khách quay lại
+                        const rateNonReturnCTM = 100 - rateReturnCTM; // Tỷ lệ khách không quay lại
+                
+                        // Phá hủy biểu đồ cũ nếu đã tồn tại
+                        if (window.pieChart2) {
+                            window.pieChart2.destroy();
+                        }
+                
+                        // Khởi tạo biểu đồ mới với dữ liệu và màu sắc đã yêu cầu
+                        window.pieChart2 = new Chart(ctx, {
+                            type: 'pie',
+                            data: {
+                                labels: ['Khách quay lại', 'Khách không quay lại'],
+                                datasets: [{
+                                    data: [rateReturnCTM, rateNonReturnCTM],
+                                    backgroundColor: ['#007bff', '#dc3545'], // Xanh cho khách quay lại, đỏ cho khách không quay lại
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    datalabels: {
+                                        formatter: function(value, ctx) {
+                                            const total = ctx.dataset.data.reduce((acc, value) => acc + value, 0);
+                                            const percentage = ((value / total) * 100).toFixed(1); // Tính phần trăm
+                                            const label = ctx.chart.data.labels[ctx.dataIndex]; // Lấy nhãn tương ứng
+                                            return `${label}: ${percentage}%`; // Hiển thị nhãn với tỷ lệ phần trăm
+                                        },
+                                        color: '#fff', // Màu chữ
+                                        font: {
+                                            weight: 'bold', // Độ đậm của chữ
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (tooltipItem) {
+                                                const data = tooltipItem.dataset.data;
+                                                const total = data.reduce((acc, value) => acc + value, 0);
+                                                const value = data[tooltipItem.dataIndex];
+                                                const percentage = ((value / total) * 100).toFixed(1); // Tính phần trăm
+                                                return `${tooltipItem.label}: ${percentage}%`; // Hiển thị phần trăm trong tooltip
+                                            }
+                                        }
+                                    },
+                                    legend: {
+                                        position: 'top',
+                                    }
+                                }
+                            }
+                        });
+                    });
+                </script>
+                
     
+                
                 {{-- <div class="row">
                     <div class="col-12 col-lg-8 col-xxl-9 d-flex">
                         <div class="card flex-fill">

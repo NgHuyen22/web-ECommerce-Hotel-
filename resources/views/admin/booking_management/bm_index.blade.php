@@ -35,7 +35,7 @@
                     </script>
                 @endif
             <div class="tool_wrapper">
-                <a href="" class="wrapper_calender">
+                <a href="{{ route('admin.view_booking_schedule')}}" class="wrapper_calender">
                     <i class="fa-solid fa-calendar-days" style="color: #1f407a;"></i>
                 </a>
 
@@ -77,23 +77,6 @@
 
             <div class="tab-content booking_form_list" id="myTabContent" style="  font-family: 'Play', sans-serif !important;">
                 <div class="tab-pane fade show active " id="home" role="tabpanel" aria-labelledby="home-tab"> 
-                    {{-- <div class="wrapper_search">
-                        <form action="" class="bm_index_form" id="" method="POST">
-                             @csrf
-                             <div class="form-group label_input">
-                                 <label for="ngay_nhan_phong" class="bm_index_label" style="font-weight:bold">Ngày nhận phòng : </label>
-                                 <input type="date" class="form-control bm_index_input" id="ngay_nhan_phong" name ="ngay_nhan_phong" placeholder="" value="" >
-                                 
-                             </div>
-                             
-                             <div class="form-group label_input">
-                                 <label for="ngay_tra_phong" class="bm_index_label" style="font-weight:bold">Ngày trả phòng : </label>
-                                 <input type="date" class="form-control bm_index_input" id="ngay_tra_phong" name ="ngay_tra_phong" placeholder="" value="">
-                                 
-                             </div>
-                        </form>       
-                    </div> --}}
-
                     <div class="tab-content table_content_csvc" id="pills-tabContent">
                         <div class="tab-pane fade show active content_csvc" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <table class="table update_room--table">
@@ -114,7 +97,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider update_room--tbody">
-                                    @if(!$unapproved -> isEmpty())
+                                    @if($unapproved ->count() > 0)
                                         @php $count = 1; @endphp
                                         @if(count($unapproved) > 0)
                                                 @foreach ( $unapproved as $row )
@@ -235,11 +218,11 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                        @else
+                                        {{-- @else
                                             <tr>
                                                 
                                                 <td colspan ="10" class="align-middle text-center">Không có dữ liệu</td>
-                                            </tr>
+                                            </tr> --}}
                                         @endif
                                     @else
                                         <tr>
@@ -255,7 +238,7 @@
                         </div>
         
                     </div>
-                        @if(!$unapproved -> isEmpty())
+                        @if($unapproved->count() > 0)
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination room_pagination">
                                     <!-- Previous Page Link -->
@@ -322,7 +305,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-group-divider update_room--tbody">
-                                    @if(!$approved -> isEmpty())
+                                    @if($approved ->count() > 0)
                                         @php $count = 1; @endphp
                                         @if(count($approved) > 0)
                                                 @foreach ( $approved as $row )
@@ -391,7 +374,7 @@
                         </div>
         
                     </div>
-                        @if(!$approved -> isEmpty())
+                        @if($approved ->count() > 0)
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination room_pagination">
                                     <!-- Previous Page Link -->

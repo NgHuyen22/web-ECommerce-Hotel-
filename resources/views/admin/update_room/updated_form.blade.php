@@ -12,15 +12,15 @@
 
         <body>
                 @if(Session::has('success'))
-                <script>
-                Swal.fire({
-                        icon: 'success',
-                        text: "{{ Session::get('success') }}",
-                        showConfirmButton: false,
-                        timer: 2000
-                });
-                </script>
-        @endif
+                        <script>
+                                Swal.fire({
+                                        icon: 'success',
+                                        text: "{{ Session::get('success') }}",
+                                        showConfirmButton: false,
+                                        timer: 2000
+                                });
+                        </script>
+                @endif
 
         @if($room_type != null)
                 <form action="{{ route('admin.updated') }}" method="POST" class="updated_form" id="updated_form">
@@ -89,18 +89,16 @@
                         var dien_tich = document.getElementById('dien_tich').value;
 
                         if (ten_lp === "" || gia_lp === "" || mo_ta === "" || tien_nghi === "" || suc_chua === "" || dien_tich === "") {
-                        event.preventDefault(); // Ngăn form gửi đi khi dữ liệu không hợp lệ
+                        event.preventDefault();
 
                         Swal.fire({
                                 icon: 'error',
-                                // title: 'Thất bại !!',
                                 text: 'Vui lòng không để trống  thông tin yêu cầu.',
                                 showConfirmButton: false,
                                 timer: 2500
                         });
 
                         }
-                
                 });
         </script>
    

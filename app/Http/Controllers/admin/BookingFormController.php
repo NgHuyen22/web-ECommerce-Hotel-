@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\BookingForm;
 use App\Models\RoomType;
+use App\Models\Room;
 use App\Models\Bill;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,13 @@ class BookingFormController extends Controller
 {
     protected $bf;
     protected $rt;
+    protected $r;
     protected $bill;
     public function __construct()
     {
         $this -> bf = new BookingForm();
         $this -> rt = new RoomType();
+        $this -> r = new Room();
         $this -> bill = new Bill();
     }
 
@@ -84,7 +87,104 @@ class BookingFormController extends Controller
         
     }
 
-    // public function calender(){
-    //     return view();
+    public function view_booking_schedule(Request $rq){
+        // $id_lp = $rq->get('id_lp');
+        // $id_lp = $rq->id_lp;
+        // $rooms = $this -> rt -> room($id_lp);
+        // $bookings = $this -> bf -> checkBooking($id_lp);
+        $roomTypes = $this -> rt -> getRoomType();
+        // if ($rq->ajax()) {
+        //     return response()->json([
+        //         'rooms' => $rooms,
+        //         'bookings' => $bookings,
+        //     ]);
+        // }
+        // return view('admin.booking_management.calendar', compact('rooms', 'bookings','roomTypes'));
+        return view('admin.booking_management.calendar', compact('roomTypes'));
+    }
+    public function booking_schedule( $id_lp){
+        $rooms = $this -> rt -> room($id_lp);
+        $bookings = $this -> bf -> checkBooking($id_lp);
+        $roomTypes = $this -> rt -> getRoomType();
+
+        return view('admin.booking_management.calendar', compact('rooms', 'bookings','roomTypes','id_lp'));
+    }
+    // public function view_booking_schedule() {
+    //     // Lấy danh sách phòng và thông tin đặt phòng
+    //     $rooms = $this->rt->room(3); // Lấy danh sách phòng loại 3
+    //     $bookings = $this->bf->checkBooking(3); // Lấy thông tin đặt phòng loại 3
+    //     // dd($bookings);
+    //     // Khởi tạo danh sách sự kiện cho FullCalendar
+    //     $totalRooms = $rooms->count();
+    //     $events = [];
+    //     foreach ($bookings as $booking) {
+    //         // Kiểm tra số lượng phòng đã đặt cho khoảng thời gian này
+    //         $bookedRooms = $bookings->where('ngay_nhan_phong', '<=', $booking->ngay_tra_phong)
+    //                                 ->where('ngay_tra_phong', '>=', $booking->ngay_nhan_phong)
+    //                                 ->count();
+
+    //         $availableRooms = $totalRooms - $bookedRooms;
+            
+    //         // Kiểm tra nếu phòng đã đầy hay còn trống
+    //         $color = $bookedRooms >= $totalRooms ? '#ff0000' : '#36cdef';
+    
+    //         // Thêm sự kiện vào danh sách
+    //         $events[] = [
+    //             'title' => $availableRooms > 0 ? "Còn trống: $availableRooms phòng" : "Đã đầy",
+    //             'start' => $booking->ngay_nhan_phong,
+    //             'end' => date('Y-m-d', strtotime($booking->ngay_tra_phong . ' +1 day')), // Để bao gồm cả ngày trả phòng
+    //             'color' => $color,
+    //         ];
+    //     }
+    
+    //     return view('admin.booking_management.calendar', compact('events'));
     // }
+
+    // public function view_booking_schedule() {
+    //     // Lấy danh sách phòng và thông tin đặt phòng
+    //     $rooms = $this->rt->room(1); // Lấy danh sách phòng loại 3
+    //     $bookings = $this->bf->checkBooking(1); // Lấy thông tin đặt phòng loại 3
+    //     // dd($bookings);
+    //     // Khởi tạo danh sách sự kiện cho FullCalendar
+    //     $totalRooms = $rooms->count();
+    //     $events = [];
+    //     $processedDates = []; // Mảng để lưu các khoảng ngày đã xử lý
+    
+    //     foreach ($bookings as $booking) {
+    //         // Định dạng khoảng thời gian
+    //         $startDate = $booking->ngay_nhan_phong;
+    //         $endDate = $booking->ngay_tra_phong;
+    //         $dateRangeKey = "$startDate:$endDate";
+    
+    //         // Bỏ qua nếu khoảng thời gian này đã được xử lý
+    //         if (isset($processedDates[$dateRangeKey])) {
+    //             continue;
+    //         }
+    
+    //         // Kiểm tra số lượng phòng đã đặt cho khoảng thời gian này
+    //         $bookedRooms = $bookings->where('ngay_nhan_phong', '<=', $endDate)
+    //                                 ->where('ngay_tra_phong', '>=', $startDate)
+    //                                 ->count();
+    
+    //         $availableRooms = $totalRooms - $bookedRooms;
+            
+    //         // Kiểm tra nếu phòng đã đầy hay còn trống
+    //         $color = $availableRooms > 0 ? '#36cdef' : '#ff0000';
+    
+    //         // Thêm sự kiện vào danh sách
+    //         $events[] = [
+    //             'title' => $availableRooms > 0 ? "Còn trống: $availableRooms phòng" : "Đã đầy",
+    //             'start' => $startDate,
+    //             'end' => date('Y-m-d', strtotime($endDate . ' +1 day')), // Để bao gồm cả ngày trả phòng
+    //             'color' => $color,
+    //         ];
+    
+    //         // Đánh dấu khoảng thời gian này đã được xử lý
+    //         $processedDates[$dateRangeKey] = true;
+    //     }
+    // // dd($events);
+    //     return view('admin.booking_management.calendar', compact('events'));
+    // }
+    
+    
 }

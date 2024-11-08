@@ -7,6 +7,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ asset('customer/ctm_css/room/room_detail.css')}}">
+        <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet">
+
+        <style>
+            .fc-event {
+                color: #fff;
+                padding: 5px;
+                border-radius: 5px;
+                text-align: center;
+            }
+        </style>
     </head>
    
     <body>   
@@ -63,7 +73,7 @@
                                         <div class="rd-title">
                                             <h3 style="font-weight: bold">{{ $room_detail -> ten_lp}} </h3>
 
-                                            <div class="rdt-right">
+                                            {{-- <div class="rdt-right1">
                                                 <div class="rating">
                                                     <i class="fa-solid fa-star" style="color: #f4c725;"></i>
                                                     <i class="fa-solid fa-star" style="color: #f4c725;"></i>
@@ -71,8 +81,31 @@
                                                     <i class="fa-solid fa-star" style="color: #f4c725;"></i>
                                                     <i class="fa-solid fa-star" style="color: #f4c725;"></i>
                                                 </div>
+                                            </div> --}}
 
+                                            <div class="rdt-right1">
+                                                <div class="rating">
+                                                    @php
+                                                        $fullStars = floor($avg); // Số sao vàng đầy đủ
+                                                        $hasHalfStar = ($avg - $fullStars >= 0.1 && $avg - $fullStars < 1) ? true : false; 
+                                                        $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
+                                                    @endphp
+                                            
+                                                    @for ($i = 0; $i < $fullStars; $i++)
+                                                        <i class="fa-solid fa-star" style="color: #f4c725;"></i>
+                                                    @endfor
+                                            
+                                                    @if ($hasHalfStar)
+                                                        <i class="fa-solid fa-star-half-alt" style="color: #f4c725;"></i> 
+                                                    @endif
+                                            
+                                                    @for ($i = 0; $i < $emptyStars; $i++)
+                                                        <i class="fa-solid fa-star" style="color: #cccccc;"></i>
+                                                    @endfor
+                                                    <span style="margin-left: 10px; font-weight: bold;">({{ number_format($avg, 1) }}/5)</span>
+                                                </div>
                                             </div>
+                                            
                                         </div>
                                         <h4>{{ number_format($room_detail->gia_lp, 0, ',', '.') }} VND<span> / Đêm</span></h4>
                                         <table>
@@ -101,115 +134,174 @@
                                 </div>
 
                                 <div class="form__table">
-                                    <div class="d-flex align-items-start w-100">
+                                    <div class="d-flex align-items-start w-100 wrapper_div">
                                         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                                         <button class="nav-link active room_detail--button" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true" >TIỆN NGHI</button>
-                                        <button class="nav-link room_detail--button" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">ĐÁNH GIÁ</button>
+                                        {{-- <button class="nav-link room_detail--button" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">ĐÁNH GIÁ</button> --}}
                                         {{-- <button class="nav-link room_detail--button" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">DỊCH VỤ KHÁC</button> --}}
                                         <button class="nav-link room_detail--button" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">LỊCH ĐẶT</button>
                                         </div>
-                                        <div class="tab-content w-100" id="v-pills-tabContent ">
-                                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-                                        
-                                                    <table class="room_detail--table">
-                                                        <thead>
-                                                            <tr>
-                                                            <th scope="col"><i class="fa-solid fa-bed" style="color: #204468;"></i> Phòng Ngủ</th>
-                                                            <th scope="col"><i class="fa-solid fa-bath" style="color: #204468;"></i> Phòng Tắm</th>
-                                                            </tr>
-                                                        </thead>
-                                                            <tbody>
-
-                                                                <tr style="">      
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i>{{ $room_detail -> tien_nghi}}</td>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Vòi sen</td>
-                                                                </tr>
-
-                                                                <tr>      
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Tủ quần áo</td>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Bồn tắm</td>
-                                                                </tr>
-
-                                                                <tr>      
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Thảm lau</td>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Đồ dùng vệ sinh cá nhân</td>
-                                                                </tr>
-
-                                                            </tbody>         
-                                                    </table>
-                                                    <br>
-                                                    <table class="room_detail--table1">
-                                                        <thead>
-                                                            <tr>
-                                                            <th scope="col"><i class="fa-solid fa-utensils" style="color: #204468;"></i> Nhà Bếp</th>
-                                                            <th scope="col"><i class="fa-solid fa-robot" style="color: #204468;"></i> Thiết Bị</th>
-                                                            </tr>
-                                                        </thead>
-                                                            <tbody>
-
+                                        <div class="tab-content w-100 div1" id="v-pills-tabContent ">
+                                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                            
+                                                        <table class="room_detail--table">
+                                                            <thead>
                                                                 <tr>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Bếp ga</td>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Ổ cắm</td>
+                                                                <th scope="col"><i class="fa-solid fa-bed" style="color: #204468;"></i> Phòng Ngủ</th>
+                                                                <th scope="col"><i class="fa-solid fa-bath" style="color: #204468;"></i> Phòng Tắm</th>
                                                                 </tr>
+                                                            </thead>
+                                                                <tbody>
 
+                                                                    <tr style="">      
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i>{{ $room_detail -> tien_nghi}}</td>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Vòi sen</td>
+                                                                    </tr>
+
+                                                                    <tr>      
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Tủ quần áo</td>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Bồn tắm</td>
+                                                                    </tr>
+
+                                                                    <tr>      
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Thảm lau</td>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Đồ dùng vệ sinh cá nhân</td>
+                                                                    </tr>
+
+                                                                </tbody>         
+                                                        </table>
+                                                        <br>
+                                                        <table class="room_detail--table1">
+                                                            <thead>
                                                                 <tr>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Tủ lạnh</td>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Tivi</td>
+                                                                <th scope="col"><i class="fa-solid fa-utensils" style="color: #204468;"></i> Nhà Bếp</th>
+                                                                <th scope="col"><i class="fa-solid fa-robot" style="color: #204468;"></i> Thiết Bị</th>
                                                                 </tr>
+                                                            </thead>
+                                                                <tbody>
 
-                                                                <tr>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Khay đựng chén , dĩa</td>
-                                                                    <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Đèn ngủ</td>
-                                                                </tr>
+                                                                    <tr>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Bếp ga</td>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Ổ cắm</td>
+                                                                    </tr>
 
-                                                        </tbody>                                                          
-                                                    </table>
-                                        </div>                                
+                                                                    <tr>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Tủ lạnh</td>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Tivi</td>
+                                                                    </tr>
+
+                                                                    <tr>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.1rem"></i> Khay đựng chén , dĩa</td>
+                                                                        <td><i class="fa fa-circle" style="font-size: 0.3rem; vertical-align: middle; margin-right: 0.1rem; margin-left: 1.5rem"></i> Đèn ngủ</td>
+                                                                    </tr>
+
+                                                            </tbody>                                                          
+                                                        </table>
+                                            </div>      
+                                            
+                                            {{-- <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                                
+                                            </div> --}}
+                                            <!-- Tab Pane for LỊCH ĐẶT -->
+                                            <div class="tab-pane fade div2" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" style="">
+                                                <div class="wrapper_calendar" id="wrapperCalendar">
+                                                    <div id="calendar" style=""></div>
+                                                </div>
+                                                <script>
+                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                       
+                                                            document.getElementById('wrapperCalendar')
+                                                            
+                                                            const calendarEl = document.getElementById('calendar');
+                                                            const rooms = @json($room_calendar);
+                                                            const bookings = @json($bookings);
+                                                            console.log(bookings);
+                                                
+                                                            const totalRooms = rooms.length;
+                                                            const events = [];
+                                                            const processedDates = {};
+                                                
+                                                            bookings.forEach(function(booking) {
+                                                                const startDate = booking.ngay_nhan_phong;
+                                                                const endDate = booking.ngay_tra_phong;
+                                                                const dateRangeKey = `${startDate}:${endDate}`;
+                                                
+                                                                if (processedDates[dateRangeKey]) return;
+                                                
+                                                                const bookedRooms = bookings.filter(b => 
+                                                                    b.ngay_nhan_phong <= endDate && b.ngay_tra_phong >= startDate
+                                                                ).length;
+                                                
+                                                                const availableRooms = totalRooms - bookedRooms;
+                                                                const color = availableRooms > 0 ? '#36cdef' : '#ff0000';
+                                                
+                                                                events.push({
+                                                                    title: availableRooms > 0 ? `Còn trống: ${availableRooms} phòng` : "Đã đầy",
+                                                                    start: startDate,
+                                                                    end: moment(endDate).add(1, 'day').format('YYYY-MM-DD'),
+                                                                    color: color,
+                                                                });
+                                                
+                                                                processedDates[dateRangeKey] = true;
+                                                            });
+                                                
+                                                            const calendar = new FullCalendar.Calendar(calendarEl, {
+                                                                initialView: 'dayGridMonth',
+                                                                initialDate: events.length > 0 ? events[0].start : moment().format('YYYY-MM-DD'),
+                                                                events: events,
+                                                                headerToolbar: {
+                                                                    left: 'prev,next today',
+                                                                    center: 'title',     
+                                                                    right: '',                                                     
+                                                                },
+                                                                locale: 'vi',
+                                                                buttonText: { today: 'Hôm nay' }
+                                                            });
+                                                
+                                                            calendar.render();
+                                                    });
+                                                </script>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
 
-                                {{-- <div class="rd-reviews">
-                                    <h4>Reviews</h4>
-                                    <div class="review-item">
-                                        <div class="ri-pic">
-                                            <img src="img/room/avatar/avatar-1.jpg" alt="">
+                                <div class="rd-reviews">
+                                    <h4 style="font-weight:bold;color:#2e659b">Đánh giá ({{ $getEV->count()}} lượt)</h4>
+                                    @if($getLimitEV ->isNotEmpty())
+                                        <div class="review-item">
+                                            @foreach ($getLimitEV as $ev )
+                                                <div class="ri-text">
+                                                        <span style="font-weight:bold">{{$ev -> updated_at}}</span>
+                                                    <div class="rating">
+                                                        @php
+                                                            $fullStars = floor($ev->diem); // Số sao vàng đầy đủ
+                                                            $emptyStars = 5 - $fullStars; // Tính số sao trống
+                                                        @endphp
+                                
+                                                        @for ($i = 0; $i < $fullStars; $i++)
+                                                            <i class="fa fa-star starIs" style="color: #f4c725;"></i>
+                                                        @endfor
+                                
+                                                        @for ($i = 0; $i < $emptyStars; $i++)
+                                                            <i class="fa fa-star starIs" style="color: #cccccc;"></i>
+                                                        @endfor
+                                                    </div>
+                                                    <h5 style="font-weight:bold">{{$ev -> ho_ten}}</h5>
+                                                    <p>{{$ev -> noi_dung}}</p>
+                                                </div>                                               
+                                            @endforeach
                                         </div>
-                                        <div class="ri-text">
-                                            <span>27 Aug 2019</span>
-                                            <div class="rating">
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star-half_alt"></i>
-                                            </div>
-                                            <h5>Brandon Kelley</h5>
-                                            <p>Neque porro qui squam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                                adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et dolore
-                                                magnam.</p>
+                                        @if(count($getEV) > 2)
+                                            <a href="" class="more_review">Xem thêm</a>
+                                        @endif
+                                    @else
+                                        <div class="review-item">
+                                            <p>Chưa có bài đánh giá..</p>
                                         </div>
-                                    </div>
-                                    <div class="review-item">
-                                        <div class="ri-pic">
-                                            <img src="img/room/avatar/avatar-2.jpg" alt="">
-                                        </div>
-                                        <div class="ri-text">
-                                            <span>27 Aug 2019</span>
-                                            <div class="rating">
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star"></i>
-                                                <i class="icon_star-half_alt"></i>
-                                            </div>
-                                            <h5>Brandon Kelley</h5>
-                                            <p>Neque porro qui squam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                                adipisci velit, sed quia non numquam eius modi tempora. incidunt ut labore et dolore
-                                                magnam.</p>
-                                        </div>
-                                    </div>
-                                </div> --}}
+                                    @endif
+                                </div> 
+
                             @else
                                 <span>Hiện tại loại phòng này chưa được cập nhật, bạn vui lòng tham khảo loại phòng khác nhé !</span>
                             @endif
@@ -248,28 +340,7 @@
                                     </div>
                                     
                             
-{{-- 
-                                    <div class="select-option">
-                                        <label for="guest">Người lớn :</label>
-                                        <select id="guest" name="nguoi_lon">
-                                            <option value="" disabled selected>Chọn số người</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </select>
-                                    </div>
-                                    <div class="select-option">
-                                        <label for="room">Trẻ em: </label>
-                                        <select id="room"  name="tre_em">
-                                            <option value="" disabled selected>Chọn số người</option>
-                                            <option value="0">0</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                        </select>
-                                    </div> --}}
+
                                     <input type="hidden" name="id_rt" value="{{ $room_detail -> id_lp}}">
                                     <input type="hidden" name="ten_lp" value="{{ $room_detail -> ten_lp}}">
                                     
@@ -296,19 +367,6 @@
                                     </div>
                                 </div>
                             </div>
-                      
-                                {{-- <button type="button" class="btn btn-primary see_form" style="display: none"> --}}
-                                    {{-- <a href="{{ route('customer.see_form')}}">
-
-                                        <div class="btn btn-primary see_form">
-                                            
-                                            Xem đơn
-                                          
-                                            <span class="badge badge-light">{{ $countFormLogin}}</span>
-                                            <span class="sr-only">unread messages</span>
-                                      </div>
-                                    </a>
-            --}}
                         </div>
                        
                     </div>
@@ -463,6 +521,9 @@
         </script>
 
         <script>{{ asset('customer/ctm_js/room/room_detail.js')}}</script>
+        <!-- FullCalendar JS -->
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
     </body>
     </html>
 @endsection

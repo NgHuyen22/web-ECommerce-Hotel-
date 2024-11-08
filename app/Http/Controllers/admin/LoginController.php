@@ -102,21 +102,42 @@ class LoginController extends Controller
     public function check_register(Request $rq){
 
         $rq->validate([
-                'ho_ten' => 'required',
+                'ho_ten' => 'required|string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
                 'gioi_tinh' => 'required',
-                'sdt' => 'required|numeric',
+                'sdt' => 'required|regex:/^[0-9]{10}$/',
                 'email' => 'required|email',
                 'dia_chi' => 'required',
                 'pass' => 'required',
                 'confirm_pass' => 'required|same:pass'
         ],[
+            'ho_ten.string' => 'Họ tên phải là chuỗi ký tự.',
+            'ho_ten.regex' => 'Họ tên không được chứa số.',
+            'ho_ten.max' => 'Họ tên không được nhập quá 50 kí tự',
+            'gioi_tinh.required' => 'Vui lòng chọn giới tính',
             'sdt.required' => 'Vui lòng nhập SDT!',
-            'sdt.numeric' => 'SDT chỉ được nhập số !',
+            'sdt.regex' => 'SDT không hợp lệ',
             'email.required' => 'Vui lòng nhập địa chỉ email !',
-            'email.email' => 'Vui lòng nhập địa chỉ email hợp lệ !',
+            'email.email' => 'Email không hợp lệ !',
+            'pass.required' => 'Vui lòng nhập mật khẩu !',
             'confirm_pass.required' => 'Vui lòng nhập lại mật khẩu !',
             'confirm_pass.same' => 'Mật khẩu xác nhận không khớp !',
         ]);
+        // $rq->validate([
+        //     'ho_ten' => 'string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
+        //     'sdt' => 'regex:/^[0-9]{10}$/',
+        //     'email' => 'email',
+        //     'dia_chi' => 'max:250',
+        //      'confirm_pass' => 'same:pass',
+           
+        // ], [
+        //    'ho_ten.string' => 'Họ tên phải là chuỗi ký tự.',
+        //    'ho_ten.regex' => 'Họ tên không được chứa số.',
+        //    'ho_ten.max' => 'Họ tên không được nhập quá 50 kí tự',
+        //     'sdt.regex' => 'Số điện thoại không chứa ký tự và phải có đúng 10 chữ số.',
+        //     'email.email' => 'Email không đúng định dạng.',
+        //     'dia_chi.max' => 'Không được nhập địa chỉ quá 250 kí tự.',     
+        //     'confirm_pass.same' => 'Mật khẩu xác nhận không khớp !',     
+        // ]);
         $getEmail = $this->us->checkUser($rq->email);
         // dd($getEmail);
         if ($getEmail != null) {
@@ -129,6 +150,7 @@ class LoginController extends Controller
                 'email' => $rq->email,
                 'dia_chi' => $rq->dia_chi,
                 'pass' => bcrypt($rq->pass),
+                'status' => 1,
                 'role' => 1,
                 'token'  => $rq->_token,
             ];

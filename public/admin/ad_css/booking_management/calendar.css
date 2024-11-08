@@ -1,0 +1,80 @@
+
+@import url('https://fonts.cdnfonts.com/css/play');
+
+.wrapper_calendar{
+    margin-top: 2rem;
+    display: flex !important;
+    justify-content:center !important ;
+    align-items: center;
+    font-family: 'Play', sans-serif !important;
+    margin-bottom: 1.5rem;
+}
+
+#calendar {
+    width: 85% !important;
+    height: 70vh !important;
+   
+}
+
+#fc-dom-1{
+    text-align: center !important;
+}
+
+
+.back_room{
+
+    margin-left: 2rem !important;
+    /* color: rgb(221, 72, 72); */
+    border: 2px solid rgb(221, 72, 72);
+    transition: transform 0.3s ease; 
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-bottom: 3rem;
+  }
+  
+  .back_room:hover {
+    transform: scale(1.2);
+    border-color: rgb(21, 142, 104);
+    color: rgb(21, 142, 104); 
+  }
+  
+  .back-icon{
+    color: rgb(221, 72, 72); 
+    font-size: 1.3rem;
+  
+  }
+  .back_room:hover .back-icon{
+    color: rgb(21, 142, 104);
+  }
+
+  .select_room{
+    font-family: 'Play', sans-serif;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3rem;
+  }
+
+  .select_item{
+    width: 30%;
+    margin-right: 1rem !important;
+  }
+
+  .button{
+    width: 4%;
+    height: 4.5vh;
+    border-radius: 5px;
+  }
+
+  /* .wrapper_calendar {
+    display: none;
+    margin-top: 20px;
+} */
+
+  
+

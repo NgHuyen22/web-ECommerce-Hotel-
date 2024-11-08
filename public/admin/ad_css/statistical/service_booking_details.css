@@ -101,4 +101,9 @@ h4 {
     color: rgb(21, 142, 104);
   }
   
+  .summary_info{
+    margin-left: 4rem !important;
+    margin-bottom: 2rem !important;
+
+}
   

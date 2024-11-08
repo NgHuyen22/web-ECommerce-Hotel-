@@ -7,6 +7,31 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="{{ asset('customer/ctm_css/booking_history/see_history.css')}}">
+
+        <style>
+            .star-rating .star {
+                font-size: 30px;
+                cursor: pointer;
+                color: #ffc107; 
+            }
+            .star-rating .star.selected {
+                color: #ffc107; 
+            }
+            .star-rating .star.unselected {
+                color: #ccc;
+            }
+            .star-ratingIs .starIs {
+                font-size: 30px;
+                cursor: pointer;
+                color: #ffc107; 
+            }
+            .star-ratingIs .starIs.selected {
+                color: #ffc107; 
+            }
+            .star-ratingIs .starIs.unselected {
+                color: #ccc;
+            }
+        </style>
     </head>
     <body>
         @if (Session::has('error'))
@@ -90,9 +115,193 @@
                                                             <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="buttonCancle('{{route('customer.cancle_form',[$row -> id_don])}}')">Hủy</button>
                                                         @endif
 
-                                                        {{-- @if($bill -> tinh_trang == "Đã  xác nhận")
-                                                            <button type="button" class="btn btn-danger cancle-form" onclick="">Đánh giá</button>
-                                                        @endif --}}
+                                                        {{-- @if($row->ngay_tra_phong >= $current) --}}
+                                                        @if($row -> tinh_trang == 'Đã xác nhận')
+                                                        @php
+                                                            $hasEvaluation = false;
+                                                        @endphp
+                                                    
+                                                        @if($getEV->isNotEmpty())
+                                                            @foreach ($getEV as $ev)
+                                                                @if($ev->don == $row->id_don)
+                                                                    @php
+                                                                        $hasEvaluation = true;
+                                                                    @endphp
+                                                                    <button type="button" class="btn btn-danger evaluate" onclick="showEvaluateIsset('{{ $ev->noi_dung }}', {{ $ev->diem }}, '{{ $ev->created_at }}','{{ $ev->updated_at }}',{{ $ev->so_lan_sua }})">Xem đánh giá</button>
+                                                                    @break
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                    
+                                                        @if(!$hasEvaluation)
+                                                            <button type="button" class="btn btn-danger evaluate" onclick="showEvaluate()">Đánh giá</button>
+                                                        @endif
+                                                    @endif
+
+                                                        <div id="evaluateModal" class="modal" style="display: none;">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Đánh giá chất lượng phòng</h5>
+                                                                        <button type="button" class="close" onclick="hideEvaluate()">&times;</button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p style="font-style: italic; color: rgb(229, 227, 227);">Chúng tôi luôn trân trọng mọi đánh giá từ bạn. 
+                                                                            Những góp ý quý báu này sẽ giúp chúng tôi mang đến dịch vụ hoàn hảo hơn cho từng trải nghiệm của bạn !!</p>
+                                                                        </p>
+                                                                
+                                                                        <div class="status-rating">
+                                                                            <div class="star-rating">
+                                                                                <i class="fa fa-star star selected" onclick="toggleStar(1)"></i>
+                                                                                <i class="fa fa-star star selected" onclick="toggleStar(2)"></i>
+                                                                                <i class="fa fa-star star selected" onclick="toggleStar(3)"></i>
+                                                                                <i class="fa fa-star star selected" onclick="toggleStar(4)"></i>
+                                                                                <i class="fa fa-star star selected" onclick="toggleStar(5)"></i>
+                                                                            </div>
+                                                                            <span id="ratingText" style="display: block;font-weight: bold;color:#ffc107">Tuyệt vời</span>
+                                                                        </div>
+                                                                        <textarea id="comment" type="text" placeholder="Nhập nhận xét của bạn"></textarea>
+
+                                                                        <div class="tool" id="tool">
+                                                                            <button id="" class="tool_button" onclick="send()">Gửi</button>
+                                                                        </div>
+                                                                    </div>                                
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="evaluateModalIs" class="modal" style="display: none;">
+                                                            <div class="modal-dialog modal-dialog-centered">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title">Đánh giá chất lượng phòng</h5>
+                                                                        <button type="button" class="close" onclick="hideEvaluateIs()">&times;</button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p style="font-style: italic; color: rgb(229, 227, 227);">Chúng tôi luôn trân trọng mọi đánh giá từ bạn. Những góp ý quý báu này sẽ giúp chúng tôi mang đến dịch vụ hoàn hảo hơn cho từng trải nghiệm của bạn !!</p>
+                                                                        
+                                                                        <div class="status-rating">
+                                                                            <div class="star-ratingIs">
+                                                                                <i class="fa fa-star starIs" onclick="toggleStar(1)"></i>
+                                                                                <i class="fa fa-star starIs" onclick="toggleStar(2)"></i>
+                                                                                <i class="fa fa-star starIs" onclick="toggleStar(3)"></i>
+                                                                                <i class="fa fa-star starIs" onclick="toggleStar(4)"></i>
+                                                                                <i class="fa fa-star starIs" onclick="toggleStar(5)"></i>
+                                                                            </div>
+                                                                            <span id="ratingTextIs" style="display: block; font-weight: bold; color:#ffc107">Tuyệt vời</span>
+                                                                        </div>
+                                                                        <textarea id="commentIs" type="text"  disabled></textarea>
+                                                                        <span id="created_at_ev"></span>
+                                                                        
+                                                                        <div class="tool" id="tool">
+                                                                            <button id="edit_ev" class="tool_button" onclick="enableEdit()">Sửa</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>                                                        
+
+                                                        <script>
+                                                             function showEvaluate() {
+                                                                document.getElementById("evaluateModal").style.display = "block";
+                                                            }
+
+                                                            function hideEvaluate() {
+                                                                document.getElementById("evaluateModal").style.display = "none";
+                                                            }
+
+                                                            let currentRating = 5;
+                                                            function toggleStar(rating) {
+                                                                currentRating = rating;
+                                                                let stars = document.querySelectorAll('.star-rating .star');
+                                                                stars.forEach((star, index) => {
+                                                                    if (index < rating) {
+                                                                        star.classList.add('selected');
+                                                                        star.classList.remove('unselected');
+                                                                    } else {
+                                                                        star.classList.add('unselected');
+                                                                        star.classList.remove('selected');
+                                                                    }
+                                                                });
+
+                                                                switch (rating) {
+                                                                    case 5: ratingText.textContent = "Tuyệt vời"; break;
+                                                                    case 4: ratingText.textContent = "Hài lòng"; break;
+                                                                    case 3: ratingText.textContent = "Bình thường"; break;
+                                                                    case 2: ratingText.textContent = "Không hài lòng"; break;
+                                                                    case 1: ratingText.textContent = "Tệ"; break;
+                                                                }
+
+                                                                
+                                                            }
+
+                                                            function send() {
+                                                                const rating = currentRating;
+                                                                const comment = document.getElementById('comment').value;
+                                                                const user_id = {{ $getUserLogin->id }};
+                                                                const booking_id = {{ $row->id_don }};
+                                                                const room_id = {{ $row->id_loai_phong }};
+                                                                window.location.href = `{{ route('customer.evaluate') }}?rating=${rating}&comment=${encodeURIComponent(comment)}&user_id=${user_id}&booking_id=${booking_id}&room_id=${room_id}`;
+                                                            }
+
+                                                            //EvaluateModalIs
+                                                            function showEvaluateIsset(noi_dung, diem, created_at,updated_at,so_lan_sua) {
+                                                                document.getElementById("evaluateModalIs").style.display = "block";
+                                                                
+                                                                document.getElementById("commentIs").value = noi_dung;
+                                                                document.getElementById("created_at_ev").textContent = created_at;
+                                                                const editButton = document.getElementById("edit_ev");
+                                                                if (so_lan_sua >= 1) {
+                                                                    document.getElementById("created_at_ev").innerHTML = `<p><span id="edit_content"></span><span id="updated_at_ev"></span></p>`;
+                                                                    document.getElementById("edit_content").textContent = "Đã sửa : ";
+                                                                    document.getElementById("updated_at_ev").textContent = updated_at; 
+                                                                    editButton.disabled = true;
+                                                                } else {
+                                                                    document.getElementById("created_at_ev").textContent = created_at;
+                                                                    editButton.disabled = false;
+                                                                }
+
+                                                                let stars = document.querySelectorAll('#evaluateModalIs .star-ratingIs .starIs');
+                                                                stars.forEach((star, index) => {
+                                                                    if (index < diem) {
+                                                                        star.classList.add('selected');
+                                                                        star.classList.remove('unselected');
+                                                                    } else {
+                                                                        star.classList.remove('selected');
+                                                                        star.classList.add('unselected');
+                                                                    }
+                                                                });
+                                                                const ratingTextIs = document.getElementById("ratingText");
+                                                                switch (diem) {
+                                                                    case 5: ratingTextIs.textContent = "Tuyệt vời"; break;
+                                                                    case 4: ratingTextIs.textContent = "Hài lòng"; break;
+                                                                    case 3: ratingTextIs.textContent = "Bình thường"; break;
+                                                                    case 2: ratingTextIs.textContent = "Không hài lòng"; break;
+                                                                    case 1: ratingTextIs.textContent = "Tệ"; break;                                                                
+                                                                }
+                                                            
+                                                            }
+
+                                                            function hideEvaluateIs() {
+                                                                document.getElementById("evaluateModalIs").style.display = "none";
+                                                            }
+                                                            function enableEdit() {
+                                                                document.getElementById("commentIs").disabled = false; 
+                                                                document.getElementById("commentIs").style.color = "black"; 
+                                                                // Thay nút "Sửa" thành "Cập Nhật"
+                                                                // document.getElementById("edit_ev").innerHTML = `<button id="edit_ev" class="tool_button2" onclick="updateEvaluate()">Cập Nhật</button>`;
+                                                                const editButton = document.getElementById("edit_ev");
+                                                                editButton.textContent = "Cập Nhật";
+                                                                editButton.classList.replace("tool_button", "tool_button2"); // Đổi class nếu cần
+                                                                editButton.onclick = updateEvaluate;
+                                                            }
+
+                                                            function updateEvaluate() {
+                                                                const comment = document.getElementById('commentIs').value;
+                                                                const booking_id = {{ $row->id_don }};
+                                                                window.location.href = `{{ route('customer.update_review') }}?comment=${encodeURIComponent(comment)}&booking_id=${booking_id}`;
+                                                            }
+                                                        </script>
 
                                         </div>
                                   
@@ -221,7 +430,7 @@
                                                                 <p style="margin-left: 1.3rem;color:#204468; font-weight:bold;">Tình trạng : <span class="status" >{{($bill -> trang_thai_hd !=null) ? $bill-> trang_thai_hd :''}}</span></p>
                                                             @if($bill -> trang_thai_hd == 'Đã thanh toán')
                                                                 {{-- <button type="button" style="margin-bottom: 1rem;margin-left: 1rem;" class="btn btn-danger cancle-form" onclick="printBill('{{ route('admin.print_bill',[$bill -> id_hd])}}')">In</button> --}}
-                                                                <a href="{{ route('admin.print_bill',[$bill -> id_hd])}}"class="btn btn-danger cancle-form"  target="black" style="margin-bottom: 1rem;margin-left: 1rem;" >In</a>
+                                                                <a href="{{ route('customer.print_bill',[$bill -> id_hd])}}"class="btn btn-danger cancle-form"  target="black" style="margin-bottom: 1rem;margin-left: 1rem;" >In</a>
                                                             @endif
                                                   </div>
                                              @endif
@@ -234,8 +443,6 @@
                                     
                                 </div>
                         @endforeach
-
-        
                     @else
                         <div class="div_parent"><p>Chưa có dữ liệu</p></div>           
                     @endif

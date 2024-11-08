@@ -1,0 +1,90 @@
+
+.room_pagination{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+ }
+
+.room_pagination .page-item {
+    margin: 0 5px;            /* Khoảng cách giữa các item */
+}
+
+.page-link-css{
+    color: #2375c7;           /* Màu cho liên kết trang */
+    text-decoration: none;    /* Xóa gạch chân */
+    padding: 0.5rem 0.75rem;  /* Điều chỉnh padding */
+    border-radius: 5px;       /* Bo góc các nút */
+    border: 1px solid #dee2e6;/* Đường viền xung quanh các nút */
+}
+
+.room_pagination .page-item.active .page-link {
+    background-color: #2375c7;/* Màu nền của nút trang hiện tại */
+    color: white;             /* Màu chữ nút trang hiện tại */
+    border-color: #2375c7;    /* Màu viền nút trang hiện tại */
+}
+
+.room_pagination .page-item.disabled .page-link {
+    color: #6c757d;           /* Màu cho nút bị vô hiệu hóa */
+    pointer-events: none;
+}
+
+.select_room{
+    width: 20%;
+    margin-left: 2rem;
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+}
+
+.wrapper_ttkh{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table_ttkh{
+    width: 90%;
+}
+
+.tool_flex{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.add_room--wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+.add_room--wrapper::after {
+  content: 'Thêm TTKH';  
+  position: absolute;
+  bottom: 2.3rem; 
+  left: 3rem;
+  transform: translateX(-50%);
+  background-color: #ca1c50;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  font-family: 'Play', sans-serif !important;
+}
+
+.add_room--wrapper:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.add_room--icon{
+  transition: transform 0.3s ease; 
+}
+
+.add_room--icon:hover{
+  transform: scale(1.3);
+}

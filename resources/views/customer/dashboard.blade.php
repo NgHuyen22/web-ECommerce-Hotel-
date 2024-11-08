@@ -105,58 +105,52 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <span>What We Do</span>
-                        <h2>Discover Our Services</h2>
+                        <span>Explore at HazBin</span>
+                        <h2>Khám Phá - Trải Nghiệm - Ấn Tượng</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-4 col-sm-6">
                     <div class="service-item">
-                        <i class="flaticon-036-parking"></i>
-                        <h4>Travel Plan</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna.</p>
+                        <i class="fa-solid fa-wifi" style="font-size:2rem;margin-top: 1.5rem;margin-bottom: 1rem"></i>
+                        <h4>WiFi</h4>   
+                        <p>Wifi miễn phí tốc độ cao,bảo mật, bạn có thể thoải mái truy cập internet mà không lo gián đoạn,</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <div class="service-item">
-                        <i class="flaticon-033-dinner"></i>
-                        <h4>Catering Service</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna.</p>
+                        <i class="fa-solid fa-shield-halved" style="font-size:2rem;margin-top: 1.5rem;margin-bottom: 1rem"></i>
+                        <h4>An ninh 24/7</h4>
+                        <p>Đảm bảo an toàn tuyệt đối cho khách hàng với hệ thống camera giám sát, đội ngũ nhân viên bảo vệ chuyên nghiệp</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <div class="service-item">
-                        <i class="flaticon-026-bed"></i>
-                        <h4>Babysitting</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna.</p>
+                        <i class="fa-solid fa-person-swimming" style="font-size:2rem;margin-top: 1.5rem;margin-bottom: 1rem"></i>
+                        <h4>View hấp dẫn</h4>
+                        <p>Từ ban công thoáng mát nhìn ra thành phố sôi động hoặc bãi biển xanh mát, đem lại trải nghiệm nghỉ dưỡng tuyệt vời. </p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <div class="service-item">
-                        <i class="flaticon-024-towel"></i>
-                        <h4>Laundry</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna.</p>
+                        <i class="fa-solid fa-burger" style="font-size:2rem;margin-top: 1.5rem;margin-bottom: 1rem"></i>
+                        <h4>Dịch vụ ăn uống</h4>
+                        <p>Ẩm thực truyền thống đến quốc tế, bữa ăn đa dạng và nguyên liệu tươi ngon mỗi ngày.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <div class="service-item">
-                        <i class="flaticon-044-clock-1"></i>
-                        <h4>Hire Driver</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna.</p>
+                        <i class="fa-solid fa-spa" style="font-size:2rem;margin-top: 1.5rem;margin-bottom: 1rem"></i>
+                        <h4>Dịch vụ spa & cssk</h4>
+                        <p>Các liệu trình chăm sóc sắc đẹp,thư giãn cùng hoạt động thể chất giúp đạt được sự cân bằng cả về thể lực và tinh thần.</p>
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6">
                     <div class="service-item">
-                        <i class="flaticon-012-cocktail"></i>
-                        <h4>Bar & Drink</h4>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna.</p>
+                        <i class="fa-solid fa-utensils" style="font-size:2rem;margin-top: 1.5rem;margin-bottom: 1rem"></i>
+                        <h4>Nhà bếp hiện đại</h4>
+                        <p>Nhà bếp được trang bị các thiết bị hiện đại, đảm bảo an toàn vệ sinh đáp ứng mọi sở thích ẩm thực của khách hàng.</p>
                     </div>
                 </div>
             </div>
@@ -165,52 +159,49 @@
     <!-- Services Section End -->
 
     <!-- Home Room Section Begin -->
-    
-    {{-- @if($mostSearch -> isEmpty())
-        <p></p>
-    @else
-        <h4 style="text-align:center; font-weight: bold;margin-bottom: 2rem">Top các phòng thịnh hành</h4>
+    {{-- @if($similarRoom -> isEmpty())
+        @if($mostSearch -> isEmpty())
+            <p></p>
+        @else
+            <h4 style="text-align:center; font-weight: bold;margin-bottom: 2rem">Top các phòng thịnh hành</h4>
 
-            <section class="hp-room-section">
-                    <div class="container-fluid">
-                        <div class="hp-room-items">
-                            <div class="row">
-                                @foreach ($mostSearch as $most)
-                                    <div class="col-lg-3 col-md-6">
-                                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $most->ten_lp) . '.jpg') }}">
-                                            <div class="hr-text">
-                                                <h3>{{ $most -> ten_lp}}</h3>
-                                                <h2> {{ number_format($most->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
-                                                <table>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="r-o">Diện tích :</td>
-                                                            <td>{{ $most -> dien_tich}}</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="r-o">Sức chứa:</td>
-                                                            <td>{{ $most -> suc_chua }} người</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="r-o">Mô tả:</td>
-                                                            <td> {{ \Illuminate\Support\Str::words($most->mo_ta, 15, '...') }}</td>
-                                                        </tr>
-                                                       
-                                                    </tbody>
-                                                </table>
-                                                <a href="{{ route('customer.room_detail', $most->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                <section class="hp-room-section">
+                        <div class="container-fluid">
+                            <div class="hp-room-items">
+                                <div class="row">
+                                    @foreach ($mostSearch as $most)
+                                        <div class="col-lg-3 col-md-6">
+                                            <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $most->ten_lp) . '.jpg') }}">
+                                                <div class="hr-text">
+                                                    <h3>{{ $most -> ten_lp}}</h3>
+                                                    <h2> {{ number_format($most->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="r-o">Diện tích :</td>
+                                                                <td>{{ $most -> dien_tich}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="r-o">Sức chứa:</td>
+                                                                <td>{{ $most -> suc_chua }} người</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="r-o">Mô tả:</td>
+                                                                <td> {{ \Illuminate\Support\Str::words($most->mo_ta, 15, '...') }}</td>
+                                                            </tr>
+                                                        
+                                                        </tbody>
+                                                    </table>
+                                                    <a href="{{ route('customer.room_detail', $most->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            </div> 
+                                    @endforeach
+                                </div> 
+                            </div>
                         </div>
-                    </div>
-            </section>
-    @endif --}}
-
-    @if($similarRoom -> isEmpty())
-        <p></p>
+                </section>
+        @endif 
     @else
         <h4 style="text-align:center; font-weight: bold;margin-bottom: 2rem">Có thể bạn sẽ thích</h4>
 
@@ -252,9 +243,166 @@
             </section>
     @endif
 
-        <!-- Home Room Section End -->
+    @if($similarSearch -> isEmpty())
+        <p></p>
+    @else
+            <section class="hp-room-section">
+                    <div class="container-fluid">
+                        <div class="hp-room-items">
+                            <div class="row">
+                                @foreach ($similarSearch as $content)
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $content->ten_lp) . '.jpg') }}">
+                                            <div class="hr-text">
+                                                <h3>{{ $content -> ten_lp}}</h3>
+                                                <h2> {{ number_format($content->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="r-o">Diện tích :</td>
+                                                            <td>{{ $content -> dien_tich}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Sức chứa:</td>
+                                                            <td>{{ $content -> suc_chua }} người</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Mô tả:</td>
+                                                            <td> {{ \Illuminate\Support\Str::words($content->mo_ta, 15, '...') }}</td>
+                                                        </tr>
+                                                       
+                                                    </tbody>
+                                                </table>
+                                                <a href="{{ route('customer.room_detail', $content->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div> 
+                        </div>
+                    </div>
+            </section>
+    @endif --}}
 
-    <!-- Testimonial Section Begin -->
+    @if($mergeRooms)
+        <h4 style="text-align:center; font-weight: bold;margin-bottom: 2rem;font-size: 2rem">Có Thể Bạn Sẽ Thích</h4>
+        <section class="hp-room-section">
+            <div class="container-fluid">
+                <div class="hp-room-items">
+                    <div class="row">
+                        @foreach ($finalRooms as $content)
+                            <!-- Hiển thị nội dung phòng giống như mã ban đầu -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $content->ten_lp) . '.jpg') }}">
+                                    <div class="hr-text">
+                                        <h3>{{ $content->ten_lp }}</h3>
+                                        <h2>{{ number_format($content->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="r-o">Diện tích :</td>
+                                                    <td>{{ $content->dien_tich }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="r-o">Sức chứa:</td>
+                                                    <td>{{ $content->suc_chua }} người</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="r-o">Mô tả:</td>
+                                                    <td>{{ \Illuminate\Support\Str::words($content->mo_ta, 15, '...') }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <a href="{{ route('customer.room_detail', $content->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+    @else
+        @if($mostSearch ->isNotEmpty())
+            <h4 style="text-align:center; font-weight: bold;margin-bottom: 2rem">Top Các Phòng Thịnh Hành</h4>
+
+            <section class="hp-room-section">
+                    <div class="container-fluid">
+                        <div class="hp-room-items">
+                            <div class="row">
+                                @foreach ($mostSearch as $most)
+                                    <div class="col-lg-3 col-md-6">
+                                        <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $most->ten_lp) . '.jpg') }}">
+                                            <div class="hr-text">
+                                                <h3>{{ $most -> ten_lp}}</h3>
+                                                <h2> {{ number_format($most->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="r-o">Diện tích :</td>
+                                                            <td>{{ $most -> dien_tich}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Sức chứa:</td>
+                                                            <td>{{ $most -> suc_chua }} người</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="r-o">Mô tả:</td>
+                                                            <td> {{ \Illuminate\Support\Str::words($most->mo_ta, 15, '...') }}</td>
+                                                        </tr>
+                                                    
+                                                    </tbody>
+                                                </table>
+                                                <a href="{{ route('customer.room_detail', $most->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div> 
+                        </div>
+                    </div>
+            </section>
+        @endif
+    @endif
+    {{-- CONG TAC --}}
+    {{-- @if ($recommendedRooms -> isNotEmpty())
+        <section class="hp-room-section">
+            <div class="container-fluid">
+                <div class="hp-room-items">
+                    <div class="row">
+                        @foreach ($recommendedRooms as $recom)
+                            <div class="col-lg-3 col-md-6">
+                                <div class="hp-room-item set-bg" data-setbg="{{ asset('customer/img/room/' . str_replace(' ', '_', $recom->ten_lp) . '.jpg') }}">
+                                    <div class="hr-text">
+                                        <h3>{{ $recom -> ten_lp}}</h3>
+                                        <h2> {{ number_format($recom->gia_lp, 0, ',', '.') }} VND <span> / Đêm</span></h2>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="r-o">Diện tích :</td>
+                                                    <td>{{ $recom -> dien_tich}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="r-o">Sức chứa:</td>
+                                                    <td>{{ $recom -> suc_chua }} người</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="r-o">Mô tả:</td>
+                                                    <td> {{ \Illuminate\Support\Str::words($recom->mo_ta, 15, '...') }}</td>
+                                                </tr>
+                                            
+                                            </tbody>
+                                        </table>
+                                        <a href="{{ route('customer.room_detail', $recom->id_lp) }}" class="primary-btn">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div> 
+                </div>
+            </div>
+        </section>
+    @endif --}}
     <section class="testimonial-section spad">
         <div class="container">
             <div class="row">

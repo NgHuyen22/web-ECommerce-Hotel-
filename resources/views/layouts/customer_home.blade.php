@@ -57,6 +57,7 @@
             @yield('see_history')
             @yield('search')
             @yield('contact')
+            @yield('calendar_room_booking')
             @include('customer.footer')
 
 

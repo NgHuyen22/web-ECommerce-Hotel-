@@ -62,11 +62,12 @@
                             <th scope="col" class="align-middle" style="text-align:center">Tên Dịch Vụ</th>
                             <th scope="col" class="align-middle" style="text-align:center">Loại Dịch Vụ</th>
                             <th scope="col" class="align-middle" style="text-align:center">Tổng Doanh Thu</th>
+                            <th scope="col" class="align-middle" style="text-align:center">Số Lượt Đặt</th>
                             <th scope="col" colspan="2"></th>
                         </tr>
                     </thead>
                     <tbody class="update_room--tbody">
-                        @php $count = 1; @endphp
+                        @php $count = 1; $stt = 0; @endphp
                         @foreach ($service_month as $service)
                             @if ($service->month == $monthData->month)
                                 <tr>
@@ -75,18 +76,36 @@
                                     <td class="align-middle" style="text-align:center;">{{ $service->ten_dv }}</td>
                                     <td class="align-middle" style="text-align:center;">{{ $service->ten_ldv }}</td>
                                     <td class="align-middle" style="text-align:center;color:#efad6c;font-weight:bold">{{ number_format($service->tong_dt, 0, ',', '.') }} VND</td>        
-                                    <td class="align-middle" style="text-align:center;"><a class="detail" href="{{ route('admin.calendar_room_booking',[ $monthData->month, $service->id_dv ]) }}">Chi tiết</a></td>
+                                    <td class="align-middle" style="text-align:center;">{{ $service->so_luot_dat }}</td>
+                                    <td class="align-middle" style="text-align:center;"><a class="detail" href="{{ route('admin.service_booking_schedule',[ $monthData->month, $service->id_dv ]) }}">Chi tiết</a></td>
                                 </tr>
 
                                 @php
-                                    $totalTongDon += $service->tong_don;
+                                    $stt = $count -1;
                                 @endphp
                             @endif
                         @endforeach
                     </tbody>
                 </table>
+                <p class="total_bill"><span style="font-weight: bold; color: rgb(204, 53, 53)">Tổng :</span> {{ $stt }}</p>
+                
+                @foreach ($roomStatsByMonth as $stats)
+                    @if ($stats['month'] == $monthData->month)
+                        <div class="room-stats summary_info">
+                            <h5 style="color: rgb(34, 139, 34);font-weight: bold;margin-bottom: 1rem">Thông tin tóm tắt :</h5>
+                            <p ><strong style=" color: #d9534f; font-weight: bold;">Dịch vụ đặt nhiều nhất:</strong> {{ $stats['maxBookingRoom']->ten_dv ?? 'Không có' }} (Số lượt đặt: {{ $stats['maxBookingRoom']->so_luot_dat ?? 0 }})</p>
+                            <p><strong style=" color: #d9534f; font-weight: bold;">Dịch vụ đặt ít nhất:</strong > {{ $stats['minBookingRoom']->ten_dv ?? 'Không có' }} (Số lượt đặt: {{ $stats['minBookingRoom']->so_luot_dat ?? 0 }})</p>
+                            <p><strong style=" color: #d9534f; font-weight: bold;">Dịch vụ không được đặt:</strong> 
+                                @if ($stats['unbookedRooms']->isNotEmpty())
+                                    {{ $stats['unbookedRooms']->pluck('ten_dv')->join(', ') }}
+                                @else
+                                    Không có
+                                @endif
+                            </p>
+                        </div>
+                    @endif
+                @endforeach
             @endforeach
-            {{-- <p class="total_bill"><span style="font-weight: bold; color: rgb(204, 53, 53)">Tổng đơn :</span> {{ $totalTongDon }}</p> --}}
         @else
            <tr>
             <td colspan="4" class="no_data">Không có dữ liệu ..</td>
@@ -94,7 +113,7 @@
         @endif
 
         <div class="back_room">
-            <a href="{{ route('admin.statistical_management')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
+            <a href="{{ route('admin.index')}}"><i class="fa-solid fa-arrow-left back-icon" style=""></i></a>
          </div>
 
         </body>
