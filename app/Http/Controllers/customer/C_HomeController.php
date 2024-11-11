@@ -149,7 +149,7 @@ class C_HomeController extends Controller
     
         $mostSearch = RoomType::getMostSearchedRooms();
         $contentSugg = $this->bf->getSearchRoom(session('id_ctm'));
-    
+
         if ($contentSugg->isNotEmpty()) {
             foreach ($contentSugg as $id_lp) {              
                 $listSimilarCTM = collect($this->bf->getBooking($id_lp->id_loai_phong, session('id_ctm'))->toArray());
@@ -160,12 +160,18 @@ class C_HomeController extends Controller
             }
     
             if ($listSimilarCTM->isNotEmpty()) {
+                $allRoomUs = collect();
                 foreach ($listSimilarCTM as $list) {
                     $roomUs = collect($this->bf->getListRoom($list->id_kh, $list->id_loai_phong)->take(4)->toArray());
+                
+                    if ($roomUs->isNotEmpty()) {
+                        $allRoomUs = $allRoomUs->merge($roomUs);
+                    }
                 }
-    
-                if ($roomUs->isNotEmpty()) {
-                    foreach ($roomUs as $list) {
+           
+       
+                if ($allRoomUs->isNotEmpty()) {
+                    foreach ($allRoomUs as $list) {
                         $recommendedRooms = collect(RoomType::search('')
                             ->whereIn('id_lp', [$list->id_loai_phong])
                             ->get());
@@ -184,7 +190,7 @@ class C_HomeController extends Controller
                 $similarRoom = $similarRoom->unique('id_lp')->take(4);
             }
         }
-    
+
         $searchSugg = $this->sht->getSearchRoom(session('id_ctm'));
     
         if ($searchSugg->isNotEmpty()) {   
@@ -211,20 +217,21 @@ class C_HomeController extends Controller
         }
     
         $mergeRooms = false;
-        if ($similarRoom->count() > 0 && $similarSearch->count() > 0) {
+        if ($similarRoom->count() > 0 || $similarSearch->count() > 0) {
             $mergeRooms = true;
             $combinedRooms = $similarRoom->merge($similarSearch)
                 ->whereNotIn('id_lp', $recommendedRooms->pluck('id_lp')->toArray())
                 ->unique('id_lp');
         }
-    
         $finalRooms = $recommendedRooms->merge($combinedRooms)->unique('id_lp')->sortBy('id_lp');
         $mostSearch = RoomType::getMostSearchedRooms()->take(4);
     
-        return view('customer.dashboard', compact('user', 'mostSearch', 'similarRoom', 'similarSearch', 'mergeRooms', 'combinedRooms', 'recommendedRooms', 'finalRooms'));
+        $evaluate = $this -> ev -> getEVUS() ->sortByDesc('diem') -> take(3);
+
+        return view('customer.dashboard', compact('user', 'mostSearch', 'similarRoom', 'similarSearch', 
+        'mergeRooms', 'combinedRooms', 'recommendedRooms', 'finalRooms','evaluate'));
     }
     
-
 
         public function logout(){
             session()->forget('id_ctm');
@@ -256,15 +263,15 @@ class C_HomeController extends Controller
             $rq->validate([
                 'ho_ten' => 'string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
                 'sdt' => 'regex:/^[0-9]{10}$/', // Chỉ chấp nhận 10 chữ số
-                'email' => 'email',
+                'email' => 'regex:/^[\w\.&*-]+@([\w-]+\.)+[\w-]{2,4}$/',
                 'dia_chi' => 'max:250',
             ], [
                'ho_ten.string' => 'Họ tên phải là chuỗi ký tự.',
                'ho_ten.regex' => 'Họ tên không được chứa số.',
-               'ho_ten.max' => 'Họ tên không được nhập quá 50 kí tự',
-                'sdt.regex' => 'Số điện thoại không chứa ký tự và phải có đúng 10 chữ số.',
-                'email.email' => 'Email không đúng định dạng.',
-                'dia_chi.max' => 'Không được nhập địa chỉ quá 250 kí tự.',              
+               'ho_ten.max' => 'Họ tên tối đa 50 kí tự',
+                'sdt.regex' => 'Số điện thoại không chứa ký tự và phải có 10 chữ số.',
+                'email.regex' => 'Email không hợp lệ !',
+                'dia_chi.max' => 'Địa chỉ tối đa 250 kí tự.',              
             ]);
 
             $data = [
@@ -294,7 +301,7 @@ class C_HomeController extends Controller
             $countP = 0;
             $similarPricedRooms = collect();
             $roomTypes = $this -> rt -> getAllRoom($keywords);
-        //  dd($roomTypes);
+
             $room_type = $this -> rt -> getAllRoom();
             if($roomTypes -> isNotEmpty()){
                 $count = $roomTypes -> total();         
@@ -308,6 +315,30 @@ class C_HomeController extends Controller
             
             $mostSearch =RoomType :: getMostSearchedRooms() ->take(3);
             $mostBooking = RoomType :: getMostBookingRoom();
+            // if($rq -> value == 1) {
+            //     $price = 500000;
+            //     $ranges = 800000;
+            //     $getPrice = $this -> rt ->getPrice($price, $ranges);
+            //     if($getPrice -> isNotEmpty()){
+            //         $countP = $getPrice -> total();   
+            //     }
+            // }
+            // elseif($rq -> value == 2) {
+            //     $price = 1000000;
+            //     $ranges = 1500000;
+            //     $getPrice = $this -> rt ->getPrice($price, $ranges);
+            //     if($getPrice -> isNotEmpty()){
+            //         $countP = $getPrice -> total();   
+            //     }
+            // }
+            // else{
+                
+            //     $ranges = 1500000;
+            //     $getPrice = $this -> rt ->getPrice2($ranges);
+            //     if($getPrice -> isNotEmpty()){
+            //         $countP = $getPrice -> total();   
+            //     }
+            // }
             if($rq -> value == 1) {
                 $price = 500000;
                 $ranges = 800000;
@@ -324,13 +355,19 @@ class C_HomeController extends Controller
                     $countP = $getPrice -> total();   
                 }
             }
-            else{
+            elseif($rq -> value == 3){
                 
                 $ranges = 1500000;
                 $getPrice = $this -> rt ->getPrice2($ranges);
                 if($getPrice -> isNotEmpty()){
                     $countP = $getPrice -> total();   
                 }
+            }else{
+                $getPrice = $this -> rt ->getAllPrice();
+                if($getPrice -> isNotEmpty()){
+                    $countP = $getPrice -> total();   
+                }
+                
             }
 
             $selectedValue = $rq->value;
@@ -350,20 +387,17 @@ class C_HomeController extends Controller
             $getUserLogin = $this->us->getUser(session('id_ctm'));
             $getUser = $this->us->getUser(session('idCtm_notLogin'));
             $room_calendar = $this -> rt -> room($id_rt);
-            $bookings = $this -> bf -> checkBooking($id_rt);
-            // Khởi tạo biến mặc định
+            $bookings = $this -> bf -> checkBooking1($id_rt);
+        // dd($bookings);
             $countFormLogin = 0;
             $countForm = 0;
-        
-            // Nếu có người dùng đăng nhập
             if ($getUserLogin != null) {
                 $getFormLogin = $this->bf->getForm($getUserLogin->id);
                 if ($getFormLogin->total() > 0) {
                     $countFormLogin = $getFormLogin->total();
                 }
             }
-        
-            // Nếu người dùng chưa đăng nhập tồn tại
+
             if ($getUser) {
                 $getForm = $this->bf->getForm($getUser->id);
                 if ($getForm->total() > 0) {
@@ -434,8 +468,7 @@ class C_HomeController extends Controller
             
             $mostSearch =RoomType :: getMostSearchedRooms();
             $mostBooking = RoomType :: getMostBookingRoom();
-
-            
+   
             return view('customer.room.room_index',compact('keywords', 'roomTypes','mostSearch','count','mostBooking','room_type','similarPricedRooms'));
     }
 
@@ -475,5 +508,8 @@ class C_HomeController extends Controller
             $roomType->increment('search_count');
             return redirect()->route('customer.room_detail', $roomType->id_lp);
         }
+    public function news() {
+        return view('customer.annother.news');
+    }
         
 }

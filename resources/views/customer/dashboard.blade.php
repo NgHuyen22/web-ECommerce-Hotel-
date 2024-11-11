@@ -403,60 +403,59 @@
             </div>
         </section>
     @endif --}}
-    <section class="testimonial-section spad">
+    <section class="testimonial-section spad" style="margin-top: 1rem">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title">
-                        <span>Testimonials</span>
-                        <h2>What Customers Say?</h2>
+                        <span>H a z B i n</span>
+                        <h2>Các Đánh Giá Nổi Bật</h2>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
                     <div class="testimonial-slider owl-carousel">
-                        <div class="ts-item">
-                            <p>After a construction project took longer than expected, my husband, my daughter and I
-                                needed a place to stay for a few nights. As a Chicago resident, we know a lot about our
-                                city, neighborhood and the types of housing options available and absolutely love our
-                                vacation at Sona Hotel.</p>
-                            <div class="ti-author">
-                                <div class="rating">
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star-half_alt"></i>
+                    @if($evaluate -> isNotEmpty())
+                        @foreach ($evaluate as $ev)
+                            <div class="ts-item">
+                                <div class="review-item">
+                                        <div class="ri-text">
+                                                <span style="font-weight:bold">{{$ev -> updated_at}}</span>
+                                            <div class="rating" style="margin-bottom: 1rem;margin-top:1rem">
+                                                @php
+                                                    $fullStars = floor($ev->diem); // Số sao vàng đầy đủ
+                                                    $emptyStars = 5 - $fullStars; // Tính số sao trống
+                                                @endphp
+                        
+                                                @for ($i = 0; $i < $fullStars; $i++)
+                                                    <i class="fa fa-star starIs" style="color: #f4c725;"></i>
+                                                @endfor
+                        
+                                                @for ($i = 0; $i < $emptyStars; $i++)
+                                                    <i class="fa fa-star starIs" style="color: #cccccc;"></i>
+                                                @endfor
+                                            </div>
+                                            <h5 style="font-weight:bold;margin-bottom:1rem">{{$ev -> ho_ten}}</h5>
+                                            <p>{{$ev -> noi_dung}}</p>
+                                        </div>                                               
                                 </div>
-                                <h5> - Alexander Vasquez</h5>
-                            </div>
-                            <img src="{{ asset('customer/img/testimonial-logo.png') }}" alt="">
+                            </div>  
+                        @endforeach     
+                     @else
+                     <div class="ts-item">
+                        <div class="review-item">
+                            <p>Chưa có đánh giá...</p>
                         </div>
-                        <div class="ts-item">
-                            <p>After a construction project took longer than expected, my husband, my daughter and I
-                                needed a place to stay for a few nights. As a Chicago resident, we know a lot about our
-                                city, neighborhood and the types of housing options available and absolutely love our
-                                vacation at Sona Hotel.</p>
-                            <div class="ti-author">
-                                <div class="rating">
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star"></i>
-                                    <i class="icon_star-half_alt"></i>
-                                </div>
-                                <h5> - Alexander Vasquez</h5>
-                            </div>
-                            <img src="{{ asset('customer/img/testimonial-logo.png') }}" alt="">
-                        </div>
+                     </div>
+                    @endif
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!-- Testimonial Section End -->
-
+{{-- 
     <!-- Blog Section Begin -->
     <section class="blog-section spad">
         <div class="container">
@@ -516,7 +515,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     <script>{{ asset('customer/ctm_js/room/room_detail.js')}}</script>
     <!-- Blog Section End -->
 @endsection

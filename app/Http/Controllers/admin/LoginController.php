@@ -104,42 +104,27 @@ class LoginController extends Controller
         $rq->validate([
                 'ho_ten' => 'required|string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
                 'gioi_tinh' => 'required',
-                'sdt' => 'required|regex:/^[0-9]{10}$/',
-                'email' => 'required|email',
+                'sdt' => 'required|regex:/^[0-9]{10}$/|max:10',
+                'email' => 'required|regex:/^[\w\.&*-]+@([\w-]+\.)+[\w-]{2,4}$/',
                 'dia_chi' => 'required',
                 'pass' => 'required',
                 'confirm_pass' => 'required|same:pass'
         ],[
-            'ho_ten.string' => 'Họ tên phải là chuỗi ký tự.',
+            'ho_ten.required' => 'Vui lòng nhập họ tên',
             'ho_ten.regex' => 'Họ tên không được chứa số.',
             'ho_ten.max' => 'Họ tên không được nhập quá 50 kí tự',
             'gioi_tinh.required' => 'Vui lòng chọn giới tính',
+            'dia_chi.required' => 'Vui lòng nhập địa chỉ',
             'sdt.required' => 'Vui lòng nhập SDT!',
             'sdt.regex' => 'SDT không hợp lệ',
+            'sdt.max' => 'SDT tối đa 10 số ',
             'email.required' => 'Vui lòng nhập địa chỉ email !',
-            'email.email' => 'Email không hợp lệ !',
+            'email.regex' => 'Email không hợp lệ !',
             'pass.required' => 'Vui lòng nhập mật khẩu !',
             'confirm_pass.required' => 'Vui lòng nhập lại mật khẩu !',
             'confirm_pass.same' => 'Mật khẩu xác nhận không khớp !',
         ]);
-        // $rq->validate([
-        //     'ho_ten' => 'string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
-        //     'sdt' => 'regex:/^[0-9]{10}$/',
-        //     'email' => 'email',
-        //     'dia_chi' => 'max:250',
-        //      'confirm_pass' => 'same:pass',
-           
-        // ], [
-        //    'ho_ten.string' => 'Họ tên phải là chuỗi ký tự.',
-        //    'ho_ten.regex' => 'Họ tên không được chứa số.',
-        //    'ho_ten.max' => 'Họ tên không được nhập quá 50 kí tự',
-        //     'sdt.regex' => 'Số điện thoại không chứa ký tự và phải có đúng 10 chữ số.',
-        //     'email.email' => 'Email không đúng định dạng.',
-        //     'dia_chi.max' => 'Không được nhập địa chỉ quá 250 kí tự.',     
-        //     'confirm_pass.same' => 'Mật khẩu xác nhận không khớp !',     
-        // ]);
         $getEmail = $this->us->checkUser($rq->email);
-        // dd($getEmail);
         if ($getEmail != null) {
             return redirect()->route('customer.register')->withInput() ->with('error', 'Email đã tồn tại !!');
         } else {
@@ -149,7 +134,7 @@ class LoginController extends Controller
                 'sdt' => $rq->sdt,
                 'email' => $rq->email,
                 'dia_chi' => $rq->dia_chi,
-                'pass' => bcrypt($rq->pass),
+                'password' => bcrypt($rq->pass),
                 'status' => 1,
                 'role' => 1,
                 'token'  => $rq->_token,
@@ -157,7 +142,7 @@ class LoginController extends Controller
 
             $result = $this->us->insertKH($data);
             if ($result == true) {
-                return redirect()->route('customer.register')->with('success', 'Đăng ký tài khoản thành công !!');
+                return redirect()->route('customer.login')->with('success', 'Đăng ký tài khoản thành công !!');
             }else{
                 return redirect()->route('customer.register')->withInput()->with('error','Tạo tài khoản không thành công, hãy thử lại !!');
             }

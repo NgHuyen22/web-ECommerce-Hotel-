@@ -516,6 +516,7 @@ class C_RoomController extends Controller
             'email' => $rq -> email,
             'dia_chi' => $rq -> dia_chi,
             'role' =>  1,
+            'status' =>  1,
             'token' =>  $token,
             'created_at' => now(),
             'updated_at' => now(),
@@ -650,7 +651,7 @@ class C_RoomController extends Controller
             ];
             $insertEV = $this -> ev -> insertEV($data);
             if($insertEV){
-                return redirect() -> route('customer.see_form') ->with('success','Thành công');
+                return redirect() -> route('customer.see_form') ->with('success','Cảm ơn đánh giá của bạn !!');
             }else{
                 return redirect() -> route('customer.see_form') ->with('error','Lỗi, vui lòng thử lại sau !!');
             }
@@ -666,7 +667,7 @@ class C_RoomController extends Controller
             ];
             $updateEV = $this -> ev -> updateEV($data,$booking_id);
             if($updateEV){
-                return redirect() -> route('customer.see_form') ->with('success','Thành công');
+                return redirect() -> route('customer.see_form') ->with('success','Cập nhật đánh giá thành công');
             }else{
                 return redirect() -> route('customer.see_form') ->with('error','Lỗi, vui lòng thử lại sau !!');
             }

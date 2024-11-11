@@ -7,7 +7,7 @@
 <body>
     <div style="font-family: Arial, sans-serif; color: #333;">
         <div style="background-color: #f4f4f4; padding: 10px; width: 250px;">
-            <p>Họ Tên:   <span style="font-weight: bold;">{{ $info -> ho_ten }}</span></p>
+            <p>Họ Tên:   <span style="font-weight: bold;">{{  $info-> ho_ten ?? 'Không có thông tin'}}</span></p>
             <p>Nội dung liên hệ: <strong>{{ $info-> noi_dung_ll ?? 'Không có thông tin'}}</strong></p>
             <p>Ngày gửi: <strong>{{ $info -> created_at ?? 'Không có thông tin'}}</strong></p>
         </div>

@@ -44,6 +44,7 @@ class C_ServiceController extends Controller
 
     public function service($id_ldv){
         $id_form = $this -> bf -> getIDForm2(session('id_ctm'));
+        // dd($id_form);
         // $hasRoom = count($id_form) > 0;
         // dd($hasRoom);
         $service = $this -> sv -> getService($id_ldv);
@@ -251,7 +252,7 @@ class C_ServiceController extends Controller
                                     $updatedBill = $this -> bill -> updatedBill($bill -> id_hd, $dataUpdated);
                         // }  
                     }
-                     return redirect() -> route('customer.see_form')->with('success',"Đã đăng ký dịch vụ!");
+                     return redirect() -> route('customer.see_form')->with('success',"Đặt dịch vụ thành công!");
                 }
             }
     }

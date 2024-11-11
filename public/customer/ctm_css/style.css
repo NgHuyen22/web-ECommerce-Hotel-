@@ -698,7 +698,8 @@ ul, ol {
 }
 .service-item i {
 	display: inline-block;
-	color: #dfa974;
+	/* color: #dfa974; */
+	color: #1c719d;
 	-webkit-transition: all 0.3s;
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
@@ -1157,7 +1158,8 @@ ul, ol {
 
 .rooms-section {
 	padding-top: 0;
-	padding-bottom: 80px;
+	/* padding-bottom: 80px; */
+	padding-bottom: 0;
 }
 .room-item {
 	margin-bottom: 30px;

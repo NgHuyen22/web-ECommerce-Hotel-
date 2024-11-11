@@ -33,17 +33,9 @@ class Users extends Model
     }
 
     public function insertKH($data){
-        $result = DB::table($this->us)->insert([
-            'ho_ten' => $data['ho_ten'],
-            'gioi_tinh' => $data['gioi_tinh'],
-            'sdt' => $data['sdt'],
-            'email' => $data['email'],
-            'dia_chi' => $data['dia_chi'],
-            'password' => $data['pass'],
-            'role' =>1,
-            'token'  => $data['token'],
-        ]);
-        return $result;
+        return $result = DB::table($this->us)
+                    ->insert($data);
+          
     }
 
     public function checkUser($email){

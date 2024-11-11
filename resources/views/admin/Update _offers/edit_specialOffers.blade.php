@@ -32,8 +32,8 @@
                 </div>
 
                 <div class="form-group label_input">
-                    <label for="ten_ud" class="updated_form--label">Số Lượng Áp Dụng : <span style="color:red">*</span> </label>
-                    <input type="text" class="form-control updated_form--input" id="ten_ud" name ="ten_ud" placeholder="" value="{{ $ud -> sl_ap_dung }}" >
+                    <label for="sl_ap_dung" class="updated_form--label">Số Lượng Áp Dụng : <span style="color:red">*</span> </label>
+                    <input type="text" class="form-control updated_form--input" id="sl_ap_dung" name ="sl_ap_dung" placeholder="" value="{{ $ud -> sl_ap_dung }}" >
                 </div>
 
                 <div class="form-group label_input">

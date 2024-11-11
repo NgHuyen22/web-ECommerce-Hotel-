@@ -81,7 +81,7 @@
         <form action="{{route('customer.room_index')}}" id="select_price" class ="select_price" method="POST">
             @csrf
             <select class="form-select" aria-label="Default select example" name="value" class="item_price" style="width: 86% ">
-                <option selected>Tất cả</option>
+                <option selected value="4">Tất cả</option>
                 <option value="1" {{ (isset($selectedValue) && $selectedValue == 1) ? 'selected' : '' }}>500.000 - 800.000</option>
                 <option value="2" {{ (isset($selectedValue) && $selectedValue == 2) ? 'selected' : '' }}>1tr - 1tr5</option>
                 <option value="3" {{ (isset($selectedValue) && $selectedValue == 3) ? 'selected' : '' }}>Trên 1tr5</option>

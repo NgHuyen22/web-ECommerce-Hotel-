@@ -32,6 +32,7 @@ class ManageCotactInfo extends Controller
         } catch (Exception $e) {
             return redirect() -> route('admin.manage_contact_information') ->with('error', 'Hệ thống đang gặp sự cố, hãy thử lại sau! Lỗi: ' . $e->getMessage());
         }
+      
         $updated = $this -> ct -> updatedCT($id_contact);
         if($updated){
             return redirect() -> route('admin.manage_contact_information')->with('success', 'Phản hồi thành công, vui lòng kiểm tra email !');

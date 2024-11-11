@@ -160,7 +160,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#04AA6D',
                     cancelButtonColor: 'rgb(246, 81, 81)',
-                    confirmButtonText: 'Xóa',
+                    confirmButtonText: 'Ngừng',
                     cancelButtonText: 'Hủy',
                     customClass: {
                             popup: 'swal2-background-custom',
@@ -194,10 +194,9 @@
                         color: 'white'    
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = url;
-                        
-                                }
-                     });
+                        window.location.href = url;                   
+                    }
+               });
                
             }
         </script>

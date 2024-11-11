@@ -28,6 +28,7 @@ class Statistical extends Controller
 
     public function room_booking_details(Request $rq) {
         $booking_month = $this->bf->getBFAllMonth();
+        // dd($booking_month);
         $roomType = $this->rt->getRoomType();
         $month = $this->bf->getAllMonth();
         $roomStatsByMonth = [];
@@ -36,18 +37,28 @@ class Statistical extends Controller
             // Nhóm các đặt phòng theo tháng
             $groupedByMonth = $booking_month->groupBy('month');
     
-            foreach ($groupedByMonth as $monthKey => $bookings) {
+               foreach ($groupedByMonth as $monthKey => $bookings) {
                 // Lấy danh sách id của phòng đã đặt trong tháng hiện tại
-                $bookedRoomIds = $bookings->pluck('id_lp')->unique()->toArray();
+                $bookedRoomIds = $bookings->pluck('id_dv')->unique()->toArray();
     
                 // Tìm các phòng không được đặt
                 $unbookedRooms = $roomType->filter(function ($room) use ($bookedRoomIds) {
                     return !in_array($room->id_lp, $bookedRoomIds);
-                });
-    
-                    // Nếu có nhiều bản ghi, sắp xếp để tìm phòng đặt nhiều nhất và ít nhất
-                    $maxBookingRoom = $bookings->sortByDesc('so_luot_dat')->first();
-                    $minBookingRoom = $bookings->sortBy('so_luot_dat')->first();
+                });       
+                    // $maxBookingRoom = $bookings->sortByDesc('so_luot_dat')->first();
+                    // $minBookingRoom = $bookings->sortBy('so_luot_dat')->first();
+                  // Tìm số lượng đặt lớn nhất và nhỏ nhất
+            $maxBookingCount = $bookings->max('so_luot_dat');
+            $minBookingCount = $bookings->min('so_luot_dat');
+
+            // Lọc ra danh sách các phòng có số lượng đặt bằng với maxBookingCount và minBookingCount
+            $maxBookingRoom = $bookings->filter(function ($booking) use ($maxBookingCount) {
+                return $booking->so_luot_dat == $maxBookingCount;
+            });
+
+            $minBookingRoom = $bookings->filter(function ($booking) use ($minBookingCount) {
+                return $booking->so_luot_dat == $minBookingCount;
+            });
                 // Lưu thông tin theo từng tháng, bao gồm tháng
                 $roomStatsByMonth[] = [
                     'month' => $monthKey,
@@ -89,13 +100,23 @@ class Statistical extends Controller
                 // Tìm các phòng không được đặt
                 $unbookedRooms = $service->filter(function ($room) use ($bookedRoomIds) {
                     return !in_array($room->id_dv, $bookedRoomIds);
-                });
-            
-                    // Nếu có nhiều bản ghi, sắp xếp để tìm phòng đặt nhiều nhất và ít nhất
-                    $maxBookingRoom = $bookings->sortByDesc('so_luot_dat')->first();
-                    $minBookingRoom = $bookings->sortBy('so_luot_dat')->first();
+                });       
+                    // $maxBookingRoom = $bookings->sortByDesc('so_luot_dat')->first();
+                    // $minBookingRoom = $bookings->sortBy('so_luot_dat')->first();
+                  // Tìm số lượng đặt lớn nhất và nhỏ nhất
+            $maxBookingCount = $bookings->max('so_luot_dat');
+            $minBookingCount = $bookings->min('so_luot_dat');
+
+            // Lọc ra danh sách các phòng có số lượng đặt bằng với maxBookingCount và minBookingCount
+            $maxBookingRoom = $bookings->filter(function ($booking) use ($maxBookingCount) {
+                return $booking->so_luot_dat == $maxBookingCount;
+            });
+
+            $minBookingRoom = $bookings->filter(function ($booking) use ($minBookingCount) {
+                return $booking->so_luot_dat == $minBookingCount;
+            });
+
                 
-    
                 // Lưu thông tin theo từng tháng, bao gồm tháng
                 $roomStatsByMonth[] = [
                     'month' => $monthKey,

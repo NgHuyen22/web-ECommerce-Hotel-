@@ -20,7 +20,7 @@
                 <div class="alert-login alert alert-success">{{ Session :: get('success') }}</div>
         @endif
         @if(Session::has('error')) 
-                <div class="alert-login alert alert-register">{{ Session :: get('error') }}</div>
+                <div class="alert-login alert alert-error">{{ Session :: get('error') }}</div>
         @endif
 
         
@@ -64,7 +64,7 @@
                                         <input type="text" name="ho_ten" id="ho_ten" placeholder="Nhập họ tên" value="{{ old('ho_ten') }}"> 
                                             <div class="error_username" style="color: red;"> 
                                                 @error('ho_ten') 
-                                                        <small> Vui lòng nhập họ tên ! </small>
+                                                        <small> {{$message}}</small>
                                                 @enderror
                                             </div>
                                     {{-- </div> --}}
@@ -96,7 +96,7 @@
 
                                             <div class="error_username" style="color: red;"> 
                                                 @error('gioi_tinh') 
-                                                        <small> Vui lòng chọn giới tính ! </small>
+                                                        <small> {{$message}} </small>
                                                 @enderror
                                             </div> 
                                     {{-- </div> 
@@ -114,7 +114,7 @@
                                         <input type="text" name="email" placeholder="Nhập email" value="{{ old('email') }}"> 
                                         <div class="error_username" style="color: red;"> 
                                             @error('email') 
-                                            <small> {{$message}}</small>
+                                                <small> {{$message}}</small>
                                             @enderror
                                         </div>
                                         {{-- </div> --}}
@@ -124,7 +124,7 @@
                                             <input type="text" name="dia_chi" id="dia_chi" placeholder="Nhập địa chỉ" value="{{ old('dia_chi') }}"> 
                                         <div class="error_username" style="color: red;"> 
                                             @error('dia_chi') 
-                                                    <small> Vui lòng nhập mật khẩu ! </small>
+                                                    <small> {{$message}}</small>
                                             @enderror
                                         </div>
                                     {{-- </div> --}}
@@ -137,7 +137,7 @@
                                 </div>
                                 <div class="error_username" style="color: red;"> 
                                     @error('pass') 
-                                            <small> Vui lòng nhập mật khẩu ! </small>
+                                            <small> {{$message}}</small>
                                     @enderror
                                 </div>
                             {{-- </div> --}}

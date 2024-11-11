@@ -11,12 +11,12 @@
     <link rel="shortcut icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlRge8VJLqr7U-qQT7bdDtzz-uX0doe0z0JQ&s" />
 </head>
 <body>
-        {{-- @if(Session::has('success')) 
+        @if(Session::has('success')) 
                 <div class="alert-login alert alert-success">{{ Session :: get('success') }}</div>
-        @endif --}}
+        @endif
 
         @if(Session::has('error'))
-            <div class="alert-login alert-add alert alert-danger">{{ Session::get('error') }}</div>
+            <div class="alert-login alert-add alert alert-error">{{ Session::get('error') }}</div>
         @endif
     <video autoplay muted loop id="myVideo">
         {{-- <source src="https://videos.pexels.com/video-files/12173625/12173625-uhd_1440_2560_25fps.mp4" type="video/mp4"> --}}

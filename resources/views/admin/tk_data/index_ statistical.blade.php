@@ -151,12 +151,18 @@
                                         <tbody>
                                             <tr>
                                                 <td>Khách quay lại</td>
-                                                <td class="text-end">{{$repeat_ctm}}  ({{ ceil($repeat_ctm / $total_ctm_lastMonth * 100) }}%)</td>
+                                                <td class="text-end">{{$repeat_ctm}}  
+                                                 
+                                                        ({{ ($rateReturnCTM) }}%)
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Khách không quay lại</td>
-                                                <td class="text-end">{{$total_ctm_lastMonth - $repeat_ctm}} ({{ ceil(($total_ctm_lastMonth - $repeat_ctm) / $total_ctm_lastMonth * 100) }}%)</td>
-                                            </tr>
+                                                    <td class="text-end">{{$total_ctm_lastMonth - $repeat_ctm}}
+                                                        ({{ (100 - $rateReturnCTM) }}%)
+          
+                                                </td>
+                                            </tr>   
                                         </tbody>
                                     </table>
                                 </div>
@@ -350,7 +356,7 @@
                         const ctx = document.getElementById('chartjs-dashboard-pie-2').getContext('2d');
                         const rateReturnCTM = {{ json_encode($rateReturnCTM) }}; // Tỷ lệ khách quay lại
                         const rateNonReturnCTM = 100 - rateReturnCTM; // Tỷ lệ khách không quay lại
-                
+                        console.log(rateNonReturnCTM);
                         // Phá hủy biểu đồ cũ nếu đã tồn tại
                         if (window.pieChart2) {
                             window.pieChart2.destroy();

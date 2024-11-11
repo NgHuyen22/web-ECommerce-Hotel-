@@ -20,6 +20,13 @@ class Evaluate extends Model
                             ->where('status', 1)
                             ->get();
     }
+    public function getEVUS() {
+        return $result = DB::table("evaluate as ev") 
+                            ->join('users as us', 'us.id', '=', 'ev.khach_hang')
+                            ->select('ev.*', 'us.ho_ten')
+                            ->where('ev.status', 1)
+                            ->get();
+    }
 
     public function getEVRoom($id_rt, $rating = null) {
         $query = DB::table('evaluate as ev')

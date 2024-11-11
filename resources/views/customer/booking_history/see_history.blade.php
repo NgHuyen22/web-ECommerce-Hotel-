@@ -140,7 +140,7 @@
 
                                                         <div id="evaluateModal" class="modal" style="display: none;">
                                                             <div class="modal-dialog modal-dialog-centered">
-                                                                <div class="modal-content">
+                                                                <div class="modal-content model-ev">
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title">Đánh giá chất lượng phòng</h5>
                                                                         <button type="button" class="close" onclick="hideEvaluate()">&times;</button>
@@ -160,7 +160,7 @@
                                                                             </div>
                                                                             <span id="ratingText" style="display: block;font-weight: bold;color:#ffc107">Tuyệt vời</span>
                                                                         </div>
-                                                                        <textarea id="comment" type="text" placeholder="Nhập nhận xét của bạn"></textarea>
+                                                                        <textarea id="comment" class="comment" type="text" placeholder="Nhập nhận xét của bạn"></textarea>
 
                                                                         <div class="tool" id="tool">
                                                                             <button id="" class="tool_button" onclick="send()">Gửi</button>
@@ -301,6 +301,29 @@
                                                                 const booking_id = {{ $row->id_don }};
                                                                 window.location.href = `{{ route('customer.update_review') }}?comment=${encodeURIComponent(comment)}&booking_id=${booking_id}`;
                                                             }
+
+                                                            function buttonCancle(url) {
+                                                                Swal.fire({
+                                                                    title: 'Xác nhận',
+                                                                    text: 'Bạn có chắc chắn muốn hủy?',
+                                                                    icon: 'info',
+                                                                    showCancelButton: true,
+                                                                    confirmButtonColor: '#04AA6D',
+                                                                    cancelButtonColor: 'rgb(246, 81, 81)',
+                                                                    confirmButtonText: 'Xóa',
+                                                                    cancelButtonText: 'Hủy',
+                                                                    customClass: {
+                                                                            popup: 'swal2-background-custom',
+                                                                        container: 'swal2-borderless'
+                                                                    },
+                                                                        background: '#30547e' ,
+                                                                        color: 'white'    
+                                                                    }).then((result) => {
+                                                                        if (result.isConfirmed) {
+                                                                            window.location.href = url;
+                                                                        }
+                                                                    });
+                                                                }
                                                         </script>
 
                                         </div>

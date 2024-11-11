@@ -100,7 +100,7 @@ class HomeController extends Controller
         $ngay_tra_phong = $rq -> ngay_tra_phong;
         $unapproved = $this -> bf -> getUnapproved($ngay_nhan_phong,$ngay_tra_phong);
         $approved = $this -> bf -> getApproved($ngay_nhan_phong, $ngay_tra_phong);
-        
+        // dd($unapproved);
         $ngayNhan = $this -> bf -> getNgayNhan();
         $ngayTra = $this -> bf -> getNgayTra();
         $room_type = $this->bf->getRT();
@@ -113,7 +113,7 @@ class HomeController extends Controller
         //         $all_rt = $all_rt->merge($rt);
         //     }
         // }
-        $room_type = $this->bf->getRT(); // Lấy danh sách loại phòng chưa xác nhận
+        $room_type = $this->bf->getRT();
         $ngayNhan = $this -> bf -> getNgayNhan()->unique();
         $ngayTra = $this -> bf -> getNgayTra() -> unique();
         $all = collect();
@@ -125,16 +125,14 @@ class HomeController extends Controller
                    
                     foreach($ngayNhan as $nn){
                         foreach($ngayTra as $nt){
-
-                            $bookedRooms = $this->bf->checkBFNull($item, $nn, $nt); 
-                          
-                            $allRooms = $rt->pluck('so_phong'); // Lấy danh sách tất cả phòng của loại phòng hiện tại
-                            $bookedRoomNumbers = $bookedRooms->pluck('so_phong'); // Lấy danh sách số phòng đã được đặt
+                            $bookedRooms = $this->bf->checkBFNull($item, $nn, $nt);                       
+                            $allRooms = $rt->pluck('so_phong');
+                            $bookedRoomNumbers = $bookedRooms->pluck('so_phong'); 
                             $availableRooms = $allRooms->diff($bookedRoomNumbers); 
                             foreach ($availableRooms as $roomNumber) {
-                                $room = $rt->firstWhere('so_phong', $roomNumber); // Lấy thông tin phòng
-                                    if ($room && !$all->contains($room)) { // Kiểm tra xem phòng đã có trong Collection chưa
-                                        $all->push($room); // Thêm phòng trống vào Collection
+                                $room = $rt->firstWhere('so_phong', $roomNumber); 
+                                    if ($room && !$all->contains($room)) { 
+                                        $all->push($room); 
                                     }
                             }
                         }
@@ -145,8 +143,6 @@ class HomeController extends Controller
             }
         }    
 
-        // dd($all);
-      
         $countUn = 0;
         $count = 0;
         if(!$unapproved -> isEmpty()){
@@ -198,6 +194,7 @@ class HomeController extends Controller
 
     public function statistical_management() {
         $tongDT =  $this -> bill -> totalRevenue() -> toArray();
+
         $currentMonth = Carbon::now()->month;
         $currentYear = Carbon::now()->year;
         
@@ -213,9 +210,13 @@ class HomeController extends Controller
         $total_ctm_currentMonth = $ctm_currentMonth->count() > 0 ? $ctm_currentMonth->count() : 0;
         // số lượng kh quay lại - tỉ lệ kh quay lại
         $repeat_ctm = $ctm_currentMonth -> intersect($ctm_lastMonth) ->count();
-        $rateReturnCTM = ($repeat_ctm / $total_ctm_lastMonth) * 100;
-        // dd($rateReturnCTM);
-
+        if ($total_ctm_lastMonth != 0) {
+            $rateReturnCTM = ($repeat_ctm / $total_ctm_lastMonth) * 100;
+            $rateReturnCTM = ceil($rateReturnCTM); 
+        } else {
+            $rateReturnCTM = 0; 
+        }
+  
         $totalRevenue = 0;
         $totalSV = 0;
         $total = 0;

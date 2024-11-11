@@ -301,7 +301,7 @@
                                     <th scope="col" class="align-middle" style="text-align:center;width: 9rem">Tổng Tiền</th>
                                     {{-- <th scope="col" class="align-middle" style="text-align:center;;width: 13rem">Trạng Thái</th> --}}
                                     <th scope="col" class="align-middle" style="text-align:center;width: 10rem">Ngày Tạo</th>
-                                    <th scope="col" class="align-middle" style="text-align:center;width: 10rem">Ngày Cập Nhật</th>
+                                    <th scope="col" class="align-middle" style="text-align:center;width: 10rem">Ngày Thanh Toán</th>
                                     <th scope="col" colspan="2"></th>
                                 </tr>
                             </thead>

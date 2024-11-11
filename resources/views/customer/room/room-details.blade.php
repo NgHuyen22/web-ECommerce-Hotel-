@@ -124,7 +124,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td class="r-o">Số Lượng :</td>
-                                                    <td> {{ $countRoom}} </td>
+                                                    <td> {{ $countRoom}} phòng </td>
                                                 </tr>
                                             
                                             </tbody>
@@ -199,9 +199,7 @@
                                                         </table>
                                             </div>      
                                             
-                                            {{-- <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                                                
-                                            </div> --}}
+
                                             <!-- Tab Pane for LỊCH ĐẶT -->
                                             <div class="tab-pane fade div2" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" style="">
                                                 <div class="wrapper_calendar" id="wrapperCalendar">

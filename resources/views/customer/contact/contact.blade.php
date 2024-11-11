@@ -19,6 +19,28 @@
                 });
             </script>
         @endif
+        @if (Session::has('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    text: "{{ Session::get('error') }}",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            </script>
+        @endif
+
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Lỗi xác thực',
+                    html: '{!! implode("<br>", $errors->all()) !!}', // Hiển thị tất cả lỗi trên từng dòng
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            </script>
+        @endif
         <div class="breadcrumb-section">
             <div class="container">
                 <div class="row">

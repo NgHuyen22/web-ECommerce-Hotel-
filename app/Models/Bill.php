@@ -206,8 +206,9 @@ class Bill extends Model
 
     public function totalRevenue() {
         return $result = DB :: table("bill")
-        ->select(DB::raw('MONTH(updated_at) as month'), DB::raw('SUM(tong_tien) as tong_tien'))
-                            ->groupBy(DB::raw('MONTH(updated_at)'))
+        ->select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(tong_tien) as tong_tien'))
+                            ->where('trang_thai_hd','Đã thanh toán')
+                            ->groupBy(DB::raw('MONTH(created_at)'))
                             ->get();
     }
 

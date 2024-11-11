@@ -56,6 +56,7 @@ class RoomType extends Model
         // return self::where('gia_lp', '<=', $price)
                         ->where('phan_hang', $level)
                         ->where('id_lp', '!=', $id_lp)
+                        ->where('status', 1)
                         ->get();
     }
 
@@ -186,13 +187,17 @@ class RoomType extends Model
             ->where('gia_lp','>=',$ranges);
             return $result ->paginate(6);     
     }
+    public function getAllPrice() {
+        $result = DB::table($this->table)
+            ->where('status',1);
+            return $result ->paginate(6);     
+    }
     
     public function room($id_lp) {
        return $result = DB::table('room_type as rt')
                     ->leftJoin('room as r', 'r.loai_phong' ,'=', 'rt.id_lp')
                     ->where('rt.id_lp',$id_lp)
                     ->where('rt.status', 1)
-                    ->where('r.status', 1)
                     ->select('r.id_phong','r.so_phong','rt.ten_lp')
                     ->get();
     }

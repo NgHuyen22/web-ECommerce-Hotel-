@@ -27,6 +27,21 @@ class C_ContactController extends Controller
     }
     
     public function insert_form_ct(Request $rq) {
+        $rq->validate([
+                'ho_ten' => 'string|max:30|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
+                'sdt' => 'regex:/^[0-9]{10}$/|max:10',
+                'email' => 'regex:/^[\w\.&*-]+@([\w-]+\.)+[\w-]{2,4}$/',
+                'dia_chi' => 'max:50',
+            ],[
+                'ho_ten.string' => 'Họ tên phải là chuỗi ký tự.',
+                'ho_ten.regex' => 'Họ tên không được chứa số.',
+                'ho_ten.max' => 'Họ tên tối đa 30 kí tự',
+                'sdt.regex' => 'SDT không hợp lệ',
+                'sdt.max' => 'SDT tối đa 10 số',
+                'email.regex' => 'Email không hợp lệ !',
+                'dia_chi.max' => 'Địa chỉ tối đa 50 kí tự' 
+            ]);
+
         $data = [
             'ho_ten' => $rq->ho_ten,
             'gioi_tinh' => $rq->gioi_tinh,

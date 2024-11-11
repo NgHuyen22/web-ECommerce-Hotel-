@@ -48,8 +48,8 @@
                                     <li><a href="{{ route('customer.contact_index')}}">Liên Hệ</a></li>
                                     <li><a href="./pages.html">Khác</a>                                    
                                         <ul class="dropdown">
-                                            <li><a href="./room-details.html">Tin Tức</a></li>
-                                            <li><a href="./blog-details.html">Ưu Đãi</a></li>
+                                            <li><a href="{{ route('customer.news')}}">Tin Tức</a></li>
+                                            <li><a href="{{ route('customer.view_special_offers')}}">Ưu Đãi</a></li>
                                             <li><a href="#">FAQ</a></li> 
                                         </ul>
                                     </li>

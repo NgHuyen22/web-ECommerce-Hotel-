@@ -168,30 +168,7 @@ class BookingForm extends Model
                             
     }
 
-    public function getUnapproved(){
-         $result = DB::table("booking_form as bf")
-                        ->join('users as us', 'us.id' , '=', 'bf.id_kh')
-                        ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
-                        ->leftJoin('room as r','r.id_phong','=','bf.id_phong')
-                        ->select('bf.*','us.ho_ten','rt.ten_lp', 'rt.gia_lp' ,'r.so_phong')
-                        ->where('tinh_trang','Chưa xác nhận')
-                        ->where('bf.status',1);
-                        
-                        if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
-                            $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
-                                    ->orWhereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
-                        }
-
-                         elseif (!empty($ngay_nhan_phong)) {
-                            $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
-                        }
-
-                         elseif (!empty($ngay_tra_phong)) {
-                            $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
-                        }
-                        return $result  -> paginate(4);
-                    
-    }
+ 
     public function getRT(){
         return $result = DB::table("booking_form as bf")
                         ->join('users as us', 'us.id' , '=', 'bf.id_kh')
@@ -203,30 +180,97 @@ class BookingForm extends Model
                         
                     
     }
-    public function getApproved($ngay_nhan_phong = null , $ngay_tra_phong = null){
-             $result = DB::table("booking_form as bf")
-                            ->join('users as us', 'us.id' , '=', 'bf.id_kh')
-                            ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
-                            ->leftJoin('room as r','r.id_phong','=','bf.id_phong')
-                            ->select('bf.*','us.ho_ten','rt.ten_lp', 'rt.gia_lp' ,'r.so_phong')
-                            ->where('tinh_trang','Đã xác nhận')
-                            ->where('bf.status',1);
-                            if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
-                                $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
-                                        ->orWhereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
-                            }
 
-                             elseif (!empty($ngay_nhan_phong)) {
-                                $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
-                            }
-
-                             elseif (!empty($ngay_tra_phong)) {
-                                $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
-                            }
-                            return $result  -> paginate(4);
+       // public function getUnapproved($ngay_nhan_phong = null , $ngay_tra_phong = null){
+    //      $result = DB::table("booking_form as bf")
+    //                     ->join('users as us', 'us.id' , '=', 'bf.id_kh')
+    //                     ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
+    //                     ->leftJoin('room as r','r.id_phong','=','bf.id_phong')
+    //                     ->select('bf.*','us.ho_ten','rt.ten_lp', 'rt.gia_lp' ,'r.so_phong')
+    //                     ->where('tinh_trang','Chưa xác nhận')
+    //                     ->where('bf.status',1);
                         
-        }
+    //                     if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
+    //                         $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
+    //                                 ->orWhereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
+    //                     }
 
+    //                      elseif (!empty($ngay_nhan_phong)) {
+    //                         $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
+    //                     }
+
+    //                      elseif (!empty($ngay_tra_phong)) {
+    //                         $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
+    //                     }
+    //                     return $result  -> paginate(4);
+                    
+    // }
+    // public function getApproved($ngay_nhan_phong = null , $ngay_tra_phong = null){
+    //          $result = DB::table("booking_form as bf")
+    //                         ->join('users as us', 'us.id' , '=', 'bf.id_kh')
+    //                         ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
+    //                         ->leftJoin('room as r','r.id_phong','=','bf.id_phong')
+    //                         ->select('bf.*','us.ho_ten','rt.ten_lp', 'rt.gia_lp' ,'r.so_phong')
+    //                         ->where('tinh_trang','Đã xác nhận')
+    //                         ->where('bf.status',1);
+    //                         if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
+    //                             $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
+    //                                     ->orWhereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
+    //                         }
+
+    //                          elseif (!empty($ngay_nhan_phong)) {
+    //                             $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
+    //                         }
+
+    //                          elseif (!empty($ngay_tra_phong)) {
+    //                             $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
+    //                         }
+    //                         return $result  -> paginate(4);
+                        
+    // }
+
+    public function getUnapproved($ngay_nhan_phong = null , $ngay_tra_phong = null){
+        $result = DB::table("booking_form as bf")
+                    ->join('users as us', 'us.id', '=', 'bf.id_kh')
+                    ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
+                    ->leftJoin('room as r', 'r.id_phong', '=', 'bf.id_phong')
+                    ->select('bf.*', 'us.ho_ten', 'rt.ten_lp', 'rt.gia_lp', 'r.so_phong')
+                    ->where('bf.tinh_trang', 'Chưa xác nhận')
+                    ->where('bf.status', 1);
+                    
+        if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
+            $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
+                   ->whereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
+        } elseif (!empty($ngay_nhan_phong)) {
+            $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
+        } elseif (!empty($ngay_tra_phong)) {
+            $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
+        }
+    
+        return $result->paginate(4);
+    }
+    
+    public function getApproved($ngay_nhan_phong = null , $ngay_tra_phong = null){
+        $result = DB::table("booking_form as bf")
+                    ->join('users as us', 'us.id', '=', 'bf.id_kh')
+                    ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
+                    ->leftJoin('room as r', 'r.id_phong', '=', 'bf.id_phong')
+                    ->select('bf.*', 'us.ho_ten', 'rt.ten_lp', 'rt.gia_lp', 'r.so_phong')
+                    ->where('bf.tinh_trang', 'Đã xác nhận')
+                    ->where('bf.status', 1);
+                    
+        if (!empty($ngay_nhan_phong) && !empty($ngay_tra_phong)) {
+            $result->whereBetween('bf.ngay_nhan_phong', [$ngay_nhan_phong, $ngay_tra_phong])
+                   ->whereBetween('bf.ngay_tra_phong', [$ngay_nhan_phong, $ngay_tra_phong]);
+        } elseif (!empty($ngay_nhan_phong)) {
+            $result->whereDate('bf.ngay_nhan_phong', '=', $ngay_nhan_phong);
+        } elseif (!empty($ngay_tra_phong)) {
+            $result->whereDate('bf.ngay_tra_phong', '=', $ngay_tra_phong);
+        }
+    
+        return $result->paginate(4);
+    }
+    
         public function getNgayNhan(){
             return $result = DB::table("booking_form as bf")
                         ->join('users as us', 'us.id' , '=', 'bf.id_kh')
@@ -411,6 +455,7 @@ class BookingForm extends Model
         return $result = DB::table($this->table)
                             ->where('id_kh', $id_kh)
                             ->select('id_loai_phong')
+                            ->where('tinh_trang','Đã xác nhận')
                             ->distinct()
                             ->whereBetween('created_at', [
                                 now()->subMonths(2)->startOfMonth(),
@@ -433,14 +478,26 @@ class BookingForm extends Model
     }
 
     public function getListRoom($id_kh, $id_lp) {
+        $id_kh = is_array($id_kh) ? $id_kh : [$id_kh];
+        $id_lp = is_array($id_lp) ? $id_lp : [$id_lp];
         return $result = DB::table($this->table)
                             ->where('id_kh', $id_kh)
-                            ->whereNot('id_loai_phong',$id_lp)
+                            ->where('id_loai_phong', '!=', $id_lp)
                             ->where('tinh_trang', 'Đã xác nhận')
                             ->select('id_loai_phong')
                             ->get()
                             ->unique('id_loai_phong');
     }
+    // public function getListRoom($id_kh, $id_lp) {
+    //     return DB::table($this->table)
+    //                 ->whereIn('id_kh', $id_kh)  // Sử dụng whereIn để lọc theo nhiều id_kh
+    //                 ->whereNotIn('id_loai_phong', $id_lp)  // Sử dụng whereNotIn để loại trừ các id_loai_phong trong mảng $id_lp
+    //                 ->where('tinh_trang', 'Đã xác nhận')
+    //                 ->select('id_loai_phong')
+    //                 ->get()
+    //                 ->unique('id_loai_phong');
+    // }
+    
     public function checkBooking($id_lp){
         return $result = DB::table("booking_form as bf")
                        ->join('users as us', 'us.id' , '=', 'bf.id_kh')
@@ -451,6 +508,18 @@ class BookingForm extends Model
                        ->where('bf.id_loai_phong',$id_lp)
                        ->where('bf.status',1)
                        ->where('bf.gn',1)
+                       ->get();
+    }
+    public function checkBooking1($id_lp){
+        return $result = DB::table("booking_form as bf")
+                       ->join('users as us', 'us.id' , '=', 'bf.id_kh')
+                       ->join('room_type as rt', 'rt.id_lp', '=', 'bf.id_loai_phong')
+                       ->join('room as r','r.id_phong','=','bf.id_phong')
+                       ->select('bf.*','us.ho_ten','rt.ten_lp', 'rt.gia_lp' ,'r.so_phong')
+                       ->where('tinh_trang','Đã xác nhận')
+                       ->where('bf.id_loai_phong',$id_lp)
+                       ->where('bf.status',1)
+                    //    ->where('bf.gn',1)
                        ->get();
     }
 
@@ -501,8 +570,8 @@ class BookingForm extends Model
     }
     public function getAllBFType2() {
         return $result = DB::table("booking_form as bf")
-                            ->join('us.users as us','us.id', '=', 'bf.id_kh')
-                            ->where('status',1)
+                            ->join('users as us','us.id', '=', 'bf.id_kh')
+                            ->where('us.status',1)
                             ->select(
                                 'id_kh',
                                 'ho_ten',
@@ -520,8 +589,8 @@ class BookingForm extends Model
     }
     public function getAllBFType3() {
         return $result = DB::table("booking_form as bf")
-                            ->join('us.users as us','us.id', '=', 'bf.id_kh')
-                            ->where('status',1)
+                            ->join('users as us','us.id', '=', 'bf.id_kh')
+                            ->where('us.status',1)
                             ->select(
                                 'id_kh',
                                 'ho_ten',

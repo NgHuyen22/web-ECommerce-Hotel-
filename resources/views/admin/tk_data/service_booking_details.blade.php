@@ -89,7 +89,7 @@
                 </table>
                 <p class="total_bill"><span style="font-weight: bold; color: rgb(204, 53, 53)">Tổng :</span> {{ $stt }}</p>
                 
-                @foreach ($roomStatsByMonth as $stats)
+                {{-- @foreach ($roomStatsByMonth as $stats)
                     @if ($stats['month'] == $monthData->month)
                         <div class="room-stats summary_info">
                             <h5 style="color: rgb(34, 139, 34);font-weight: bold;margin-bottom: 1rem">Thông tin tóm tắt :</h5>
@@ -104,7 +104,49 @@
                             </p>
                         </div>
                     @endif
+                @endforeach --}}
+
+                @foreach ($roomStatsByMonth as $stats)
+                    @if ($stats['month'] == $monthData->month)
+                        <div class="room-stats summary_info">
+                            <h5 style="color: rgb(34, 139, 34); font-weight: bold; margin-bottom: 1rem">Thông tin tóm tắt :</h5>
+
+                            <!-- Dịch vụ đặt nhiều nhất -->
+                            <p><strong style="color: #d9534f; font-weight: bold;">Dịch vụ đặt nhiều nhất:</strong></p>
+                            <ul>
+                                @if ($stats['maxBookingRoom']->isNotEmpty())
+                                    @foreach ($stats['maxBookingRoom'] as $maxRoom)
+                                        <li>{{ $maxRoom->ten_dv }} (Số lượt đặt: {{ $maxRoom->so_luot_dat }})</li>
+                                    @endforeach
+                                @else
+                                    <li>Không có</li>
+                                @endif
+                            </ul>
+
+                            <!-- Dịch vụ đặt ít nhất -->
+                            <p><strong style="color: #d9534f; font-weight: bold;">Dịch vụ đặt ít nhất:</strong></p>
+                            <ul>
+                                @if ($stats['minBookingRoom']->isNotEmpty())
+                                    @foreach ($stats['minBookingRoom'] as $minRoom)
+                                        <li>{{ $minRoom->ten_dv }} (Số lượt đặt: {{ $minRoom->so_luot_dat }})</li>
+                                    @endforeach
+                                @else
+                                    <li>Không có</li>
+                                @endif
+                            </ul>
+
+                            <!-- Dịch vụ không được đặt -->
+                            <p><strong style="color: #d9534f; font-weight: bold;">Dịch vụ không được đặt:</strong>
+                                @if ($stats['unbookedRooms']->isNotEmpty())
+                                    {{ $stats['unbookedRooms']->pluck('ten_dv')->join(', ') }}
+                                @else
+                                    Không có
+                                @endif
+                            </p>
+                        </div>
+                    @endif
                 @endforeach
+
             @endforeach
         @else
            <tr>

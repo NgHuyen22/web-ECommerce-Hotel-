@@ -73,6 +73,7 @@
 					@yield('see_review_detail')
 					@yield('manage_contact_information')
 					@yield('customer_information_management')
+				
 					{{-- @include('admin.footer') --}}
          </div>
     </div>

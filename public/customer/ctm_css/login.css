@@ -15,6 +15,20 @@ body {
     font-family: sans-serif;
     text-align: center;
 }
+.alert-success{
+    font-family: sans-serif;
+    background-color: #209f71;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
+.alert-error{
+    font-family: sans-serif;
+    background-color: #d55757;
+    color: #ffffff;
+    text-align: center;
+    font-weight: bold;
+}
 
 #myVideo {
     /* position:fixed;

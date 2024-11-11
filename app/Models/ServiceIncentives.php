@@ -25,6 +25,14 @@ class ServiceIncentives extends Model
                            ->where('sv.status',1)
                            ->get();
     }
+    public function getUdDv2(){
+        return $result = DB::table('service_incentives as svi')
+                           ->join('service as sv', 'sv.id_dv', '=', 'svi.id_dv')
+                           ->join('special_offers as spo', 'spo.id_ud', '=', 'svi.id_ud')
+                           ->select('sv.ten_dv','spo.*')
+                           ->where('sv.status',1)
+                           ->get();
+    }
 
     public function deleteUDDV($id_uddv){
         return $result = DB::table($this ->svi)

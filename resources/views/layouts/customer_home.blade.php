@@ -58,6 +58,8 @@
             @yield('search')
             @yield('contact')
             @yield('calendar_room_booking')
+            @yield('specialOffers')
+            @yield('news')
             @include('customer.footer')
 
 

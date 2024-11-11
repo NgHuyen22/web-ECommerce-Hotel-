@@ -49,9 +49,11 @@ class SpecialOffersController extends Controller
     }
 
     public function updated(Request $rq){
+      
         $data = [
             'ten_ud' => $rq -> ten_ud,
             'giam' => $rq -> giam,
+            'sl_ap_dung' => $rq -> sl_ap_dung,
             'tg_ap_dung' => $rq -> tg_ap_dung,
             'tg_ket_thuc' => $rq -> tg_ket_thuc,
             'updated_at' => now()

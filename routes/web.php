@@ -17,6 +17,7 @@ use App\Http\Controllers\customer\about\C_ServiceController;
 use App\Http\Controllers\customer\C_HomeController;
 use App\Http\Controllers\customer\C_RoomController;
 use App\Http\Controllers\customer\C_ContactController;
+use App\Http\Controllers\customer\C_SpecialOffers;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,8 +106,6 @@ Route::group(['middleware' => 'auth'], function(){
             //XEM LICH DAT PHONG
             Route::match(['get', 'post'],'/view_booking_schedule',[BookingFormController::class,'view_booking_schedule'])->name('admin.view_booking_schedule') ;
             Route::match(['get', 'post'], '/admin/view_booking_schedule/{id_lp}', [BookingFormController::class, 'booking_schedule'])->name('admin.booking_schedule');
-
-
         });
 
         // CAP NHAT PHONG
@@ -276,6 +275,17 @@ Route::prefix('hazbinhotel/htqlks/customer')->group(function(){
                 Route::prefix('/contact')->group(function(){
                     Route::match(['get','post'], '/',[C_ContactController::class,'contact_index']) ->name('customer.contact_index');
                     Route::post('/insert_form_ct',[C_ContactController::class,'insert_form_ct']) ->name('customer.insert_form_ct');
+                });
+
+                //UU DAI 
+                Route::prefix('/view_special_offers')->group(function(){
+                    Route::match(['get','post'], '/',[C_SpecialOffers::class,'view_special_offers']) ->name('customer.view_special_offers');
+                    // Route::post('/insert_form_ct',[C_ContactController::class,'insert_form_ct']) ->name('customer.insert_form_ct');
+                });
+                //TIN TỨC
+                Route::prefix('/news')->group(function(){
+                    Route::match(['get','post'], '/',[C_HomeController::class,'news']) ->name('customer.news');
+                    // Route::post('/insert_form_ct',[C_ContactController::class,'insert_form_ct']) ->name('customer.insert_form_ct');
                 });
 });
 
