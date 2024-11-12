@@ -36,15 +36,16 @@ class Statistical extends Controller
         if ($booking_month->isNotEmpty()) {
             // Nhóm các đặt phòng theo tháng
             $groupedByMonth = $booking_month->groupBy('month');
-    
-               foreach ($groupedByMonth as $monthKey => $bookings) {
+            foreach ($groupedByMonth as $monthKey => $bookings) {
                 // Lấy danh sách id của phòng đã đặt trong tháng hiện tại
-                $bookedRoomIds = $bookings->pluck('id_dv')->unique()->toArray();
+                $bookedRoomIds = $bookings->pluck('id_lp')->unique()->toArray();
+        
     
                 // Tìm các phòng không được đặt
                 $unbookedRooms = $roomType->filter(function ($room) use ($bookedRoomIds) {
                     return !in_array($room->id_lp, $bookedRoomIds);
-                });       
+                });    
+  
                     // $maxBookingRoom = $bookings->sortByDesc('so_luot_dat')->first();
                     // $minBookingRoom = $bookings->sortBy('so_luot_dat')->first();
                   // Tìm số lượng đặt lớn nhất và nhỏ nhất
@@ -96,7 +97,6 @@ class Statistical extends Controller
             foreach ($groupedByMonth as $monthKey => $bookings) {
                 // Lấy danh sách id của phòng đã đặt trong tháng hiện tại
                 $bookedRoomIds = $bookings->pluck('id_dv')->unique()->toArray();
-    
                 // Tìm các phòng không được đặt
                 $unbookedRooms = $service->filter(function ($room) use ($bookedRoomIds) {
                     return !in_array($room->id_dv, $bookedRoomIds);

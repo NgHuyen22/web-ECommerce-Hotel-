@@ -39,6 +39,5 @@ class ManageCotactInfo extends Controller
         }
     }
 
-    
 
 }
