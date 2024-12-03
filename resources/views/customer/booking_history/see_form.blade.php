@@ -10,14 +10,14 @@
     </head>
     <body>
         @if (Session::has('error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                text: "{{ Session::get('error') }}",
-                showConfirmButton: false,
-                timer: 2000
-            });
-        </script>
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    text: "{{ Session::get('error') }}",
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+            </script>
         @endif
 
         @if(Session::has('success'))

@@ -285,6 +285,7 @@
                                                             function hideEvaluateIs() {
                                                                 document.getElementById("evaluateModalIs").style.display = "none";
                                                             }
+                                                            
                                                             function enableEdit() {
                                                                 document.getElementById("commentIs").disabled = false; 
                                                                 document.getElementById("commentIs").style.color = "black"; 

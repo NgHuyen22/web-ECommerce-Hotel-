@@ -75,6 +75,7 @@ class HomeController extends Controller
         session()->forget('ten_ad');
         // Auth::logout();
         return redirect()->route('admin.login');
+    
     }
 
     // public function bm_index(){

@@ -42,6 +42,7 @@
                 });
             </script>
         @endif
+        
         <div class="breadcrumb-section">
             <div class="container">
                 <div class="row">

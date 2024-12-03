@@ -260,6 +260,7 @@ class C_HomeController extends Controller
         } 
 
         public function edit_profile($id_kh,Request $rq) {
+            
             $rq->validate([
                 'ho_ten' => 'string|max:50|regex:/^[a-zA-ZÀ-ỹ\s]+$/u',
                 'sdt' => 'regex:/^[0-9]{10}$/', // Chỉ chấp nhận 10 chữ số

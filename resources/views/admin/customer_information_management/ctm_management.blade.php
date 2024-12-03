@@ -159,7 +159,6 @@
                     const form = document.getElementById('roomForm');
                     const url = `{{ route('admin.customer_type', ['type' => ':type']) }}`.replace(':type', selectedRoomType || 0); 
                     form.action = url;
-                    // form.method = 'GET';
                     form.submit();
                 }
             }

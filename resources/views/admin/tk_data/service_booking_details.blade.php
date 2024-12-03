@@ -87,7 +87,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                <p class="total_bill"><span style="font-weight: bold; color: rgb(204, 53, 53)">Tổng :</span> {{ $stt }}</p>
+                <p class="total_bill"><span style="font-weight: bold; color: rgb(204, 53, 53)">Tổng : </span> {{ $stt }}</p>
                 
                 {{-- @foreach ($roomStatsByMonth as $stats)
                     @if ($stats['month'] == $monthData->month)
@@ -150,7 +150,7 @@
             @endforeach
         @else
            <tr>
-            <td colspan="4" class="no_data">Không có dữ liệu ..</td>
+                <td colspan="4" class="no_data">Không có dữ liệu ..</td>
            </tr>
         @endif
 

@@ -204,7 +204,6 @@ Route::group(['middleware' => 'auth'], function(){
 });
 
 
-
 // customer
 Route::prefix('hazbinhotel/htqlks/customer')->group(function(){
 
